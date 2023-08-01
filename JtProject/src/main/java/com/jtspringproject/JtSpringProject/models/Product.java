@@ -21,7 +21,7 @@ public class Product {
 	
 	private String image;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "category_id",referencedColumnName = "category_id")
 	private Category category;
 	
@@ -101,6 +101,4 @@ public class Product {
 	@ManyToOne
     @JoinColumn(name = "customer_id")
     private User customer;
-	
-	
 }
