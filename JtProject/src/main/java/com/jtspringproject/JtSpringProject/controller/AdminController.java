@@ -203,11 +203,20 @@ public class AdminController {
 		return "redirect:/admin/products";
 	}
 
-	@GetMapping("products/delete")
-	public String removeProduct(@RequestParam("id") int id)
+	@GetMapping("products/delete/")
+	public ModelAndView removeProduct(@RequestParam("id") int id)
 	{
 		this.productService.deleteProduct(id);
-		return "redirect:/admin/products";
+
+		ModelAndView mView = new ModelAndView("products");
+		List<Product> products = this.productService.getProducts();
+
+		if (products.isEmpty()) {
+			mView.addObject("msg", "No products are available");
+		} else {
+			mView.addObject("products", products);
+		}
+		return mView;
 	}
 
 	@PostMapping("products")
