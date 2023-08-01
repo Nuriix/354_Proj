@@ -85,7 +85,7 @@
 					<td>${category.id}</td>
 					<td>${category.name}</td>
 					<td>
-						<form action="categories/delete" method="get">
+						<form action="/admin/categories/delete/" method="get">
 							<input type="hidden" name="id" value="${category.id}">
 							<input type="submit" value="Delete" class="btn btn-danger">
 						</form>
