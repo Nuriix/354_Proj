@@ -62,11 +62,14 @@
 			</div>
 		</div>
 
-<div class="col-10">
-		<div class="d-flex" role="search">
+
+		<div class="col-10">
+			<div class="d-flex" role="search">
 			<p>Displaying ### items</p>
-			<button class="btn"><i class="fas fa-search"></i></button>
-			<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+			<form class="d-flex p-2" action="/admin/products/search"  method="GET">
+				<button type="submit" class="btn "><i class="fas fa-search"></i></button>
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50" >
+			</form>
 			<button class="btn btn-outline-success" type="button">View Mostly Sold Item Pairs</button>
 			<a  href="/admin/products/add" class="btn btn-outline-success m-2 align-self-center" type="button">
 				<i  class="fas fa-plus"></i>
