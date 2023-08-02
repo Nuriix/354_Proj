@@ -52,10 +52,7 @@ public class UserController{
 	
 
 	@GetMapping("/")
-	public String userlogin(Model model) {
-		
-		return "userLogin";
-	}
+	public String userlogin(Model model) { return "userLogin"; }
 	@RequestMapping(value = "userloginvalidate", method = RequestMethod.POST)
 	public ModelAndView userlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model,HttpServletResponse res) {
 		
@@ -81,10 +78,16 @@ public class UserController{
 			mView.addObject("msg", "Please enter correct email and password");
 			return mView;
 		}
-		
 	}
-	
-	
+
+	@GetMapping("user/profileDisplay/{id}")
+	public ModelAndView getUserProfile(@PathVariable("id") int id){
+		ModelAndView mView = new ModelAndView("customerProfile");
+		User customer = this.userService.getUser(id);
+		mView.addObject("user", customer);
+		return mView;
+	}
+
 	@GetMapping("/user/products")
 	public ModelAndView getproduct() {
 
@@ -100,6 +103,7 @@ public class UserController{
 
 		return mView;
 	}
+
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
 	{
@@ -109,50 +113,4 @@ public class UserController{
 		
 		return "redirect:/";
 	}
-
-	   //for Learning purpose of model
-		@GetMapping("/test")
-		public String Test(Model model)
-		{
-			System.out.println("test page");
-			model.addAttribute("author","jay gajera");
-			model.addAttribute("id",40);
-			
-			List<String> friends = new ArrayList<String>();
-			model.addAttribute("f",friends);
-			friends.add("xyz");
-			friends.add("abc");
-			
-			return "test";
-		}
-		
-		// for learning purpose of model and view ( how data is pass to view)
-		
-		@GetMapping("/test2")
-		public ModelAndView Test2()
-		{
-			System.out.println("test page");
-			//create modelandview object
-			ModelAndView mv=new ModelAndView();
-			mv.addObject("name","jay gajera 17");
-			mv.addObject("id",40);
-			mv.setViewName("test2");
-			
-			List<Integer> list=new ArrayList<Integer>();
-			list.add(10);
-			list.add(25);
-			mv.addObject("marks",list);
-			return mv;
-			
-			
-		}
-
-
-//	@GetMapping("carts")
-//	public ModelAndView  getCartDetail()
-//	{
-//		ModelAndView mv= new ModelAndView();
-//		List<Cart>carts = cartService.getCarts();
-//	}
-	  
 }
