@@ -41,30 +41,29 @@
 		</div>
 	</nav><br>
 	<div class="jumbotron container border border-info">
-		<h3>Profile Information</h3>
-		<table class="table">
-            <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Address</th>
-            </tr>
-            <tbody>
-                <tr>
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
-                    <td>${user.address}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <form action="/user/profileDisplay/update/" method="GET">
-                            <input type="hidden" name="id" value="${user.id}">
-                            <input type="submit" value="Update" class="btn btn-info">
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+		<h3>Update Profile Information</h3>
+		<form action="/user/profileDisplay/update/" method="POST">
+            <div class="row">
+		        <div class="col">
+		            <div class="form-group">
+                        <label for="customerUsername">Username</label>
+                        <input class="form-control" type="text" readonly="readonly" name ="username" id="username" value="${user.username}">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email</label>
+                        <input class="form-control" type="text" name= "email" id="email" value="${user.email}">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Address</label>
+                        <input class="form-control" type="text" name= "address" id="address" value="${user.address}">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="id" id="id" value="${user.id}">
+                        <input type="submit" value="Update" class="btn btn-primary">
+                    </div>
+		        </div>
+		    </div>
+        </form>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

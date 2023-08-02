@@ -49,16 +49,25 @@ public class UserController{
 	{
 		return "buy";
 	}
-	
+
+	@GetMapping("/home/{id}")
+	public ModelAndView customerHome(@PathVariable("id") int id){
+		ModelAndView mView  = new ModelAndView("index");
+		User u = this.userService.getUser(id);
+		List<Product> products = this.productService.getProducts();
+
+		mView.addObject("products", products);
+		mView.addObject("user", u);
+
+		return mView;
+	}
 
 	@GetMapping("/")
 	public String userlogin(Model model) { return "userLogin"; }
 	@RequestMapping(value = "userloginvalidate", method = RequestMethod.POST)
 	public ModelAndView userlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model,HttpServletResponse res) {
-		
-		System.out.println(pass);
+
 		User u = this.userService.checkLogin(username, pass);
-		System.out.println(u.getUsername());
 		if(u.getUsername().equals(username)) {	
 			
 			res.addCookie(new Cookie("username", u.getUsername()));
@@ -88,13 +97,30 @@ public class UserController{
 		return mView;
 	}
 
+	@GetMapping("user/profileDisplay/update/")
+	public ModelAndView updateUserProfile(@RequestParam("id") int id){
+		ModelAndView mView = new ModelAndView("customerProfileUpdate");
+		User customer = this.userService.getUser(id);
+		mView.addObject("user", customer);
+		return mView;
+	}
+
+	@RequestMapping(value = "user/profileDisplay/update/", method=RequestMethod.POST)
+	public ModelAndView updateUserProfileInfo(@RequestParam("id") int id, @RequestParam("email") String email, @RequestParam("address") String address){
+		User customer = this.userService.getUser(id);
+
+		customer.setEmail(email);
+		customer.setAddress(address);
+		this.userService.updateUser(id, customer);
+
+		return getUserProfile(id);
+	}
+
 	@GetMapping("/user/products")
 	public ModelAndView getproduct() {
 
 		ModelAndView mView = new ModelAndView("uproduct");
-
 		List<Product> products = this.productService.getProducts();
-
 		if(products.isEmpty()) {
 			mView.addObject("msg","No products are available");
 		}else {
