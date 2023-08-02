@@ -75,7 +75,7 @@
 
 				    <div class="form-group">
 				        <label for="suggestedProduct">Suggested Product</label>
-				        <select class="form-control border border-warning" name="suggestedProduct">
+				        <select class="form-control border border-success" name="suggestedProduct">
                             <option selected>Select a Product</option>
                             <c:forEach var="prod" items="${products}">
                                 <option value="${prod.id}">${prod.name}</option>
