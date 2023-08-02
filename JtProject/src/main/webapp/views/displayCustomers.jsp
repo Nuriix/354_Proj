@@ -34,54 +34,105 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/admin/Dashboard">Home
-							Page</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/admin/Dashboard">Home Page</a></li>
 					<li class="nav-item active"><a class="nav-link" href="/">Logout</a>
 					</li>
-
 				</ul>
-
 			</div>
 		</div>
 	</nav><br>
 	<div class="container-fluid">
+	    <!-- Button trigger modal -->
+        <button type="button" style="margin: 20px 0" class="btn btn-primary"
+            data-toggle="modal" data-target="#exampleModalCenter">Add New User</button>
 
-		
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="/admin/customers/add/" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add New User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body  text-left">
+                           <div class="form-group">
+                                <label for="username">Username</label>
+                                <input class="form-control" type="text" name ="username" id="username" required="required"  placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" name ="password" id="password" required="required"  placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input class="form-control" type="text" name= "email" id="email" required="required"  placeholder="email@address.here">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input class="form-control" type="text" name= "address" id="address" required="required"  placeholder="123 somestreet">
+                            </div>
+                            <div class="form-group">
+                                <label for="role">Role</label>
+                                <select class="form-control" class="form-control border border-warning" name="role" required="required">
+                                   <option disabled selected value="0" >Select a Role</option>
+                                   <option value="ROLE_ADMIN">Admin</option>
+                                   <option value="ROLE_NORMAL">Customer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" value="Save Changes" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><br>
+
 		<table class="table">
-
 			<tr>
-				
-				<th scope="col">Customer Name</th>
+				<th scope="col">Customer Username</th>
 				<th scope="col">Email</th>
 				<th scope="col">Address</th>
+				<th scope="col">Role</th>
 				<th scope="col">Delete</th>
+				<th scope="col">Update</th>
 			</tr>
 			<tbody>
-				<c:forEach var="customer" items="${customers }">
+				<c:forEach var="customer" items="${customers}">
 				<tr>
 					<td>
 						${customer.username}
 					</td>
 					<td>
 					    ${customer.email}
-						
 					</td>
 					<td>
 					    ${customer.address}
-						
 				    </td>
-					</tr>
+				    <td>
+                        ${customer.role}
+                    </td>
+				    <td>
+				        <form action="/admin/customers/delete/" method="GET">
+				            <input type="hidden" name="id" value="${customer.id}">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+				    </td>
+				    <td>
+				        <form action="/admin/customers/update/" method="GET">
+                            <input type="hidden" name="id" value="${customer.id}">
+                            <input type="submit" value="Update" class="btn btn-warning">
+						</form>
+				    </td>
+				</tr>
                 </c:forEach>
-
-
-				
 			</tbody>
 		</table>
-		
 	</div>
-
-
-
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
 		crossorigin="anonymous"></script>
