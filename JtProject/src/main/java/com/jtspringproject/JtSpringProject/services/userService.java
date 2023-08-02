@@ -17,9 +17,16 @@ public class userService {
 	public List<User> getUsers(){
 		return this.userDao.getAllUser();
 	}
+
+	public User getUser(int id) {return this.userDao.getUser(id);}
 	
 	public User addUser(User user) {
 		return this.userDao.saveUser(user);
+	}
+
+	public User updateUser(int id , User user) {
+		user.setId(id);
+		return this.userDao.updateUser(user);
 	}
 
 	public Boolean deleteUser(int id) { return this.userDao.deleteUser(id);}

@@ -117,65 +117,15 @@
                         ${customer.role}
                     </td>
 				    <td>
-				        <form action="/admin/customers/delete/" method="get">
+				        <form action="/admin/customers/delete/" method="GET">
 				            <input type="hidden" name="id" value="${customer.id}">
                             <input type="submit" value="Delete" class="btn btn-danger">
                         </form>
 				    </td>
 				    <td>
-				        <form>
-                            <!-- Button trigger modal -->
-							<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter2"
-								onclick="">Update
-							</button>
-
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Update Customer Details</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body text-left">
-                                            <div class="form-group">
-                                                <label for="customerUsername">Username</label>
-                                                <input class="form-control" type="text" readonly="readonly" name ="username" id="username" value="${customer.username}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="customerEmail">Email</label>
-                                                <input class="form-control" type="text" name= "email" id="email" value="${customer.email}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="customerAddress">Address</label>
-                                                <input class="form-control" type="text" name= "address" id="address" value="${customer.address}">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="customerRole">Role</label>
-                                                <select class="form-control" class="form-control border border-success" name="role">
-                                                   <option disabled selected value="0" >Select a Role</option>
-                                                   <c:choose>
-                                                        <c:when test = "${customer.role == 'ROLE_ADMIN'}">
-                                                            <option selected value="ROLE_ADMIN">Admin</option>
-                                                            <option value="ROLE_NORMAL">Customer</option>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <option selected value="ROLE_NORMAL">Customer</option>
-                                                            <option value="ROLE_ADMIN">Admin</option>
-                                                        </c:otherwise>
-                                                   </c:choose>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Update changes</button>
-                                        </div>
-                                    </div>
-								</div>
-							</div>
+				        <form action="/admin/customers/update/" method="GET">
+                            <input type="hidden" name="id" value="${customer.id}">
+                            <input type="submit" value="Update" class="btn btn-warning">
 						</form>
 				    </td>
 				</tr>
