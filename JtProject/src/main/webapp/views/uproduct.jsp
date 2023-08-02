@@ -84,8 +84,8 @@
                     					<td>
                     						${product.quantity }
                     					</td>
-                    					<td>S
-                    						${product.price }
+                    					<td>
+                    						$${product.price }
                     					</td>
                     					<td>
                     						${product.weight }
@@ -98,10 +98,10 @@
 					<td>
 
 
-				    <form action="products/addtocart" method="get">
-							<input type="hidden" name="id" value="${product.id}">
-							<input type="submit" value="Add To Cart" class="btn btn-warning">
-					</form>
+				    <form action="/addToCart" method="post">
+	              		<input type="hidden" name="productId" value="${product.id}">
+	              		<button type="submit" name="action" value="addToCart" title="Add To Cart" class="btn btn-primary">Add To Cart</button>
+	              	</form>
 					</td>
 
 

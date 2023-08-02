@@ -22,6 +22,11 @@ public class cartDao {
     }
 
     @Transactional
+    public Cart getCart(int id) {
+        return this.sessionFactory.getCurrentSession().get(Cart.class, id);
+    }
+    
+    @Transactional
     public List<Cart> getCarts() {
         return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
     }

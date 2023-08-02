@@ -35,11 +35,10 @@
         </button>
 		
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <h4>Welcome, ${ user.username } </h4>
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/carts" href="#">CART</a>
+                    <a class="nav-link" th:href="/carts" href="carts">CART</a>
                 </li>
                  <li class="nav-item active">
                     <a class="nav-link" href="profileDisplay" >Profile</a>
@@ -76,36 +75,74 @@
   </style>
 </head>
 <body class="bg-light">
-  <header>
 
-  </header>
-  <main>
+<div class="container-fluid">
 
-    <div class="container">
-      <h1>Welcome to Perishable Shop</h1>
+		<a style="margin: 20px 0" class="btn btn-primary"
+			href="/user/products">Add Product</a><br>
+		<table class="table">
 
+			<tr>
+				
+				<th scope="col">Product Name</th>
+				<th scope="col">Category</th>
+				<th scope="col">Preview</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Price</th>
+				<th scope="col">Weight</th>
+				<th scope="col">Description</th>
+				<th scope="col">Delete</th>
+			</tr>
+			<tbody>
 
-      <div class="row">
-      <c:forEach var="product" items="${products}">
-        <div class="col-md-3">
-          <div class="card mb-4">
-            <img class="card-img-top" src="${product.image}" alt="Product 1">
-            <div class="card-body">
-             <b> <h4 class="card-title">${product.name}</h4></b>
-              <h5 class="card-text">Category: ${product.category.name}</h5>
-              <h5 class="card-text">Price: $${product.price}</h5>
-              <p class="card-text">Description: ${product.description}</p>
-            </div>
-          </div>
-        </div> </c:forEach>
-      </div>
-      <div>
-      	<a href = "/user/products">See All Products</a>
-      </div>
-      
+				<c:forEach var="product" items="${products}">
+				<tr>
+					<td>
+						${product.name }
+					</td>
+					<td>
+						${product.category.name}
 
-    </div>
-  </main>
+					</td>
+
+					<td><img src="${product.image}"
+						height="100px" width="100px"></td>
+					<td>
+						${product.quantity }
+					</td>
+					<td>
+						$${product.price }
+					</td>
+					<td>
+						${product.weight }
+					</td>
+					<td>
+						${product.description }
+					</td>
+
+					<td>
+					<form action="products/delete" method="get">
+							<input type="hidden" name="id" value="${product.id}">
+							<input type="submit" value="Delete" class="btn btn-danger">
+					</form>
+					</td>
+					<td>
+					
+
+					</td>
+
+				</tr>
+				</c:forEach>
+
+			</tbody>
+		</table>
+		<!-- Complete checkout, update quantity in database -->
+		<!-- Below left as placeholder -->
+		<form action="" method="get">
+		   <input type="submit" value="Checkout" style="background-color: green; color: white; text-align: right;">
+		</form>
+	</div>
+  
   <footer>
     <div class="container">
       <p>&copy; 2023 Perishable Shop. All rights reserved

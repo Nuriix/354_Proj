@@ -37,6 +37,9 @@ public class UserController{
 
 	@Autowired
 	private productService productService;
+	
+	@Autowired
+	private cartService cartService;
 
 	@GetMapping("/register")
 	public String registerUser()
@@ -151,11 +154,34 @@ public class UserController{
 		}
 
 
-//	@GetMapping("carts")
-//	public ModelAndView  getCartDetail()
-//	{
-//		ModelAndView mv= new ModelAndView();
-//		List<Cart>carts = cartService.getCarts();
-//	}
+		@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
+		public String addToCart(@RequestParam("productId") int productId) {
+			
+			Cart cart = this.cartService.getCart(productId);
+			this.cartService.addCart(cart);
+			
+			return "redirect:/user/products";
+		}
+			
+		// Need to iterate all items a customer has by looping through all product id under the same customer id
+		@GetMapping("carts")
+		public ModelAndView  getCartDetail()
+		{
+			ModelAndView mView= new ModelAndView();
+			List<Cart> carts = this.cartService.getCarts();
+			int id = carts.get(0).getId();
+			List <Product> products = new ArrayList<>();
+			Product product = this.productService.getProduct(id);
+			products.add(product);
+			mView.addObject("products", products);
+			
+//			if (carts.isEmpty()) {
+//				mView.addObject("msg", "No products in cart");
+//			}
+//			else {
+//				mView.addObject("products", product);
+//			}
+			return mView;
+		}
 	  
 }
