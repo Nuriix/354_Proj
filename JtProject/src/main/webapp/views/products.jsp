@@ -86,6 +86,7 @@
 				<th scope="col">Price</th>
 				<th scope="col">Weight</th>
 				<th scope="col">Description</th>
+				<th scope="col">Suggested Product</th>
 				<th scope="col">Delete</th>
 				<th scope="col">Update</th>
 			</tr>
@@ -106,7 +107,7 @@
 					<td>
 						${product.quantity }
 					</td>
-					<td>S
+					<td>
 						${product.price }
 					</td>
 					<td>
@@ -115,6 +116,16 @@
 					<td>
 						${product.description }
 					</td>
+					<td>
+					    <c:choose>
+					        <c:when test="${not empty product.productSuggestion}">
+					            ${product.productSuggestion.name}
+					        </c:when>
+					        <c:otherwise>
+					            N/A
+					        </c:otherwise>
+					    </c:choose>
+                    </td>
 					<td>
                         <form action="/admin/products/delete/" method="get">
                             <input type="hidden" name="id" value="${product.id}">
