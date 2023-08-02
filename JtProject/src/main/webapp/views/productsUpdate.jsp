@@ -85,7 +85,7 @@
 			         <div class="form-group">
                         <label for="suggestedProduct">Suggested Product</label>
                         <select class="form-control border border-success" name="suggestedProduct">
-                             <option selected>Select a Product</option>
+                             <option selected value="0">Select a Product</option>
                              <c:forEach var="prod" items="${products}">
                                   <c:choose>
                                      <c:when test = "${product.productSuggestion.id eq prod.id}">
