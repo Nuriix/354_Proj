@@ -32,7 +32,7 @@
 
 				<a class="nav-link" href="/admin/Dashboard">ADMIN DASHBOARD</a>
 
-				<a class=" nav-link text-bg-success " href="/logout">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
+				<a class=" nav-link text-bg-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
 
 			</div>
 		</div>
