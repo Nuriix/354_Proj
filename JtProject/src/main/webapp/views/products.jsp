@@ -113,7 +113,7 @@
 						${product.description }
 					</td>
 					<td>
-                        <form action="/admin/products/delete" method="get">
+                        <form action="/admin/products/delete/" method="get">
                             <input type="hidden" name="id" value="${product.id}">
                             <button type="submit"  class="btn btn-danger rounded"><i class="fas fa-trash-alt"></i></button>
                         </form>

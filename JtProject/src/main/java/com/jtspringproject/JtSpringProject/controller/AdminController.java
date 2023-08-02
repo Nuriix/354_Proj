@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -46,7 +47,6 @@ public class AdminController {
 		usernameforclass = "";
 		return "userLogin";
 	}
-
 	@GetMapping("/index")
 	public String index(Model model) {
 		if(usernameforclass.equalsIgnoreCase(""))
@@ -56,7 +56,6 @@ public class AdminController {
 			return "index";
 		}
 	}
-
 	@GetMapping("login")
 	public String adminlogin() {
 		return "adminlogin";
@@ -69,12 +68,10 @@ public class AdminController {
 		else
 			return "redirect:/admin/login";
 	}
-
 	@GetMapping("/loginvalidate")
 	public String adminlog(Model model) {
 		return "adminlogin";
 	}
-
 	@RequestMapping(value = "loginvalidate", method = RequestMethod.POST)
 	public ModelAndView adminlogin( @RequestParam("username") String username, @RequestParam("password") String pass) {
 
@@ -91,7 +88,7 @@ public class AdminController {
 			return mv;
 		}
 	}
-
+	//	 --------------------------Categories --------------------
 	@GetMapping("categories")
 	public ModelAndView getcategory() {
 		if(adminlogcheck==0){
@@ -105,28 +102,25 @@ public class AdminController {
 			return mView;
 		}
 	}
-
 	@RequestMapping(value = "categories",method = RequestMethod.POST)
 	public String addCategory(@RequestParam("categoryname") String category_name)
 	{
 		Category category =  this.categoryService.addCategory(category_name);
 		return "redirect:categories";
 	}
-
 	@GetMapping("categories/delete/")
 	public String removeCategoryDb(@RequestParam("id") int id)
 	{
 		this.categoryService.deleteCategory(id);
 		return "redirect:/admin/categories";
 	}
-
 	@GetMapping("categories/update")
 	public String updateCategory(@RequestParam("categoryid") int id, @RequestParam("categoryname") String categoryname)
 	{
 		Category category = this.categoryService.updateCategory(id, categoryname);
 		return "redirect:/admin/categories";
 	}
-	//	 --------------------------Remaining --------------------
+	//	 --------------------------Products --------------------
 	@GetMapping("products")
 	public ModelAndView getproduct() {
 		if(adminlogcheck==0){
@@ -145,7 +139,6 @@ public class AdminController {
 			return mView;
 		}
 	}
-
 	@GetMapping("products/add")
 	public ModelAndView addProduct() {
 		ModelAndView mView = new ModelAndView("productsAdd");
@@ -153,7 +146,6 @@ public class AdminController {
 		mView.addObject("categories",categories);
 		return mView;
 	}
-
 	@RequestMapping(value = "products/add",method=RequestMethod.POST)
 	public String addProduct(@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage) {
 		Category category = this.categoryService.getCategory(categoryId);
@@ -171,9 +163,8 @@ public class AdminController {
 		this.productService.addProduct(product);
 		return "redirect:/admin/products";
 	}
-
 	@GetMapping("products/update/")
-	public ModelAndView updateproduct(@RequestParam("id") int id) {
+	public ModelAndView updateproductinfo(@RequestParam("id") int id) {
 
 		ModelAndView mView = new ModelAndView("productsUpdate");
 		Product product = this.productService.getProduct(id);
@@ -184,7 +175,6 @@ public class AdminController {
 
 		return mView;
 	}
-
 	@RequestMapping(value = "products/update/", method=RequestMethod.POST)
 	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
 	{
@@ -202,85 +192,68 @@ public class AdminController {
 		this.productService.updateProduct(id, product);
 		return "redirect:/admin/products";
 	}
-
-	@GetMapping("products/delete")
-	public String removeProduct(@RequestParam("id") int id)
+	@GetMapping("products/delete/")
+	public ModelAndView removeProduct(@RequestParam("id") int id)
 	{
 		this.productService.deleteProduct(id);
-		return "redirect:/admin/products";
-	}
 
+		ModelAndView mView = new ModelAndView("products");
+		List<Product> products = this.productService.getProducts();
+
+		if (products.isEmpty()) {
+			mView.addObject("msg", "No products are available");
+		} else {
+			mView.addObject("products", products);
+		}
+		return mView;
+	}
 	@PostMapping("products")
 	public String postproduct() {
 		return "redirect:/admin/products";
 	}
 
+	//	 --------------------------Customers --------------------
 	@GetMapping("customers")
 	public ModelAndView getCustomerDetail() {
 		if(adminlogcheck==0){
 			ModelAndView mView = new ModelAndView("adminlogin");
 			return mView;
-		}
-		else {
+		} else {
 			ModelAndView mView = new ModelAndView("displayCustomers");
 			List<User> users = this.userService.getUsers();
 			mView.addObject("customers", users);
 			return mView;
 		}
 	}
-
-	@GetMapping("profileDisplay")
-	public String profileDisplay(Model model) {
-		String displayusername,displaypassword,displayemail,displayaddress;
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users where username = '"+usernameforclass+"';");
-
-			if(rst.next())
-			{
-				int userid = rst.getInt(1);
-				displayusername = rst.getString(2);
-				displayemail = rst.getString(3);
-				displaypassword = rst.getString(4);
-				displayaddress = rst.getString(5);
-				model.addAttribute("userid",userid);
-				model.addAttribute("username",displayusername);
-				model.addAttribute("email",displayemail);
-				model.addAttribute("password",displaypassword);
-				model.addAttribute("address",displayaddress);
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "updateProfile";
-	}
-
-	@RequestMapping(value = "updateuser",method=RequestMethod.POST)
-	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address)
+	@RequestMapping(value = "customers/add/", method=RequestMethod.POST)
+	public String addUserProfile(@ModelAttribute User user)
 	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommjava","root","");
+		this.userService.addUser(user);
+		return "redirect:/admin/customers";
+	}
+	@GetMapping("customers/delete/")
+	public String removeUser(@RequestParam("id") int id)
+	{
+		this.userService.deleteUser(id);
+		return "redirect:/admin/customers";
+	}
+	@GetMapping(value = "customers/update/")
+	public ModelAndView displayUpdateUserInfo(@RequestParam("id") int id)
+	{
+		ModelAndView mView = new ModelAndView("displayCustomerUpdate");
+		User user = this.userService.getUser(id);
+		mView.addObject("user", user);
+		return mView;
+	}
+	@RequestMapping(value = "customers/update/", method=RequestMethod.POST)
+	public String updateUserInfo(@RequestParam("id") int id, @RequestParam("email") String email ,@RequestParam("address") String address, @RequestParam("role") String role)
+	{
+		User user = this.userService.getUser(id);
+		user.setAddress(address);
+		user.setEmail(email);
+		user.setRole(role);
 
-			PreparedStatement pst = con.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");
-			pst.setString(1, username);
-			pst.setString(2, email);
-			pst.setString(3, password);
-			pst.setString(4, address);
-			pst.setInt(5, userid);
-			int i = pst.executeUpdate();
-			usernameforclass = username;
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/index";
+		this.userService.updateUser(id, user);
+		return "redirect:/admin/customers";
 	}
 }

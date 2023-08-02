@@ -103,16 +103,13 @@ public class UserController{
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
 	{
-		
 		System.out.println(user.getEmail());
 		user.setRole("ROLE_NORMAL");
 		this.userService.addUser(user);
 		
 		return "redirect:/";
 	}
-	
-	
-	
+
 	   //for Learning purpose of model
 		@GetMapping("/test")
 		public String Test(Model model)
