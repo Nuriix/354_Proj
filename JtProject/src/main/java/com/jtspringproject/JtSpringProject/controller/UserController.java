@@ -17,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jtspringproject.JtSpringProject.services.cartService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -158,12 +159,32 @@ public class UserController{
 
 
 		@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
-		public String addToCart(@RequestParam("productId") int productId) {
+		public String addToCart(@RequestParam("productId") int productId, RedirectAttributes redirectAttributes) {
 			
-			Cart cart = this.cartService.getCart(productId);
-			this.cartService.addCart(cart);
+			//Check if added to cart already
+			int product_Id = 0;
+			List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+			for(int i = 0; i < carts.size(); i++) {
+				product_Id = carts.get(i).getId();
+				if(product_Id == productId) {
+					break;
+				}
+			}
+			//Check ended
 			
-			return "redirect:/user/products";
+			if(product_Id == productId) {
+		        redirectAttributes.addFlashAttribute("message", "Product already added to cart!");
+
+				return "redirect:/carts";
+			}
+			else {
+				Cart cart = this.cartService.getCart(productId);
+				System.out.println(productId + " " + cart.getId());
+				this.cartService.addCart(cart);
+				redirectAttributes.addFlashAttribute("message", "Product added to cart successfully!");
+				
+				return "redirect:/carts";
+			}
 		}
 			
 		// Need to iterate all items a customer has by looping through all product id under the same customer id
@@ -172,15 +193,23 @@ public class UserController{
 		{
 			ModelAndView mView= new ModelAndView();
 			List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-			if (carts.isEmpty()) {
+			List<Product> products = new ArrayList<>();
+			
+			for(int i = 0; i < carts.size(); i++) {
+				int productId = carts.get(i).getId();
+				Product product = this.productService.getProduct(productId);
+				products.add(product);
+			}
+			
+			if (products.isEmpty()) {
 				mView.addObject("msg", "No products in cart");
 			}
 			else {
-				mView.addObject("products", carts);
+				mView.addObject("products", products);
 			}
-			
+			return mView;
 //			List<Cart> carts = this.cartService.getCarts();
-//			int id = carts.get(0).getId();
+//			int id = carts.get(1).getId();
 //			System.out.println(customerId);
 //			List <Product> products = new ArrayList<>();
 //			Product product = this.productService.getProduct(id);
@@ -193,7 +222,7 @@ public class UserController{
 //			else {
 //				mView.addObject("products", product);
 //			}
-			return mView;
+			
 		}
 	  
 }

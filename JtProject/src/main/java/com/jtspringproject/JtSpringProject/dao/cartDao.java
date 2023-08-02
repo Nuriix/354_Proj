@@ -3,6 +3,8 @@ import java.util.List;
 
 import com.jtspringproject.JtSpringProject.models.Cart;
 import com.jtspringproject.JtSpringProject.models.Category;
+import com.jtspringproject.JtSpringProject.models.Product;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,7 +35,7 @@ public class cartDao {
     
     @Transactional
     public List<Cart> getCartsByUserId(int customer_id) {
-        return this.sessionFactory.getCurrentSession().createQuery("from CART where customer_id =:customer_id", Cart.class).setParameter("customer_id", customer_id).list();
+        return this.sessionFactory.getCurrentSession().createQuery("from CART where customer_id = :customer_id", Cart.class).setParameter("customer_id", customer_id).list();
     }
 
     @Transactional
