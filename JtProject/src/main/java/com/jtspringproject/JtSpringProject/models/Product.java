@@ -1,24 +1,21 @@
 package com.jtspringproject.JtSpringProject.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+
+@Getter
+@Setter
 @Entity(name="PRODUCT")
 public class Product {
 	@Id
 	@Column(name = "product_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
+
 	private String name;
-	
 	private String image;
 	
 	@OneToOne(cascade = CascadeType.PERSIST)
@@ -32,6 +29,14 @@ public class Product {
 	private int weight;
 	
 	private String description;
+
+	@OneToOne(optional = true)
+	@JoinColumn(name="suggested_product_id", referencedColumnName = "product_id")
+	private Product productSuggestion;
+
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private User customer;
 
 	public int getId() {
 		return id;
@@ -97,8 +102,9 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	@ManyToOne
-    @JoinColumn(name = "customer_id")
-    private User customer;
+
+	public void setProductSuggestion(Product product){ this.productSuggestion = product; }
+
+	public Product getProductSuggestion(Product product){ return productSuggestion; }
+
 }

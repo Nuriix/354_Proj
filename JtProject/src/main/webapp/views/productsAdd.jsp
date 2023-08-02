@@ -47,12 +47,7 @@
 		<form action="/admin/products/add" method="post">
 			<div class="row">
 				<div class="col-sm-5">
-					<div class="form-group">
-						<c:forEach var="product" items="${products}">
-						    <label for="name">Id</label>
-						    <input type="number" readonly="readonly" class="form-control border border-warning" name="id"  value="${product.id + 1} ">
-						</c:forEach>
-					</div>
+
 					<div class="form-group">
 						<label for="name">Name</label>
 						<input type="text" class="form-control border border-warning" required name="name" placeholder="Enter name">
@@ -83,6 +78,17 @@
 				</div>
 
 				<div class="col-sm-5"><br>
+
+				    <div class="form-group">
+				        <label for="suggestedProduct">Suggested Product</label>
+				        <select class="form-control border border-warning" name="suggestedProduct">
+                            <option selected>Select a Product</option>
+                            <c:forEach var="prod" items="${products}">
+                                <option value="${prod.id}">${prod.name}</option>
+                            </c:forEach>
+                        </select>
+				    </div>
+
                     <div class="form-group">
                         <label for="description">Product Description</label>
                         <textarea class="form-control border border-warning" rows="4" name="description" placeholder="Product Details" value= "no product details"></textarea>
