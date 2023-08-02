@@ -5,11 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -211,7 +209,27 @@ public class AdminController {
 	public String postproduct() {
 		return "redirect:/admin/products";
 	}
+	@GetMapping(value = "products/search")
+	public ModelAndView searchProduct(String keyword){
 
+		ModelAndView mView = new ModelAndView("products");
+		if(keyword != null){
+			List<Product> list = this.productService.getByKeyword(keyword);
+			if (list.isEmpty()) {
+				mView.addObject("msg", "No products are available");
+			} else {
+				mView.addObject("products", list);
+			}
+		}else{
+			List<Product> list = this.productService.getProducts();
+			if (list.isEmpty()) {
+				mView.addObject("msg", "No products are available");
+			} else {
+				mView.addObject("products", list);
+			}
+		}
+		return mView;
+	}
 	//	 --------------------------Customers --------------------
 	@GetMapping("customers")
 	public ModelAndView getCustomerDetail() {
