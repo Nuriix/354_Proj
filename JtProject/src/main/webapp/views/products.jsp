@@ -44,9 +44,11 @@
 		</div>
 	</nav><br>
 	<div class="container-fluid">
-
-		<a style="margin: 20px 0" class="btn btn-primary"
-			href="/admin/products/add">Add Product</a><br>
+		<a style="margin: 20px 0" class="btn btn-primary" href="/admin/products/add">Add Product</a><br>
+		<form action="/admin/products/search"  method="GET">
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50" >
+            <button type="submit" class="btn btn-info">Search</button>
+        </form>
 		<table class="table">
 			<tr>
 				<th scope="col">Serial No.</th>
