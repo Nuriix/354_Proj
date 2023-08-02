@@ -59,7 +59,7 @@
 		</div>
 		<div class="col-10">
 			<div class="d-flex" role="search">
-				<p>Displaying ### products</p>
+				<p>Displaying ### categories</p>
 				<button class="btn"><i class="fas fa-search"></i></button>
 				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
 				<!-- Button Add trigger modal -->
@@ -67,10 +67,10 @@
 
 				<!-- Modal Add -->
 				<div class="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered bg-success-subtle" role="document">
-						<div class="modal-content ">
+					<div class="modal-dialog modal-dialog-centered " role="document">
+						<div class="modal-content  bg-light border border-success">
 							<form action="categories" method="post">
-								<div class="modal-header">
+								<div class="modal-header ">
 									<h5 class="modal-title" id="exampleModalLongTitle">Add New Category</h5>
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -124,7 +124,7 @@
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
+                                    <div class="modal-content border border-success bg-light">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLongTitle">Update Product Details</h5>
                                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -132,10 +132,10 @@
                                             </button>
                                         </div>
                                         <div class="modal-body text-center">
-                                            <div class="form-group">
+                                            <div class="form-group p-1">
                                                 <input class="form-control" type="number" readonly="readonly" name ="categoryid" id="categoryid" value="0">
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group p-1">
                                                 <input class="form-control" type="text" name= "categoryname" id="categoryname" value="categoryname">
                                             </div>
                                         </div>
