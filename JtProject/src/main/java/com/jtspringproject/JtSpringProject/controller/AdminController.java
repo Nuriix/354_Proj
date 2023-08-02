@@ -92,6 +92,7 @@ public class AdminController {
 		}
 	}
 
+	//	 --------------------------Categories --------------------
 	@GetMapping("categories")
 	public ModelAndView getcategory() {
 		if(adminlogcheck==0){
@@ -126,7 +127,7 @@ public class AdminController {
 		Category category = this.categoryService.updateCategory(id, categoryname);
 		return "redirect:/admin/categories";
 	}
-	//	 --------------------------Remaining --------------------
+	//	 --------------------------Products --------------------
 	@GetMapping("products")
 	public ModelAndView getproduct() {
 		if(adminlogcheck==0){
@@ -173,7 +174,7 @@ public class AdminController {
 	}
 
 	@GetMapping("products/update/")
-	public ModelAndView updateproduct(@RequestParam("id") int id) {
+	public ModelAndView updateproductinfo(@RequestParam("id") int id) {
 
 		ModelAndView mView = new ModelAndView("productsUpdate");
 		Product product = this.productService.getProduct(id);
@@ -224,6 +225,7 @@ public class AdminController {
 		return "redirect:/admin/products";
 	}
 
+	//	 --------------------------Customers --------------------
 	@GetMapping("customers")
 	public ModelAndView getCustomerDetail() {
 		if(adminlogcheck==0){
@@ -236,6 +238,13 @@ public class AdminController {
 			mView.addObject("customers", users);
 			return mView;
 		}
+	}
+
+	@RequestMapping(value = "customers/add", method=RequestMethod.POST)
+	public String addUserProfile(@ModelAttribute User user)
+	{
+		this.userService.addUser(user);
+		return "redirect:/admin/customers";
 	}
 
 	@GetMapping("profileDisplay")
