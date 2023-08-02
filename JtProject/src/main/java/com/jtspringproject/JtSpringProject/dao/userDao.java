@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.sound.midi.Soundbank;
 
+import com.jtspringproject.JtSpringProject.models.Category;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -36,10 +37,19 @@ public class userDao {
 		System.out.println("User added" + user.getId());
         return user;
 	}
-    
-//    public User checkLogin() {
-//    	this.sessionFactory.getCurrentSession().
-//    }
+
+	@Transactional
+	public Boolean deleteUser(int id){
+		Session session = this.sessionFactory.getCurrentSession();
+		Object persistanceInstance = session.load(User.class, id);
+
+		if (persistanceInstance != null) {
+			session.delete(persistanceInstance);
+			return true;
+		}
+		return false;
+	}
+
     @Transactional
     public User getUser(String username,String password) {
     	Query query = sessionFactory.getCurrentSession().createQuery("from CUSTOMER where username = :username");
@@ -58,6 +68,5 @@ public class userDao {
 			User user = new User();
 			return user;
 		}
-    	
     }
 }

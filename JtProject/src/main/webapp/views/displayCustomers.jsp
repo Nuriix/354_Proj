@@ -34,8 +34,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/admin/Dashboard">Home
-							Page</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/admin/Dashboard">Home Page</a></li>
 					<li class="nav-item active"><a class="nav-link" href="/">Logout</a>
 					</li>
 				</ul>
@@ -51,7 +50,7 @@
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <form action="/admin/customers/add" method="POST">
+                    <form action="/admin/customers/add/" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Add New User</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -98,15 +97,13 @@
 				<th scope="col">Customer Username</th>
 				<th scope="col">Email</th>
 				<th scope="col">Address</th>
+				<th scope="col">Role</th>
 				<th scope="col">Delete</th>
 				<th scope="col">Update</th>
 			</tr>
 			<tbody>
 				<c:forEach var="customer" items="${customers}">
 				<tr>
-                    <td>
-                        ${customer.id}
-                    </td>
 					<td>
 						${customer.username}
 					</td>
@@ -120,7 +117,8 @@
                         ${customer.role}
                     </td>
 				    <td>
-				        <form action="" method="get">
+				        <form action="/admin/customers/delete/" method="get">
+				            <input type="hidden" name="id" value="${customer.id}">
                             <input type="submit" value="Delete" class="btn btn-danger">
                         </form>
 				    </td>

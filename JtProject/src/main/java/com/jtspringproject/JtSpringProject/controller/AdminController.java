@@ -240,10 +240,17 @@ public class AdminController {
 		}
 	}
 
-	@RequestMapping(value = "customers/add", method=RequestMethod.POST)
+	@RequestMapping(value = "customers/add/", method=RequestMethod.POST)
 	public String addUserProfile(@ModelAttribute User user)
 	{
 		this.userService.addUser(user);
+		return "redirect:/admin/customers";
+	}
+
+	@GetMapping("customers/delete/")
+	public String removeUser(@RequestParam("id") int id)
+	{
+		this.userService.deleteUser(id);
 		return "redirect:/admin/customers";
 	}
 
