@@ -87,6 +87,22 @@
 			    </div>
 
 			     <div class="col-sm-5">
+			         <div class="form-group">
+                        <label for="suggestedProduct">Suggested Product</label>
+                        <select class="form-control border border-success" name="suggestedProduct">
+                             <option selected>Select a Product</option>
+                             <c:forEach var="prod" items="${products}">
+                                  <c:choose>
+                                     <c:when test = "${product.productSuggestion.id eq prod.id}">
+                                         <option selected value="${prod.id}">${prod.name}</option>
+                                     </c:when>
+                                     <c:otherwise>
+                                         <option value="${prod.id}">${prod.name}</option>
+                                     </c:otherwise>
+                                </c:choose>
+                             </c:forEach>
+                         </select>
+                    </div>
                     <div class="form-group">
                         <label for="description">Product Description</label>
                         <textarea class="form-control border border-success" rows="4" name="description" placeholder="Product Details" >${ product.description }</textarea>

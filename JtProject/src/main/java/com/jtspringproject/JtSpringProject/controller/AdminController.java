@@ -141,13 +141,16 @@ public class AdminController {
 	public ModelAndView addProduct() {
 		ModelAndView mView = new ModelAndView("productsAdd");
 		List<Category> categories = this.categoryService.getCategories();
+		List<Product> products = this.productService.getProducts();
+		mView.addObject("products",products);
 		mView.addObject("categories",categories);
 		return mView;
 	}
 	@RequestMapping(value = "products/add",method=RequestMethod.POST)
-	public String addProduct(@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage) {
+	public String addProduct(@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage, @RequestParam("suggestedProduct") int suggestedProductID ) {
 		Category category = this.categoryService.getCategory(categoryId);
 		Product product = new Product();
+		Product suggestedProduct = this.productService.getProduct(suggestedProductID);
 
 		product.setId(categoryId);
 		product.setName(name);
@@ -157,6 +160,7 @@ public class AdminController {
 		product.setImage(productImage);
 		product.setWeight(weight);
 		product.setQuantity(quantity);
+		product.setProductSuggestion(suggestedProduct);
 
 		this.productService.addProduct(product);
 		return "redirect:/admin/products";
@@ -165,18 +169,21 @@ public class AdminController {
 	public ModelAndView updateproductinfo(@RequestParam("id") int id) {
 
 		ModelAndView mView = new ModelAndView("productsUpdate");
+		List<Product> products = this.productService.getProducts();
 		Product product = this.productService.getProduct(id);
 		List<Category> categories = this.categoryService.getCategories();
 
+		mView.addObject("products", products);
 		mView.addObject("categories",categories);
 		mView.addObject("product", product);
 
 		return mView;
 	}
 	@RequestMapping(value = "products/update/", method=RequestMethod.POST)
-	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage)
+	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage, @RequestParam("suggestedProduct") int suggestedProductID )
 	{
 		Category category = this.categoryService.getCategory(categoryId);
+		Product suggestedProduct = this.productService.getProduct(suggestedProductID);
 		Product product = new Product();
 
 		product.setName(name);
@@ -186,6 +193,7 @@ public class AdminController {
 		product.setImage(productImage);
 		product.setWeight(weight);
 		product.setQuantity(quantity);
+		product.setProductSuggestion(suggestedProduct);
 
 		this.productService.updateProduct(id, product);
 		return "redirect:/admin/products";
