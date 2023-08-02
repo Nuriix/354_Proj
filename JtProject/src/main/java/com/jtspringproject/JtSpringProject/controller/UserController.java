@@ -32,6 +32,8 @@ import com.jtspringproject.JtSpringProject.services.cartService;
 @Controller
 public class UserController{
 	
+	private int customerId;
+	
 	@Autowired
 	private userService userService;
 
@@ -70,6 +72,7 @@ public class UserController{
 			res.addCookie(new Cookie("username", u.getUsername()));
 			ModelAndView mView  = new ModelAndView("index");	
 			mView.addObject("user", u);
+			customerId = u.getId();
 			List<Product> products = this.productService.getProducts();
 
 			if (products.isEmpty()) {
@@ -168,12 +171,21 @@ public class UserController{
 		public ModelAndView  getCartDetail()
 		{
 			ModelAndView mView= new ModelAndView();
-			List<Cart> carts = this.cartService.getCarts();
-			int id = carts.get(0).getId();
-			List <Product> products = new ArrayList<>();
-			Product product = this.productService.getProduct(id);
-			products.add(product);
-			mView.addObject("products", products);
+			List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+			if (carts.isEmpty()) {
+				mView.addObject("msg", "No products in cart");
+			}
+			else {
+				mView.addObject("products", carts);
+			}
+			
+//			List<Cart> carts = this.cartService.getCarts();
+//			int id = carts.get(0).getId();
+//			System.out.println(customerId);
+//			List <Product> products = new ArrayList<>();
+//			Product product = this.productService.getProduct(id);
+//			products.add(product);
+//			mView.addObject("products", products);
 			
 //			if (carts.isEmpty()) {
 //				mView.addObject("msg", "No products in cart");

@@ -30,6 +30,11 @@ public class cartDao {
     public List<Cart> getCarts() {
         return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
     }
+    
+    @Transactional
+    public List<Cart> getCartsByUserId(int customer_id) {
+        return this.sessionFactory.getCurrentSession().createQuery("from CART where customer_id =:customer_id", Cart.class).setParameter("customer_id", customer_id).list();
+    }
 
     @Transactional
     public void updateCart(Cart cart) {

@@ -154,22 +154,44 @@ public class AdminController {
 		return mView;
 	}
 
-	@RequestMapping(value = "products/add",method=RequestMethod.POST)
-	public String addProduct(@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage) {
-		Category category = this.categoryService.getCategory(categoryId);
-		Product product = new Product();
+	@PostMapping("products/add")
+	public String addProduct(@RequestParam("name") String name,
+	                         @RequestParam("categoryid") int categoryId,
+	                         @RequestParam("price") int price,
+	                         @RequestParam("weight") int weight,
+	                         @RequestParam("quantity") int quantity,
+	                         @RequestParam("description") String description,
+	                         @RequestParam("productImage") String productImage) {
 
-		product.setId(categoryId);
-		product.setName(name);
-		product.setCategory(category);
-		product.setDescription(description);
-		product.setPrice(price);
-		product.setImage(productImage);
-		product.setWeight(weight);
-		product.setQuantity(quantity);
+	    // Validate inputs (e.g., non-empty name, positive price, etc.)
+	    // Implement error handling if validation fails.
 
-		this.productService.addProduct(product);
-		return "redirect:/admin/products";
+	    Category category = this.categoryService.getCategory(categoryId);
+	    if (category == null) {
+	        // Handle the case when the category with the given categoryId is not found.
+	        // You may choose to display an error message to the user or redirect to an error page.
+	        return "redirect:/admin/error";
+	    }
+
+	    Product product = new Product();
+	    // product.setId(categoryId); // Assuming the ID is auto-generated in the database.
+	    product.setName(name);
+	    product.setCategory(category);
+	    product.setDescription(description);
+	    product.setPrice(price);
+	    product.setImage(productImage);
+	    product.setWeight(weight);
+	    product.setQuantity(quantity);
+
+	    try {
+	        this.productService.addProduct(product);
+	    } catch (Exception ex) {
+	        // Handle the case when there's an issue with adding the product to the database.
+	        // You may choose to log the error or redirect to an error page.
+	        return "redirect:/admin/error";
+	    }
+
+	    return "redirect:/admin/products";
 	}
 
 	@GetMapping("products/update/")

@@ -25,6 +25,10 @@ public class cartService {
 	public List<Cart> getCarts(){
 	    return this.cartDao.getCarts();
 	}
+	
+	public List<Cart> getCartsByUserId(int customer_id){
+	    return this.cartDao.getCartsByUserId(customer_id);
+	}
 
     public void updateCart(Cart cart){
         cartDao.updateCart(cart);

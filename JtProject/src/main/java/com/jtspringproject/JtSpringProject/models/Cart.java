@@ -23,10 +23,10 @@ public class Cart {
     )
     private List<Product> products;
 
-
     public Cart() {
         products = new ArrayList<>();
     }
+    
 
     public int getId() {
         return id;
