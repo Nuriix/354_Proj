@@ -156,36 +156,6 @@ public class UserController{
 			
 			
 		}
-
-
-		@RequestMapping(value = "/addToCart", method = RequestMethod.POST)
-		public String addToCart(@RequestParam("productId") int productId, RedirectAttributes redirectAttributes) {
-			
-			//Check if added to cart already
-			int product_Id = 0;
-			List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-			for(int i = 0; i < carts.size(); i++) {
-				product_Id = carts.get(i).getId();
-				if(product_Id == productId) {
-					break;
-				}
-			}
-			//Check ended
-			
-			if(product_Id == productId) {
-		        redirectAttributes.addFlashAttribute("message", "Product already added to cart!");
-
-				return "redirect:/carts";
-			}
-			else {
-				Cart cart = this.cartService.getCart(productId);
-				System.out.println(productId + " " + cart.getId());
-				this.cartService.addCart(cart);
-				redirectAttributes.addFlashAttribute("message", "Product added to cart successfully!");
-				
-				return "redirect:/carts";
-			}
-		}
 			
 		// Need to iterate all items a customer has by looping through all product id under the same customer id
 		@GetMapping("carts")
@@ -208,21 +178,43 @@ public class UserController{
 				mView.addObject("products", products);
 			}
 			return mView;
-//			List<Cart> carts = this.cartService.getCarts();
-//			int id = carts.get(1).getId();
-//			System.out.println(customerId);
-//			List <Product> products = new ArrayList<>();
-//			Product product = this.productService.getProduct(id);
-//			products.add(product);
-//			mView.addObject("products", products);
+		}
+		
+		@RequestMapping(value = "carts/add", method = RequestMethod.POST)
+		public String addToCart(@RequestParam("productId") int id) {
 			
-//			if (carts.isEmpty()) {
-//				mView.addObject("msg", "No products in cart");
-//			}
-//			else {
-//				mView.addObject("products", product);
-//			}
+			User user = new User();
+			user.setId(customerId);
 			
+			Cart cart = new Cart();
+			cart.setId(id);
+			cart.setCustomer(user);
+			
+			try {
+				this.cartService.addCart(cart);
+			} catch (Exception e) {
+				return "redirect:/carts";
+			}
+			
+			return "redirect:/carts";
+		}
+		
+		@GetMapping("carts/delete")
+		public String removeCartDb(@RequestParam("id") int id)
+		{	
+			this.cartService.deleteCart(id);
+			return "redirect:/carts";
+		}
+		
+		@GetMapping("carts/empty")
+		public String removeEntireCart()
+		{	
+			List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+			for(int i = 0; i < carts.size(); i++) {
+				int productId = carts.get(i).getId();
+				this.cartService.deleteCart(productId);
+			}
+			return "redirect:/carts";
 		}
 	  
 }

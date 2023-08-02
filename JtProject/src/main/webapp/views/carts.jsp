@@ -77,9 +77,17 @@
 <body class="bg-light">
 
 <div class="container-fluid">
+		<table style="width: 100%;">
+            <tr>
+                <td align="left">
+                    <a class="btn btn-primary" href="/user/products">Add Product</a>
+                </td>
+                <td align="right">
+                    <a class="btn btn-secondary" href="/carts/empty">Empty Cart</a>
+                </td>
+            </tr>
+        </table><br>
 
-		<a style="margin: 20px 0" class="btn btn-primary"
-			href="/user/products">Add Product</a><br>
 		<table class="table">
 
 			<tr>
@@ -121,7 +129,7 @@
 					</td>
 
 					<td>
-					<form action="products/delete" method="get">
+					<form action="carts/delete" method="get">
 							<input type="hidden" name="id" value="${product.id}">
 							<input type="submit" value="Delete" class="btn btn-danger">
 					</form>
@@ -136,11 +144,42 @@
 
 			</tbody>
 		</table>
-		<!-- Complete checkout, update quantity in database -->
-		<!-- Below left as placeholder -->
-		<form action="" method="get">
-		   <input type="submit" value="Checkout" style="background-color: green; color: white; text-align: right;">
-		</form>
+		<!-- Citation: https://github.com/docodebyself/springboot-ecommerce-step-by-step/blob/main/Ecommerce-Springboot/Customer/src/main/resources/templates/cart.html -->
+		<div class="row my-5">
+            <div class="col-lg-8 col-sm-12"></div>
+            <div class="col-lg-4 col-sm-12">
+                <div class="order-box">
+                    <h3>Order summary</h3>
+                    <hr>
+                    <div class="d-flex">
+                        <h4>Subtotal</h4>
+                        <div class="ml-auto font-weight-bold" th:text = "${subTotal}"> </div>
+                    </div>
+                    <div class="d-flex">
+                        <h4>Discount</h4>
+                        <div class="ml-auto font-weight-bold"> $0</div>
+                    </div>
+                    <div class="d-flex">
+                        <h4>Shipping Cost</h4>
+                        <div class="ml-auto font-weight-bold"> Free</div>
+                    </div>
+                    <hr class="my-1">
+                    <div class="d-flex">
+                        <h4>Tax</h4>
+                        <div class="ml-auto font-weight-bold"> $2</div>
+                    </div>
+                    
+                    <div class="d-flex gr-total">
+                        <h5>Grand Total</h5>
+                        <div class="ml-auto h5" th:text = " '$' + ${subTotal + 2 }"> </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-12 d-flex shopping-box">
+            	<input type="submit" value="Checkout" class="ml-auto btn hvr-hover; btn btn-success">
+            </div>
+        </div>
 	</div>
   
   <footer>

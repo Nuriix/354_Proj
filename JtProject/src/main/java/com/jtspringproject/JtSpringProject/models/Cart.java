@@ -9,7 +9,6 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne
@@ -26,7 +25,6 @@ public class Cart {
     public Cart() {
         products = new ArrayList<>();
     }
-    
 
     public int getId() {
         return id;

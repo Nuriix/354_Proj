@@ -35,9 +35,9 @@ public class cartService {
     public void updateCart(Cart cart){
         cartDao.updateCart(cart);
     }
-    public void deleteCart(Cart cart)
+    public void deleteCart(int id)
     {
-        cartDao.deleteCart(cart);
+        cartDao.deleteCart(id);
     }
 
 

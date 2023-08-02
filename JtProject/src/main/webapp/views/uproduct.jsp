@@ -98,10 +98,10 @@
 					<td>
 
 
-				    <form action="/addToCart" method="post">
+				    <form action="/carts/add" method="post">
 	              		<input type="hidden" name="productId" value="${product.id}">
-	              		<button type="submit" name="action" value="addToCart" title="Add To Cart" class="btn btn-primary">Add To Cart</button>
-	              		<p th:text="${message}"></p>
+	              		<button type="submit" name="action" value="addToCart" title="Add To Cart" class="btn btn-primary">Add To Cart <p th:text="${message}"></p></button>
+	              		
 	              	</form>
 					</td>
 
