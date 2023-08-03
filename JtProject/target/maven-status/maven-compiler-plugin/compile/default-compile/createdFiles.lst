@@ -1,1 +1,3 @@
+com\jtspringproject\JtSpringProject\models\User$UserBuilder.class
 com\jtspringproject\JtSpringProject\dao\ProductRepository.class
+com\jtspringproject\JtSpringProject\models\Category$CategoryBuilder.class

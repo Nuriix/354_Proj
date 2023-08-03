@@ -49,10 +49,16 @@
                                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                             <ul class="navbar-nav mr-auto"></ul>
                                             <ul class="navbar-nav">
-                                                <li class="nav-item active"><a class="nav-link" href="/home/${user.id}" >Home Page</a></li>
-                                                <li class="nav-item active"><a class="nav-link" href="/carts/${user.id}">CART</a></li>
-                                                <li class="nav-item active"><a class="nav-link" href="/user/profileDisplay/${user.id}">Profile</a></li>
-                                                <li class="nav-item active"><a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a></li>
+                                                <li class="nav-item active">
+                                                    <a class="nav-link" th:href="/carts" href="carts">CART</a>
+                                                </li>
+                                                <li class="nav-item active">
+                                                    <a class="nav-link" href="profileDisplay">Profile</a>
+                                                </li>
+                                                <li class="nav-item active">
+                                                    <a class="nav-link" sec:authorize="isAuthenticated()"
+                                                        href="logout">Logout</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -64,19 +70,11 @@
 
 
                         <div>
-                        	
 
                             <table style="margin-left: 50px">
                                 <div align="center">
                                     <h3>Payment Details</h3>
                                 </div>
-                                
-                                <tr>
-                                	<form action="/paymentMethod/update" method="get">
-			                            <input type="hidden" name="id" value="${payment.id}">
-			                            <input style="margin-left:50px" type="submit" value="Update Card Details" class="btn btn-info">
-			                        </form>
-                                </tr>
 
                                 <tr>
                                     <th>Name</th>
@@ -96,9 +94,20 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <button
-                                            style="font-size: 18; margin-top:10px; background-color: #28a745; color: white; border-radius: 5px; border: none"
-                                            onclick="handlePaymentClick()">Confirm Payment</button>
+                                        <td>
+                                            <form action="/paymentMethod/update" method="get">
+				                                <input type="hidden" name="id" value="${payment.id}">
+				                                <input type="submit" value="Update" class="btn btn-info">
+				                            </form>
+				                            
+                                        </td>
+                                        <td>
+                                            <form action="/paymentMethod/delete" method="get">
+				                                <input type="hidden" name="id" value="${payment.id}">
+				                                <input type="submit" value="Delete" class="btn btn-danger">
+				                            </form>
+                                        </td>
+                                        
                                     </th>
                                 </tr>
                             </table>
