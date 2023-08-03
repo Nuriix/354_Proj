@@ -130,6 +130,19 @@ public class UserController{
 
 		return mView;
 	}
+	@GetMapping("/user/deals/{id}")
+	public ModelAndView getDeals(@PathVariable("id") int id) {
+
+		ModelAndView mView = new ModelAndView("uDeals");
+
+		User customer = this.userService.getUser(id);
+		mView.addObject("user", customer);
+
+
+
+
+		return mView;
+	}
 
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
