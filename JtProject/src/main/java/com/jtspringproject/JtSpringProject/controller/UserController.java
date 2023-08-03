@@ -64,6 +64,7 @@ public class UserController{
 
 	@GetMapping("/")
 	public String userlogin(Model model) { return "userLogin"; }
+
 	@RequestMapping(value = "userloginvalidate", method = RequestMethod.POST)
 	public ModelAndView userlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model,HttpServletResponse res) {
 

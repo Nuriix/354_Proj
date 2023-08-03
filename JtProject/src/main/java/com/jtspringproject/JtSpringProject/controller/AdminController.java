@@ -1,12 +1,10 @@
 package com.jtspringproject.JtSpringProject.controller;
 
-import java.sql.*;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +16,6 @@ import com.jtspringproject.JtSpringProject.models.User;
 import com.jtspringproject.JtSpringProject.services.categoryService;
 import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.userService;
-import com.mysql.cj.protocol.Resultset;
-
-import net.bytebuddy.asm.Advice.This;
-import net.bytebuddy.asm.Advice.OffsetMapping.ForOrigin.Renderer.ForReturnTypeName;
-
 
 @Controller
 @RequestMapping("/admin")
