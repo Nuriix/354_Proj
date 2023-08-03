@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <form action="/payment">
+                                <form action="/payment/${user.id}">
                                     <input type="submit" value="Checkout" class="ml-auto btn hvr-hover; btn btn-success" />
                                 </form>
                             </div>
