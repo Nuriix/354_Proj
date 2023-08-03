@@ -1,4 +1,10 @@
 package com.jtspringproject.JtSpringProject.models;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.aspectj.lang.annotation.Before;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,8 +18,11 @@ import javax.persistence.Table;
 
 @Entity(name="CUSTOMER")
 @Table
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
@@ -27,7 +36,6 @@ public class User {
 	private String role;
 	
 	private String address;
-	
 	
 	public int getId() {
 		return id;
