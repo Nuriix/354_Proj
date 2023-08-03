@@ -25,13 +25,10 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="vr"></div>
-			<div class="d-flex collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="d-flex collapse navbar-collapse flex-row-reverse bd-highlight" id="navbarNavAltMarkup">
 				<div class="navbar-nav ">
-
 					<a class="nav-link" href="/admin/Dashboard">ADMIN DASHBOARD</a>
-
 					<a class=" nav-link text-bg-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
-
 				</div>
 			</div>
 		</div>
