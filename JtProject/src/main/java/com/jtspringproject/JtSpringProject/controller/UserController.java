@@ -28,8 +28,6 @@ import com.jtspringproject.JtSpringProject.services.userService;
 import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.cartService;
 
-
-
 @Controller
 public class UserController{
 
@@ -50,12 +48,6 @@ public class UserController{
 		return "register";
 	}
 
-	@GetMapping("/buy")
-	public String buy()
-	{
-		return "buy";
-	}
-
 	@GetMapping("/home/{id}")
 	public ModelAndView customerHome(@PathVariable("id") int id){
 		ModelAndView mView  = new ModelAndView("index");
@@ -66,7 +58,6 @@ public class UserController{
 		mView.addObject("user", u);
 
 		return mView;
-
 	}
 
 	@GetMapping("/")
@@ -90,16 +81,12 @@ public class UserController{
 				mView.addObject("products", products);
 			}
 			return mView;
-
-		}else {
+		} else {
 			ModelAndView mView = new ModelAndView("userLogin");
 			mView.addObject("msg", "Please enter correct email and password");
 			return mView;
 		}
-
-
 	}
-
 
 	@GetMapping("user/profileDisplay/{id}")
 	public ModelAndView getUserProfile(@PathVariable("id") int id){
@@ -128,37 +115,39 @@ public class UserController{
 		return getUserProfile(id);
 	}
 
-
-	@GetMapping("/user/products")
-	public ModelAndView getproduct() {
-
+	@GetMapping("/user/products/{id}")
+	public ModelAndView getproductlist(@PathVariable("id") int id) {
 		ModelAndView mView = new ModelAndView("uproduct");
+
 		List<Product> products = this.productService.getProducts();
+		User u = this.userService.getUser(id);
+		mView.addObject("user", u);
+
 		if(products.isEmpty()) {
 			mView.addObject("msg","No products are available");
 		}else {
 			mView.addObject("products",products);
 		}
-
 		return mView;
 	}
 
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
 	{
-
-		System.out.println(user.getEmail());
 		user.setRole("ROLE_NORMAL");
 		this.userService.addUser(user);
 
 		return "redirect:/";
 	}
-
 	//CARTS 
 	//--------------------------------------------------------------------------------------------------------------------------
-	@GetMapping("carts")
-	public ModelAndView getCartDetail() {
+	@GetMapping("carts/{id}")
+	public ModelAndView getCartDetail(@PathVariable("id") int id) {
 		ModelAndView mView = new ModelAndView();
+
+		User u = this.userService.getUser(id);
+		mView.addObject("user", u);
+
 		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
 		List<Product> products = new ArrayList<>();
 		double subtotal = 0.0; // Initialize the subtotal variable
@@ -206,7 +195,6 @@ public class UserController{
 		} catch (Exception e) {
 			return "redirect:/carts";
 		}
-
 		return "redirect:/carts";
 	}
 
@@ -226,13 +214,14 @@ public class UserController{
 		return "redirect:/carts";
 	}
 	//--------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("payment/{id}")
+	public ModelAndView paymentDetails(@PathVariable("id") int id) {
 
-	@GetMapping("payment")
-	public ModelAndView paymentDetails() {
 		ModelAndView mView = new ModelAndView();
+
+		User u = this.userService.getUser(id);
+		mView.addObject("user", u);
 
 		return mView;
 	}
-
-
 }

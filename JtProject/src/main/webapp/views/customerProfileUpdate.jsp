@@ -35,7 +35,9 @@
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
 					<li class="nav-item active"><a class="nav-link" href="/home/${user.id}" >Home Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/" >Logout</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/carts/${user.id}">CART</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/user/profileDisplay/${user.id}">Profile</a></li>
+                    <li class="nav-item active"><a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a></li>
 				</ul>
 			</div>
 		</div>

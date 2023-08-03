@@ -14,7 +14,6 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-
 <title>Document</title>
 </head>
 <body class="bg-light">
@@ -30,37 +29,29 @@
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
-					</li>
-
-				</ul>
-
+					<li class="nav-item active"><a class="nav-link" href="/home/${user.id}" >Home Page</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/carts/${user.id}">CART</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/user/profileDisplay/${user.id}">Profile</a></li>
+                    <li class="nav-item active"><a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a></li>
+                </ul>
 			</div>
 		</div>
 	</nav><br>
 	<div class="container-fluid">
-
-		<a style="margin: 20px 0" class="btn btn-primary"
-			href="/user/products">Add Product</a><br>
+		<a style="margin: 20px 0" class="btn btn-primary" href="/user/products">Add Product</a><br>
 		<table class="table">
-
 			<tr>
 				<th scope="col">id</th>
 				<th scope="col">Product Name</th>
 				<th scope="col">Price</th>
 				<th scope="col">Description</th>
 				<th scope="col">Delete</th>
-				
 			</tr>
 			<tbody>
 				<tr>
-
 					<%
 					try {
 						String url = "jdbc:mysql://localhost:3306/springproject";
@@ -73,46 +64,28 @@
 					<%
 					while (rs.next()) {
 					%>
+					<td><%= rs.getInt(1) %></td>
+					<td><%= rs.getString(2) %></td>
+					<td><%= rs.getString(3) %></td>
+					<td><%= rs.getString(4) %></td>
 					<td>
-						<%= rs.getInt(1) %>
+                        <form action="cart/delete" method="get">
+                            <input type="hidden" name="id" value="<%=rs.getInt(1)%>">
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
 					</td>
-					<td>
-						<%= rs.getString(2) %>
-					</td>
-					<td>
-						<%= rs.getString(3) %>
-						
-					</td>
-					<td>
-						<%= rs.getString(4) %>
-						
-					</td>
-					
-					
-
-					<td>
-					<form action="cart/delete" method="get">
-							<input type="hidden" name="id" value="<%=rs.getInt(1)%>">
-							<input type="submit" value="Delete" class="btn btn-danger">
-					</form>
-					</td>
-					
-
 				</tr>
 				<%
 				}
 				%>
-
 			</tbody>
 		</table>
 		<%
 		} catch (Exception ex) {
-		out.println("Exception Occurred:: " + ex.getMessage());
+		    out.println("Exception Occurred:: " + ex.getMessage());
 		}
 		%>
 	</div>
-
-
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

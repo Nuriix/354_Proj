@@ -12,9 +12,6 @@
     <title>Document</title>
 </head>
 <body class="bg-dark">
-
-
-
 <div class="container my-5" style="width: 1800px;" ><br>
     
         <div class="jumbotron border col-sm-5 mx-auto">
@@ -34,7 +31,6 @@
                 <br><h3 style="color:red;">${message }</h3>
                 <br>
         </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
