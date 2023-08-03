@@ -35,6 +35,33 @@
 			</div>
 		</div>
 
+	</nav><br>
+	<div class="jumbotron container border border-info">
+		<h3>Profile Information</h3>
+		<table class="table">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+            </tr>
+            <tbody>
+                <tr>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.address}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <form action="/user/profileDisplay/update/" method="GET">
+                            <input type="hidden" name="id" value="${user.id}">
+                            <input type="submit" value="Update" class="btn btn-info">
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
 		<div class="d-flex collapse navbar-collapse  flex-row-reverse" id="navbarNavAltMarkup">
 
 			<div class="navbar-nav ">

@@ -1,6 +1,7 @@
 package com.jtspringproject.JtSpringProject.controller;
 
 import com.jtspringproject.JtSpringProject.models.Cart;
+import com.jtspringproject.JtSpringProject.models.Payment;
 import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.models.User;
 
@@ -16,7 +17,6 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jtspringproject.JtSpringProject.services.cartService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.jtspringproject.JtSpringProject.services.userService;
 import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.cartService;
+import com.jtspringproject.JtSpringProject.services.paymentService;
+
+
 
 @Controller
 public class UserController{
@@ -41,11 +44,20 @@ public class UserController{
 
 	@Autowired
 	private cartService cartService;
+	
+	@Autowired
+	private paymentService paymentService;
 
 	@GetMapping("/register")
 	public String registerUser()
 	{
 		return "register";
+	}
+
+	@GetMapping("/buy")
+	public String buy()
+	{
+		return "buy";
 	}
 
 	@GetMapping("/home/{id}")
@@ -58,6 +70,7 @@ public class UserController{
 		mView.addObject("user", u);
 
 		return mView;
+
 	}
 
 	@GetMapping("/")
@@ -81,12 +94,16 @@ public class UserController{
 				mView.addObject("products", products);
 			}
 			return mView;
-		} else {
+
+		}else {
 			ModelAndView mView = new ModelAndView("userLogin");
 			mView.addObject("msg", "Please enter correct email and password");
 			return mView;
 		}
+
+
 	}
+
 
 	@GetMapping("user/profileDisplay/{id}")
 	public ModelAndView getUserProfile(@PathVariable("id") int id){
@@ -115,31 +132,17 @@ public class UserController{
 		return getUserProfile(id);
 	}
 
-	@GetMapping("/user/products/{id}")
-	public ModelAndView getproductlist(@PathVariable("id") int id) {
+
+	@GetMapping("/user/products")
+	public ModelAndView getproduct() {
+
 		ModelAndView mView = new ModelAndView("uproduct");
-
 		List<Product> products = this.productService.getProducts();
-		User u = this.userService.getUser(id);
-		mView.addObject("user", u);
-
 		if(products.isEmpty()) {
 			mView.addObject("msg","No products are available");
 		}else {
 			mView.addObject("products",products);
 		}
-		return mView;
-	}
-	@GetMapping("/user/deals/{id}")
-	public ModelAndView getDeals(@PathVariable("id") int id) {
-
-		ModelAndView mView = new ModelAndView("uDeals");
-
-		User customer = this.userService.getUser(id);
-		mView.addObject("user", customer);
-
-
-
 
 		return mView;
 	}
@@ -147,20 +150,56 @@ public class UserController{
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
 	{
+
+		System.out.println(user.getEmail());
 		user.setRole("ROLE_NORMAL");
 		this.userService.addUser(user);
 
 		return "redirect:/";
 	}
+
+
+	//for Learning purpose of model
+	@GetMapping("/test")
+	public String Test(Model model)
+	{
+		System.out.println("test page");
+		model.addAttribute("author","jay gajera");
+		model.addAttribute("id",40);
+
+		List<String> friends = new ArrayList<String>();
+		model.addAttribute("f",friends);
+		friends.add("xyz");
+		friends.add("abc");
+
+		return "test";
+	}
+
+	// for learning purpose of model and view ( how data is pass to view)
+
+	@GetMapping("/test2")
+	public ModelAndView Test2()
+	{
+		System.out.println("test page");
+		//create modelandview object
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("name","jay gajera 17");
+		mv.addObject("id",40);
+		mv.setViewName("test2");
+
+		List<Integer> list=new ArrayList<Integer>();
+		list.add(10);
+		list.add(25);
+		mv.addObject("marks",list);
+		return mv;
+
+
+	}
 	//CARTS 
 	//--------------------------------------------------------------------------------------------------------------------------
-	@GetMapping("carts/{id}")
-	public ModelAndView getCartDetail(@PathVariable("id") int id) {
+	@GetMapping("carts")
+	public ModelAndView getCartDetail() {
 		ModelAndView mView = new ModelAndView();
-
-		User u = this.userService.getUser(id);
-		mView.addObject("user", u);
-
 		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
 		List<Product> products = new ArrayList<>();
 		double subtotal = 0.0; // Initialize the subtotal variable
@@ -208,6 +247,7 @@ public class UserController{
 		} catch (Exception e) {
 			return "redirect:/carts";
 		}
+
 		return "redirect:/carts";
 	}
 
@@ -227,14 +267,83 @@ public class UserController{
 		return "redirect:/carts";
 	}
 	//--------------------------------------------------------------------------------------------------------------------------
-	@GetMapping("payment/{id}")
-	public ModelAndView paymentDetails(@PathVariable("id") int id) {
 
+	//Checkout payment
+	@GetMapping("payment")
+	public ModelAndView paymentDetails() {
 		ModelAndView mView = new ModelAndView();
-
-		User u = this.userService.getUser(id);
-		mView.addObject("user", u);
-
+		Payment payment = this.paymentService.getPaymentMethod(customerId);
+		
+		if (payment == null) {
+			mView.addObject("msg", "No payment methods!");
+		} else {
+			mView.addObject("payment", payment);
+		}
+		
 		return mView;
 	}
+	
+	//PAYMENT DETAILS
+	//--------------------------------------------------------------------------------------------------------------------------
+	
+	@GetMapping("/paymentMethod")
+	public ModelAndView paymentMethod() {
+		ModelAndView mView = new ModelAndView();
+		Payment payment = this.paymentService.getPaymentMethod(customerId);
+		
+		if (payment == null) {
+			mView.addObject("msg", "No payment methods!");
+		} else {
+			mView.addObject("payment", payment);
+		}
+		
+		return mView;
+	}
+	
+	@GetMapping("/paymentMethod/update")
+	public ModelAndView updatePaymentMethod(){
+		ModelAndView mView = new ModelAndView("paymentMethodUpdate");
+		Payment payment = this.paymentService.getPaymentMethod(customerId);
+		mView.addObject("payment", payment);
+		return mView;
+	}
+	
+	@RequestMapping(value="/paymentMethod/update", method=RequestMethod.POST)
+	public String updatePaymentMethodInfo(@RequestParam("nameOnCard") String nameOnCard,
+												@RequestParam("cardNumber") String cardNumber,
+												@RequestParam("cvs") String cvs,
+												@RequestParam("expiryDate") String expiryDate){
+		
+		Payment payment = new Payment();
+		payment.setId(customerId);
+		payment.setNameOnCard(nameOnCard);
+		payment.setCardNumber(cardNumber);
+		payment.setCvs(cvs);
+		payment.setExpiryDate(expiryDate);
+		
+		Payment payment2 = this.paymentService.getPaymentMethod(customerId);
+		if (payment2 == null) {
+			this.paymentService.addPaymentMethod(payment);
+			return "redirect:/paymentMethod";
+		} else {
+			this.paymentService.deletePaymentMethod(customerId);
+			this.paymentService.addPaymentMethod(payment);
+			return "redirect:/paymentMethod";
+		}
+		
+	}
+	@GetMapping("paymentMethod/delete")
+	public String removePaymentDb() {	
+		Payment payment = this.paymentService.getPaymentMethod(customerId);
+		if (payment == null) {
+			return "redirect:/paymentMethod";
+		} else {
+			this.paymentService.deletePaymentMethod(customerId);
+			return "redirect:/paymentMethod";
+		}
+		
+	}
+	
+	//--------------------------------------------------------------------------------------------------------------------------
+
 }
