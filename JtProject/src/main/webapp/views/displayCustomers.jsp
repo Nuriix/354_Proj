@@ -27,13 +27,10 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="vr"></div>
-		<div class="d-flex collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="d-flex collapse navbar-collapse flex-row-reverse bd-highlight" id="navbarNavAltMarkup">
 			<div class="navbar-nav ">
-
 				<a class="nav-link" href="/admin/Dashboard">ADMIN DASHBOARD</a>
-
 				<a class=" nav-link text-bg-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
-
 			</div>
 		</div>
 	</div>
@@ -45,30 +42,26 @@
 			   <div class="card-header row">
 				   <i class="align-self-center col far fa-user fa-lg "></i>
 				   <div class="col-8">
-					   <p>Hi,</p>
-					   <p>Eden Anan</p>
+					   <span>Hi admin!</span>
 				   </div>
 			   </div>
 			   <div class="card-body">
-
-				   <div  class="col ">
+				   <div  class="d-flex flex-column bd-highlight mb-3">
 					   <a href="/admin/products" class="row card-link btn btn-success">Products</a>
 					   <a href="/admin/categories" class="row  btn btn-success">Category</a>
 					   <a href="/admin/customers" class="row btn btn-success">Customer</a>
 				   </div>
-
-
 			   </div>
 		   </div>
 		   <div class="col-10">
-			   <div class="d-flex" role="search">
-			   <p>Displaying ### customers</p>
-			   <button class="btn"><i class="fas fa-search"></i></button>
-			   <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+		       <div class="d-inline-flex justify-content-start">
+                   <h1>Customer</h1>
+               </div>
+			   <div class="d-flex justify-content-end" >
 
 			   <!-- Button trigger modal -->
-        <button type="button" style="margin: 20px 0" class="btn btn-outline-success m-2 align-self-center"
-				data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i  class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-outline-success m-2 align-self-center"
+				data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i  class="fas fa-plus"></i> Add User</button>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
