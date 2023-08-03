@@ -4,7 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
@@ -25,8 +26,7 @@
 </head>
 <body>
 
-<section class="wrapper">
-        <div class="container-fostrap">
+   
 
             <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
                 <div class="container-fluid ">
@@ -52,7 +52,7 @@
                             <a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
 
                             <div class="vr"></div>
-                            <a class="nav-link ml-1" th:href="@{/}" href="#"><i class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
+                            <a class="nav-link ml-1" href="/carts/${user.id}"><i class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
 
                     </div>
 
@@ -109,17 +109,17 @@
               <a href="#" class="btn btn-primary">Add to Cart</a>
             </div>
           </div>
-        </div> </c:forEach>
-      </div>
-
-    </div>
-  </main>
-  <footer>
-    <div class="container">
-      <p>&copy; 2023 Perishable Shop. All rights reserved
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
+          <div>
+            <a class="btn btn-primary" href="/user/products/${user.id}">Add Product</a>
+          </div>
+        </main>
+        <footer>
+            <div class="container">
+                <p>&copy; 2023 Perishable Shop. All rights reserved
+                <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+            </div>
+        </footer>
+    </body>
 </html>

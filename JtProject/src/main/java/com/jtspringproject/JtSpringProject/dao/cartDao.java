@@ -3,6 +3,9 @@ import java.util.List;
 
 import com.jtspringproject.JtSpringProject.models.Cart;
 import com.jtspringproject.JtSpringProject.models.Category;
+import com.jtspringproject.JtSpringProject.models.Product;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,8 +25,18 @@ public class cartDao {
     }
 
     @Transactional
+    public Cart getCart(int id) {
+        return this.sessionFactory.getCurrentSession().get(Cart.class, id);
+    }
+    
+    @Transactional
     public List<Cart> getCarts() {
         return this.sessionFactory.getCurrentSession().createQuery("from CART").list();
+    }
+    
+    @Transactional
+    public List<Cart> getCartsByUserId(int customer_id) {
+        return this.sessionFactory.getCurrentSession().createQuery("from CART where customer_id = :customer_id", Cart.class).setParameter("customer_id", customer_id).list();
     }
 
     @Transactional
@@ -32,7 +45,15 @@ public class cartDao {
     }
 
     @Transactional
-    public void deleteCart(Cart cart) {
-        this.sessionFactory.getCurrentSession().delete(cart);
+    public Boolean deleteCart(int id) {
+    	
+    	Session session = this.sessionFactory.getCurrentSession();
+		Object persistanceInstance = session.load(Cart.class, id);
+
+		if (persistanceInstance != null) {
+			session.delete(persistanceInstance);
+			return true;
+		}
+		return false;
     }
 }
