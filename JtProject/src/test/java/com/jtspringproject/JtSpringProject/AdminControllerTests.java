@@ -1,0 +1,91 @@
+package com.jtspringproject.JtSpringProject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+
+import com.jtspringproject.JtSpringProject.controller.AdminController;
+import com.jtspringproject.JtSpringProject.models.Category;
+import com.jtspringproject.JtSpringProject.services.categoryService;
+import com.jtspringproject.JtSpringProject.models.User;
+import com.jtspringproject.JtSpringProject.services.userService;
+import com.jtspringproject.JtSpringProject.models.Product;
+import com.jtspringproject.JtSpringProject.services.productService;
+
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@ExtendWith(MockitoExtension.class)
+public class AdminControllerTests {
+
+    private MockMvc mockMvc;
+
+    @Mock
+    private categoryService categoryService;
+
+    @Mock
+    private userService userService;
+
+    @Mock
+    private productService productService;
+
+    @InjectMocks
+    private AdminController adminController;
+
+    @Test
+    public void TestAdminLogin() throws Exception{
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        String username = "admin";
+        String password = "admin";
+
+        User user = new User(1,"admin","email@address.com","admin","ROLE_ADMIN", "123 address");
+        when(userService.checkLogin(username,password)).thenReturn(user);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/loginvalidate").param("username",username).param("password",password))
+                .andExpect(status().isOk())
+                .andExpect(view().name("adminHome"))
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("admin"));
+    }
+
+    @Test
+    public void TestGetAllCategories() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        Category cat1 = new Category(1,"Fruits");
+        Category cat2 = new Category(2,"Vegetables");
+        Category cat3 = new Category(3,"Meat");
+        Category cat4 = new Category(3,"Fish");
+        Category cat5 = new Category(3,"Dairy");
+
+        List<Category> categoryList = new ArrayList<>(Arrays.asList(cat1,cat2,cat3,cat4,cat5));
+        when(categoryService.getCategories()).thenReturn(categoryList);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/category"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("categories"))
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("categories"));
+    }
+}
