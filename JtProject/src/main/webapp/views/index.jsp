@@ -79,8 +79,8 @@
                 <a href="" class="btn btn-success">My Coupons</a>
                 <a href="" class="btn btn-success">Best Deals of the Week</a>
                 <hr>
-                <a href="" class="btn btn-success">MyStore Food Items</a>
-                <a href="" class="btn btn-success">Custom Basket</a>
+                <a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
+                <a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
                 <a href="" class="btn btn-success">My Orders</a>
                 <hr>
                 <a href="" class="btn btn-success">Customer Support</a>
@@ -108,7 +108,7 @@
     </div></div>
     <div class="col">
         <div class="d-flex flex-column fw-bold text-end p-3">
-            <p class="fs-1">Welcome Back, ${user.username}</p>
+            <p class="fs-1 text-success">Welcome Back, ${user.username}</p>
             <p>Shop your products at My Store</p>
         </div>
 

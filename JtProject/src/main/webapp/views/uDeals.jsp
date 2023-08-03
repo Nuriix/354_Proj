@@ -44,7 +44,7 @@
 				<a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
 
 				<div class="vr"></div>
-				<a class="nav-link ml-1" th:href="@{/}" href="#"><i class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
+				<a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
 
 			</div>
 
@@ -68,8 +68,8 @@
 					<a href="" class="btn btn-success">My Coupons</a>
 					<a href="" class="btn btn-success">Best Deals of the Week</a>
 					<hr>
-					<a href="" class="btn btn-success">MyStore Food Items</a>
-					<a href="" class="btn btn-success">Custom Basket</a>
+					<a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
+					<a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
 					<a href="" class="btn btn-success">My Orders</a>
 					<hr>
 					<a href="" class="btn btn-success">Customer Support</a>
@@ -81,6 +81,7 @@
 		</div>
 		<div class="col-7">
 			<div class="row">
+				<h3 class="m-2 fw-bold text-success">Best Deal of the Week</h3>
 <%--				<c:forEach var="product" items="${products}">--%>
 					<div class="col-md-3">
 						<div class="card border border-success mb-4">

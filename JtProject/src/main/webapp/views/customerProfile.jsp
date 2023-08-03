@@ -66,8 +66,8 @@
 				<a href="/user/deals/${user.id}" class="btn btn-success">Best Deals of the Week</a>
 
 				<hr>
-				<a href="/user/products" class="btn btn-success">MyStore Food Items</a>
-				<a href="" class="btn btn-success">Custom Basket</a>
+				<a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
+				<a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
 				<a href="" class="btn btn-success">My Orders</a>
 				<hr>
 				<a href="" class="btn btn-success">Customer Support</a>
@@ -80,7 +80,7 @@
 	<div class="col-10">
 
 		<div class="container bg-light border rounded-3 border-success p-3">
-			<h3>Account Overview</h3>
+			<h3 class="fw-bold text-success">Account Overview</h3>
 			<table class="table">
 				<tr>
 					<th scope="col">Account Number</th>
