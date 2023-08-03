@@ -41,33 +41,23 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="shadow card col text-bg-success ">
+        <div class="shadow-lg card col text-bg-success ">
             <div class="card-header row">
                 <i class="align-self-center col far fa-user fa-lg "></i>
                 <div class="col-8 align-middle">
-                    <span>Hi ${user.username}</span>
+                    <span>Hi admin!</span>
                 </div>
             </div>
             <div class="card-body">
-                <div  class="d-flex flex-column bd-highlight mb-3">
-                    <a href="" class="  btn btn-success">Change Password</a>
-                    <a href="" class="   btn btn-success">Payment Methods</a>
-                    <hr>
-                    <a href="" class="btn btn-success">My Coupons</a>
-                    <a href="/user/deals/${user.id}" class="btn btn-success">Best Deals of the Week</a>
-
-                    <hr>
-                    <a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
-                    <a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
-                    <a href="" class="btn btn-success">My Orders</a>
-                    <hr>
-                    <a href="" class="btn btn-success">Customer Support</a>
-                    <hr>
-                    <a class="  btn btn-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
-
+                <div class="d-flex flex-column bd-highlight mb-3">
+                    <a href="/admin/products" class="row card-link btn btn-success">Products</a>
+                    <a href="/admin/categories" class="row  btn btn-success">Category</a>
+                    <a href="/admin/customers" class="row btn btn-success">Customer</a>
                 </div>
             </div>
-        </div> <div class="col-10">
+        </div>
+
+        <div class="col-10">
             <div class="d-inline-flex justify-content-start">
                 <h1>Products</h1>
             </div>

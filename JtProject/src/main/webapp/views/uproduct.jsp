@@ -64,29 +64,7 @@
 </nav>
 
 <br>
-<div class="container-fluid">
-    <a class="navbar-brand" href="#"> <img
-            th:src="@{/images/logo.png}" src="../static/images/logo.png"
-            width="auto" height="40" class="d-inline-block align-top" alt=""/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto"></ul>
-        <ul class="navbar-nav">
-            <li class="nav-item active"><a class="nav-link" href="/home/${user.id}">Home Page</a></li>
-            <li class="nav-item active"><a class="nav-link" href="/carts/${user.id}">CART</a></li>
-            <li class="nav-item active"><a class="nav-link" href="/user/profileDisplay/${user.id}">Profile</a></li>
-            <li class="nav-item active"><a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a></li>
-        </ul>
-    </div>
-</div>
-</nav>
 
 <div class="row m-3">
     <div class="shadow card col text-bg-success ">
@@ -166,7 +144,8 @@
                             ${product.description }
                     </td>
                     <td>
-                        <a href="/carts/add/${user.id}" class="btn btn-outline-success m-2 align-self-center" type="button">
+                        <a href="/carts/add/${user.id}" class="btn btn-outline-success m-2 align-self-center"
+                           type="button">
                             <i class="fas fa-plus"></i> Add Product
                         </a>
                     </td>
