@@ -51,8 +51,56 @@ public class AdminControllerTests {
     @InjectMocks
     private AdminController adminController;
 
+
+    /**********************************************| General |***********************************************/
+
+    // To test admin logout
+    @Test
+    public void TestReturnIndex() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("userLogin"));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/logout"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("userLogin"));
+    }
+
+    @Test
+    public void TestAdminHome_Success() throws Exception{
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/Dashboard"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("adminHome"));
+    }
+
     @Test
     public void TestAdminLogin() throws Exception{
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("adminlogin"));
+
+    }
+
+    @Test
+    public void TestAdminHome_Fail() throws Exception{
+        this.adminController.setAdminlogcheck(0);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/Dashboard"))
+                .andExpect(view().name("redirect:/admin/login"));
+    }
+
+    @Test
+    public void TestAdminLog() throws Exception{
         this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
         String username = "admin";
@@ -68,6 +116,7 @@ public class AdminControllerTests {
                 .andExpect(model().attributeExists("admin"));
     }
 
+    /**********************************************| Categories |***********************************************/
     @Test
     public void TestGetAllCategories() throws Exception {
         this.adminController.setAdminlogcheck(1);
@@ -88,4 +137,9 @@ public class AdminControllerTests {
                 .andExpect(model().size(1))
                 .andExpect(model().attributeExists("categories"));
     }
+
+    /**********************************************| Products |***********************************************/
+
+    /**********************************************| Users/Customers |***********************************************/
+
 }

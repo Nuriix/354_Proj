@@ -40,15 +40,7 @@ public class AdminController {
 		usernameforclass = "";
 		return "userLogin";
 	}
-	@GetMapping("/index")
-	public String index(Model model) {
-		if(usernameforclass.equalsIgnoreCase(""))
-			return "userLogin";
-		else {
-			model.addAttribute("username", usernameforclass);
-			return "index";
-		}
-	}
+
 	@GetMapping("login")
 	public String adminlogin() {
 		return "adminlogin";
