@@ -154,43 +154,6 @@ public class UserController{
 		return "redirect:/";
 	}
 
-
-	//for Learning purpose of model
-	@GetMapping("/test")
-	public String Test(Model model)
-	{
-		System.out.println("test page");
-		model.addAttribute("author","jay gajera");
-		model.addAttribute("id",40);
-
-		List<String> friends = new ArrayList<String>();
-		model.addAttribute("f",friends);
-		friends.add("xyz");
-		friends.add("abc");
-
-		return "test";
-	}
-
-	// for learning purpose of model and view ( how data is pass to view)
-
-	@GetMapping("/test2")
-	public ModelAndView Test2()
-	{
-		System.out.println("test page");
-		//create modelandview object
-		ModelAndView mv=new ModelAndView();
-		mv.addObject("name","jay gajera 17");
-		mv.addObject("id",40);
-		mv.setViewName("test2");
-
-		List<Integer> list=new ArrayList<Integer>();
-		list.add(10);
-		list.add(25);
-		mv.addObject("marks",list);
-		return mv;
-
-
-	}
 	//CARTS 
 	//--------------------------------------------------------------------------------------------------------------------------
 	@GetMapping("carts")

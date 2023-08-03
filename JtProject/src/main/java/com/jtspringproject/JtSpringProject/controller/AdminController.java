@@ -2,8 +2,6 @@ package com.jtspringproject.JtSpringProject.controller;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -140,11 +138,10 @@ public class AdminController {
 		return mView;
 	}
 
-
 	@PostMapping("products/add")
 	public String addProduct(@RequestParam("name") String name,
 	                         @RequestParam("categoryid") int categoryId,
-	                         @RequestParam("price") int price,
+	                         @RequestParam("price") double price,
 	                         @RequestParam("weight") int weight,
 	                         @RequestParam("quantity") int quantity,
 	                         @RequestParam("description") String description,
@@ -162,7 +159,7 @@ public class AdminController {
 	    }
 
 	    Product product = new Product();
-      Product suggestedProduct = this.productService.getProduct(suggestedProductID);
+      	Product suggestedProduct = this.productService.getProduct(suggestedProductID);
 	    // product.setId(categoryId); // Assuming the ID is auto-generated in the database.
 	    product.setName(name);
 	    product.setCategory(category);
@@ -171,7 +168,7 @@ public class AdminController {
 	    product.setImage(productImage);
 	    product.setWeight(weight);
 	    product.setQuantity(quantity);
-      product.setProductSuggestion(suggestedProduct);
+      	product.setProductSuggestion(suggestedProduct);
 
 	    try {
 	        this.productService.addProduct(product);
@@ -180,9 +177,7 @@ public class AdminController {
 	        // You may choose to log the error or redirect to an error page.
 	        return "redirect:/admin/error";
 	    }
-
 	    return "redirect:/admin/products";
-
 	}
 	@GetMapping("products/update/")
 	public ModelAndView updateproductinfo(@RequestParam("id") int id) {
@@ -199,7 +194,14 @@ public class AdminController {
 		return mView;
 	}
 	@RequestMapping(value = "products/update/", method=RequestMethod.POST)
-	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage, @RequestParam("suggestedProduct") int suggestedProductID )
+	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,
+								@RequestParam("categoryid") int categoryId ,
+								@RequestParam("price") double price,
+								@RequestParam("weight") int weight,
+								@RequestParam("quantity")int quantity,
+								@RequestParam("description") String description,
+								@RequestParam("productImage") String productImage,
+								@RequestParam("suggestedProduct") int suggestedProductID)
 	{
 		Category category = this.categoryService.getCategory(categoryId);
 		Product suggestedProduct = this.productService.getProduct(suggestedProductID);
