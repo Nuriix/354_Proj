@@ -10,22 +10,14 @@ import com.jtspringproject.JtSpringProject.models.User;
 import com.jtspringproject.JtSpringProject.services.userService;
 import com.jtspringproject.JtSpringProject.models.Product;
 import com.jtspringproject.JtSpringProject.services.productService;
-
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,9 +43,7 @@ public class AdminControllerTests {
     @InjectMocks
     private AdminController adminController;
 
-
     /**********************************************| General |***********************************************/
-
     // To test admin logout
     @Test
     public void TestReturnIndex() throws Exception {
@@ -68,9 +58,8 @@ public class AdminControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("userLogin"));
     }
-
     @Test
-    public void TestAdminHome_Success() throws Exception{
+    public void TestAdminHome() throws Exception{
         this.adminController.setAdminlogcheck(1);
         this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
@@ -78,9 +67,8 @@ public class AdminControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(view().name("adminHome"));
     }
-
     @Test
-    public void TestAdminLogin() throws Exception{
+    public void TestAdminLogin_Success() throws Exception{
         this.adminController.setAdminlogcheck(1);
         this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
@@ -89,7 +77,6 @@ public class AdminControllerTests {
                 .andExpect(view().name("adminlogin"));
 
     }
-
     @Test
     public void TestAdminHome_Fail() throws Exception{
         this.adminController.setAdminlogcheck(0);
@@ -98,7 +85,6 @@ public class AdminControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get("/admin/Dashboard"))
                 .andExpect(view().name("redirect:/admin/login"));
     }
-
     @Test
     public void TestAdminLog() throws Exception{
         this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
@@ -115,7 +101,6 @@ public class AdminControllerTests {
                 .andExpect(model().size(1))
                 .andExpect(model().attributeExists("admin"));
     }
-
     /**********************************************| Categories |***********************************************/
     @Test
     public void TestGetAllCategories() throws Exception {
@@ -137,9 +122,44 @@ public class AdminControllerTests {
                 .andExpect(model().size(1))
                 .andExpect(model().attributeExists("categories"));
     }
+    @Test
+    public void TestAddCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        String category_name = "Bakery";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/categories").param("categoryname",category_name))
+                .andExpect(status().isOk());
+
+    }
+    @Test
+    public void TestRemoveCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+    }
+    @Test
+    public void TestUpdateCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+    }
 
     /**********************************************| Products |***********************************************/
 
+    // getproduct
+    // addproduct - Get
+    // addproduct - Post
+    // updateproductinfo - Get
+    // updateproduct - Post
+    // removeProduct
+    // searchProduct
+
     /**********************************************| Users/Customers |***********************************************/
+
+    // getCustomerDetail
+    // addUserProfile
+    // removeUser
+    // displayUpdateUserInfo - Get
+    // updateUserInfo - Post
 
 }

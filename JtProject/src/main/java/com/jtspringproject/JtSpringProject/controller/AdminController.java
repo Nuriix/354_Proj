@@ -93,7 +93,7 @@ public class AdminController {
 	public String addCategory(@RequestParam("categoryname") String category_name)
 	{
 		Category category =  this.categoryService.addCategory(category_name);
-		return "redirect:category";
+		return "redirect:/admin/category";
 	}
 	@GetMapping("categories/delete/")
 	public String removeCategoryDb(@RequestParam("id") int id)
@@ -232,10 +232,7 @@ public class AdminController {
 		}
 		return mView;
 	}
-	@PostMapping("products")
-	public String postproduct() {
-		return "redirect:/admin/products";
-	}
+
 	@GetMapping(value = "products/search")
 	public ModelAndView searchProduct(String keyword){
 
