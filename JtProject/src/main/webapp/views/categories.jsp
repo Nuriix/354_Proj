@@ -89,8 +89,8 @@
 				<tr>
 					<th scope="col">SN</th>
 					<th scope="col">Category Name</th>
-					<th scope="col">Delete</th>
 					<th scope="col">Update</th>
+					<th scope="col">Delete</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -99,16 +99,9 @@
 					<td>${category.id}</td>
 					<td>${category.name}</td>
 					<td>
-						<form action="/admin/categories/delete/" method="get">
-							<input type="hidden" name="id" value="${category.id}">
-							<button type="submit"  class="btn btn-danger rounded"><i class="fas fa-trash-alt"></i></button>
-
-						</form>
-					</td>
-					<td>
 						<form action="categories/update" method="get">
 							<!-- Button trigger modal -->
-							<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter2"
+							<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModalCenter2"
 								onclick="document.getElementById('categoryname').value =  '${category.name}'; document.getElementById('categoryid').value =  '${category.id}'; "><i class="far fa-edit"></i>
 							</button>
 
@@ -139,6 +132,12 @@
 							</div>
 						</form>
 					</td>
+					<td>
+                        <form action="/admin/categories/delete/" method="get">
+                            <input type="hidden" name="id" value="${category.id}">
+                            <button type="submit"  class="btn btn-danger rounded"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
 				</tr>
 				</c:forEach>
 			</tbody>

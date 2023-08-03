@@ -63,7 +63,7 @@
                     <button type="submit" class="btn "><i class="fas fa-search"></i></button>
                     <input type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50" >
                 </form>
-                <a class="btn btn-outline-success m-2 align-self-center" type="button">View Mostly Sold Item Pairs</a>
+                <a class="btn btn-outline-secondary m-2 align-self-center" type="button">View Mostly Sold Item Pairs</a>
                 <a  href="/admin/products/add" class="btn btn-outline-success m-2 align-self-center" type="button">
                     <i  class="fas fa-plus"></i> Add Product
                 </a>
@@ -80,8 +80,8 @@
 				<th scope="col">Weight</th>
 				<th scope="col">Description</th>
 				<th scope="col">Suggested Product</th>
-				<th scope="col">Delete</th>
 				<th scope="col">Update</th>
+				<th scope="col">Delete</th>
 			</tr>
 			<tbody>
 				<c:forEach var="product" items="${products}">
@@ -119,16 +119,16 @@
 					        </c:otherwise>
 					    </c:choose>
                     </td>
+                    <td>
+                        <form action="/admin/products/update/" method="get">
+                            <input type="hidden" name="id" value="${product.id}">
+                            <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                        </form>
+                    </td>
 					<td>
                         <form action="/admin/products/delete/" method="get">
                             <input type="hidden" name="id" value="${product.id}">
                             <button type="submit"  class="btn btn-danger rounded"><i class="fas fa-trash-alt"></i></button>
-                        </form>
-					</td>
-					<td>
-                        <form action="/admin/products/update/" method="get">
-                            <input type="hidden" name="id" value="${product.id}">
-							<button type="submit" class="btn btn-danger"><i class="far fa-edit"></i></button>
                         </form>
 					</td>
 				</tr>
