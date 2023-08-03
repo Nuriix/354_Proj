@@ -35,11 +35,11 @@
         </button>
 		
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <h4>Welcome ${ username } </h4>
+        <h4>Welcome, ${ user.username } </h4>
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/}" href="#">CART</a>
+                    <a class="nav-link" href="/carts" href="#">CART</a>
                 </li>
                  <li class="nav-item active">
                     <a class="nav-link" href="/user/profileDisplay/${user.id}" >Profile</a>
@@ -93,13 +93,16 @@
             <div class="card-body">
              <b> <h4 class="card-title">${product.name}</h4></b>
               <h5 class="card-text">Category: ${product.category.name}</h5>
-              <h5 class="card-text">Price: ${product.price}</h5>
+              <h5 class="card-text">Price: $${product.price}</h5>
               <p class="card-text">Description: ${product.description}</p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
             </div>
           </div>
         </div> </c:forEach>
       </div>
+      <div>
+      	<a class="btn btn-primary" href="/user/products">Add Product</a>
+      </div>
+      
 
     </div>
   </main>

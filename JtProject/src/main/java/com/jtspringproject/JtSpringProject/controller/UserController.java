@@ -17,6 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jtspringproject.JtSpringProject.services.cartService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,12 +32,17 @@ import com.jtspringproject.JtSpringProject.services.cartService;
 
 @Controller
 public class UserController{
-	
+
+	private int customerId;
+
 	@Autowired
 	private userService userService;
 
 	@Autowired
 	private productService productService;
+
+	@Autowired
+	private cartService cartService;
 
 	@GetMapping("/register")
 	public String registerUser()
@@ -60,6 +66,7 @@ public class UserController{
 		mView.addObject("user", u);
 
 		return mView;
+
 	}
 
 	@GetMapping("/")
@@ -70,10 +77,11 @@ public class UserController{
 
 		User u = this.userService.checkLogin(username, pass);
 		if(u.getUsername().equals(username)) {	
-			
+
 			res.addCookie(new Cookie("username", u.getUsername()));
 			ModelAndView mView  = new ModelAndView("index");	
 			mView.addObject("user", u);
+			customerId = u.getId();
 			List<Product> products = this.productService.getProducts();
 
 			if (products.isEmpty()) {
@@ -88,7 +96,10 @@ public class UserController{
 			mView.addObject("msg", "Please enter correct email and password");
 			return mView;
 		}
+
+
 	}
+
 
 	@GetMapping("user/profileDisplay/{id}")
 	public ModelAndView getUserProfile(@PathVariable("id") int id){
@@ -117,6 +128,7 @@ public class UserController{
 		return getUserProfile(id);
 	}
 
+
 	@GetMapping("/user/products")
 	public ModelAndView getproduct() {
 
@@ -134,10 +146,130 @@ public class UserController{
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@ModelAttribute User user)
 	{
+
 		System.out.println(user.getEmail());
 		user.setRole("ROLE_NORMAL");
 		this.userService.addUser(user);
-		
+
 		return "redirect:/";
 	}
+
+
+	//for Learning purpose of model
+	@GetMapping("/test")
+	public String Test(Model model)
+	{
+		System.out.println("test page");
+		model.addAttribute("author","jay gajera");
+		model.addAttribute("id",40);
+
+		List<String> friends = new ArrayList<String>();
+		model.addAttribute("f",friends);
+		friends.add("xyz");
+		friends.add("abc");
+
+		return "test";
+	}
+
+	// for learning purpose of model and view ( how data is pass to view)
+
+	@GetMapping("/test2")
+	public ModelAndView Test2()
+	{
+		System.out.println("test page");
+		//create modelandview object
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("name","jay gajera 17");
+		mv.addObject("id",40);
+		mv.setViewName("test2");
+
+		List<Integer> list=new ArrayList<Integer>();
+		list.add(10);
+		list.add(25);
+		mv.addObject("marks",list);
+		return mv;
+
+
+	}
+	//CARTS 
+	//--------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("carts")
+	public ModelAndView getCartDetail() {
+		ModelAndView mView = new ModelAndView();
+		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+		List<Product> products = new ArrayList<>();
+		double subtotal = 0.0; // Initialize the subtotal variable
+
+		for (int i = 0; i < carts.size(); i++) {
+			int productId = carts.get(i).getId();
+			Product product = this.productService.getProduct(productId);
+			products.add(product);
+			subtotal += product.getPrice(); // Calculate the subtotal by adding product prices
+		}
+
+		if (products.isEmpty()) {
+			mView.addObject("msg", "No products in cart");
+		} else {
+			mView.addObject("products", products);
+		}
+
+		// Add the subtotal to the model
+		mView.addObject("subtotal", subtotal);
+
+		// Calculate the tax amount (assuming the tax rate is 9.975%)
+		double taxRate = 0.09975; // 9.975% as a decimal
+		double taxAmount = subtotal * taxRate;
+
+		// Add the tax amount to the model
+		mView.addObject("taxAmount", taxAmount);
+
+		// Set the view name (make sure it points to your JSP file)
+		mView.setViewName("carts");
+
+		return mView;
+	}
+	@RequestMapping(value = "carts/add", method = RequestMethod.POST)
+	public String addToCart(@RequestParam("productId") int id) {
+
+		User user = new User();
+		user.setId(customerId);
+
+		Cart cart = new Cart();
+		cart.setId(id);
+		cart.setCustomer(user);
+
+		try {
+			this.cartService.addCart(cart);
+		} catch (Exception e) {
+			return "redirect:/carts";
+		}
+
+		return "redirect:/carts";
+	}
+
+	@GetMapping("carts/delete")
+	public String removeCartDb(@RequestParam("id") int id) {	
+		this.cartService.deleteCart(id);
+		return "redirect:/carts";
+	}
+
+	@GetMapping("carts/empty")
+	public String removeEntireCart() {	
+		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+		for(int i = 0; i < carts.size(); i++) {
+			int productId = carts.get(i).getId();
+			this.cartService.deleteCart(productId);
+		}
+		return "redirect:/carts";
+	}
+	//--------------------------------------------------------------------------------------------------------------------------
+
+	@GetMapping("payment")
+	public ModelAndView paymentDetails() {
+		ModelAndView mView = new ModelAndView();
+
+		return mView;
+	}
+
+
 }
