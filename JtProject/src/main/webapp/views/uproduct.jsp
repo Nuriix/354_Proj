@@ -34,21 +34,16 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
-					</li>
-
+					<li class="nav-item active"><a class="nav-link" href="/home/${user.id}" >Home Page</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/carts/${user.id}">CART</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/user/profileDisplay/${user.id}">Profile</a></li>
+                    <li class="nav-item active"><a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a></li>
 				</ul>
-
 			</div>
 		</div>
 	</nav>
 	<div class="container-fluid">
-
-
 		<table class="table">
-
 			<tr>
 				<th scope="col">Serial No.</th>
 				<th scope="col">Product Name</th>
@@ -59,62 +54,29 @@
 				<th scope="col">Weight</th>
 				<th scope="col">Descrption</th>
 				<th scope="col">Buy</th>
-
 			</tr>
 			<tbody>
 			<c:forEach var="product" items="${products}">
 				<tr>
-
-
-
-
+					<td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${product.category.name}</td>
+                    <td><img src="${product.image}" height="100px" width="100px"></td>
+                    <td>${product.quantity }</td>
+                    <td>$${product.price}.00</td>
+                    <td>${product.weight}</td>
+                    <td>${product.description}</td>
 					<td>
-                    						${product.id}
-                    					</td>
-                    					<td>
-                    						${product.name }
-                    					</td>
-                    					<td>
-                    						${product.category.name}
-
-                    					</td>
-
-                    					<td><img src="${product.image}"
-                    						height="100px" width="100px"></td>
-                    					<td>
-                    						${product.quantity }
-                    					</td>
-                    					<td>
-                    						$${product.price }.00
-                    					</td>
-                    					<td>
-                    						${product.weight }
-                    					</td>
-                    					<td>
-                    						${product.description }
-                    					</td>
-
-
-					<td>
-
-
-				    <form action="/carts/add" method="post">
-	              		<input type="hidden" name="productId" value="${product.id}">
-	              		<button type="submit" name="action" value="addToCart" title="Add To Cart" class="btn btn-primary">Add To Cart <p th:text="${message}"></p></button>
-	              		
-	              	</form>
+                        <form action="/carts/add" method="post">
+                            <input type="hidden" name="productId" value="${product.id}">
+                            <button type="submit" name="action" value="addToCart" title="Add To Cart" class="btn btn-primary">Add To Cart <p th:text="${message}"></p></button>
+                        </form>
 					</td>
-
-
 				</tr>
            </c:forEach>
-
 			</tbody>
 		</table>
-
 	</div>
-
-
 
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
