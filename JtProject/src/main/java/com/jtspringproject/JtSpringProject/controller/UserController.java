@@ -158,28 +158,41 @@ public class UserController{
 		}
 			
 		// Need to iterate all items a customer has by looping through all product id under the same customer id
-		@GetMapping("carts")
-		public ModelAndView  getCartDetail()
-		{
-			ModelAndView mView= new ModelAndView();
-			List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-			List<Product> products = new ArrayList<>();
-			
-			for(int i = 0; i < carts.size(); i++) {
-				int productId = carts.get(i).getId();
-				Product product = this.productService.getProduct(productId);
-				products.add(product);
-			}
-			
-			if (products.isEmpty()) {
-				mView.addObject("msg", "No products in cart");
-			}
-			else {
-				mView.addObject("products", products);
-			}
-			return mView;
-		}
-		
+@GetMapping("carts")
+public ModelAndView getCartDetail() {
+    ModelAndView mView = new ModelAndView();
+    List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+    List<Product> products = new ArrayList<>();
+    double subtotal = 0.0; // Initialize the subtotal variable
+
+    for (int i = 0; i < carts.size(); i++) {
+        int productId = carts.get(i).getId();
+        Product product = this.productService.getProduct(productId);
+        products.add(product);
+        subtotal += product.getPrice(); // Calculate the subtotal by adding product prices
+    }
+
+    if (products.isEmpty()) {
+        mView.addObject("msg", "No products in cart");
+    } else {
+        mView.addObject("products", products);
+    }
+
+    // Add the subtotal to the model
+    mView.addObject("subtotal", subtotal);
+
+    // Calculate the tax amount (assuming the tax rate is 9.975%)
+    double taxRate = 0.09975; // 9.975% as a decimal
+    double taxAmount = subtotal * taxRate;
+
+    // Add the tax amount to the model
+    mView.addObject("taxAmount", taxAmount);
+
+    // Set the view name (make sure it points to your JSP file)
+    mView.setViewName("carts");
+
+    return mView;
+}
 		@RequestMapping(value = "carts/add", method = RequestMethod.POST)
 		public String addToCart(@RequestParam("productId") int id) {
 			

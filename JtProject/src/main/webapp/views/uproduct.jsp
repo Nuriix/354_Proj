@@ -85,7 +85,7 @@
                     						${product.quantity }
                     					</td>
                     					<td>
-                    						$${product.price }
+                    						$${product.price }.00
                     					</td>
                     					<td>
                     						${product.weight }

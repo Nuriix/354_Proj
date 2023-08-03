@@ -100,7 +100,7 @@
         </div> </c:forEach>
       </div>
       <div>
-      	<a href = "/user/products">See All Products</a>
+      	<a class="btn btn-primary" href="/user/products">Add Product</a>
       </div>
       
 
