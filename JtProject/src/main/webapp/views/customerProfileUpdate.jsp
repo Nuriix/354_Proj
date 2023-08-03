@@ -19,7 +19,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
 	<div class="container-fluid ">
-		<a class="navbar-brand " href="/userloginvalidate#">My Store</a>
+		<a class="navbar-brand " href="/home/${user.id}">My Store</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -27,9 +27,9 @@
 		<div class="d-flex collapse navbar-collapse " id="navbarNavAltMarkup">
 			<div class="navbar-nav ">
 
-				<a class="nav-link" href="/#">SHOP</a>
-				<a class="nav-link" href="/#">ABOUT US</a>
-				<a class="nav-link" href="/#">CONTACT</a>
+				<a class="nav-link" href="/home/${user.id}">SHOP</a>
+				<a class="nav-link" href="/home/${user.id}">ABOUT US</a>
+				<a class="nav-link" href="/home/${user.id}">CONTACT</a>
 				<a class="nav-link text-bg-success" href="/user/profileDisplay/${user.id}" >MY ACCOUNT</a>
 
 			</div>
@@ -41,7 +41,7 @@
 				<a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
 
 				<div class="vr"></div>
-				<a class="nav-link ml-1" th:href="@{/}" href="#"><i class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
+				<a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
 
 			</div>
 
