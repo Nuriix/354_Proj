@@ -56,13 +56,6 @@ public class UserController{
 		return "buy";
 	}
 
-
-	@GetMapping("/")
-	public String userlogin(Model model) {
-
-		return "userLogin";
-
-
 	@GetMapping("/home/{id}")
 	public ModelAndView customerHome(@PathVariable("id") int id){
 		ModelAndView mView  = new ModelAndView("index");

@@ -148,8 +148,8 @@ public class AdminController {
 	                         @RequestParam("weight") int weight,
 	                         @RequestParam("quantity") int quantity,
 	                         @RequestParam("description") String description,
-	                         @RequestParam("productImage") String productImage),
-                           @RequestParam("suggestedProduct") int suggestedProductID {
+	                         @RequestParam("productImage") String productImage,
+	                         @RequestParam("suggestedProduct") int suggestedProductID) {
 
 	    // Validate inputs (e.g., non-empty name, positive price, etc.)
 	    // Implement error handling if validation fails.
