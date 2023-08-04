@@ -48,7 +48,7 @@
 			   <div class="card-body">
 				   <div  class="d-flex flex-column bd-highlight mb-3">
 					   <a href="/admin/products" class="row card-link btn btn-success">Products</a>
-					   <a href="/admin/categories" class="row  btn btn-success">Category</a>
+					   <a href="/admin/category" class="row  btn btn-success">Category</a>
 					   <a href="/admin/customers" class="row btn btn-success">Customer</a>
 				   </div>
 			   </div>
@@ -116,8 +116,8 @@
 				<th scope="col">Email</th>
 				<th scope="col">Address</th>
 				<th scope="col">Role</th>
-				<th scope="col">Delete</th>
 				<th scope="col">Update</th>
+				<th scope="col">Delete</th>
 			</tr>
 			<tbody>
 				<c:forEach var="customer" items="${customers}">
@@ -134,16 +134,16 @@
 				    <td>
                         ${customer.role}
                     </td>
+                    <td>
+                        <form action="/admin/customers/update/" method="GET">
+                            <input type="hidden" name="id" value="${customer.id}">
+                            <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                        </form>
+                    </td>
 				    <td>
 				        <form action="/admin/customers/delete/" method="GET">
 				            <input type="hidden" name="id" value="${customer.id}">
 							<button type="submit" value="Delete" class="btn btn-danger rounded"><i class="fas fa-trash-alt"></i></button>
-						</form>
-				    </td>
-				    <td>
-				        <form action="/admin/customers/update/" method="GET">
-                            <input type="hidden" name="id" value="${customer.id}">
-							<button type="submit" class="btn btn-danger"><i class="far fa-edit"></i></button>
 						</form>
 				    </td>
 				</tr>

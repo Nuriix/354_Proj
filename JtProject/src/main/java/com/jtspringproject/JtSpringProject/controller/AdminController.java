@@ -2,8 +2,8 @@ package com.jtspringproject.JtSpringProject.controller;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +18,8 @@ import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.userService;
 
 @Controller
+@Setter
+@Getter
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -38,15 +40,7 @@ public class AdminController {
 		usernameforclass = "";
 		return "userLogin";
 	}
-	@GetMapping("/index")
-	public String index(Model model) {
-		if(usernameforclass.equalsIgnoreCase(""))
-			return "userLogin";
-		else {
-			model.addAttribute("username", usernameforclass);
-			return "index";
-		}
-	}
+
 	@GetMapping("login")
 	public String adminlogin() {
 		return "adminlogin";
@@ -66,8 +60,10 @@ public class AdminController {
 	@RequestMapping(value = "loginvalidate", method = RequestMethod.POST)
 	public ModelAndView adminlogin( @RequestParam("username") String username, @RequestParam("password") String pass) {
 
-		User user=this.userService.checkLogin(username, pass);
+		User user = this.userService.checkLogin(username, pass);
+
 		if(user.getRole().equals("ROLE_ADMIN")) {
+
 			ModelAndView mv = new ModelAndView("adminHome");
 			adminlogcheck=1;
 			mv.addObject("admin", user);
@@ -80,8 +76,8 @@ public class AdminController {
 		}
 	}
 	//	 --------------------------Categories --------------------
-	@GetMapping("categories")
-	public ModelAndView getcategory() {
+	@GetMapping("category")
+	public ModelAndView getcategories() {
 		if(adminlogcheck==0){
 			ModelAndView mView = new ModelAndView("adminlogin");
 			return mView;
@@ -97,19 +93,19 @@ public class AdminController {
 	public String addCategory(@RequestParam("categoryname") String category_name)
 	{
 		Category category =  this.categoryService.addCategory(category_name);
-		return "redirect:categories";
+		return "redirect:/admin/category";
 	}
 	@GetMapping("categories/delete/")
 	public String removeCategoryDb(@RequestParam("id") int id)
 	{
 		this.categoryService.deleteCategory(id);
-		return "redirect:/admin/categories";
+		return "redirect:/admin/category";
 	}
 	@GetMapping("categories/update")
 	public String updateCategory(@RequestParam("categoryid") int id, @RequestParam("categoryname") String categoryname)
 	{
 		Category category = this.categoryService.updateCategory(id, categoryname);
-		return "redirect:/admin/categories";
+		return "redirect:/admin/category";
 	}
 	//	 --------------------------Products --------------------
 	@GetMapping("products")
@@ -140,11 +136,10 @@ public class AdminController {
 		return mView;
 	}
 
-
 	@PostMapping("products/add")
 	public String addProduct(@RequestParam("name") String name,
 	                         @RequestParam("categoryid") int categoryId,
-	                         @RequestParam("price") int price,
+	                         @RequestParam("price") double price,
 	                         @RequestParam("weight") int weight,
 	                         @RequestParam("quantity") int quantity,
 	                         @RequestParam("description") String description,
@@ -162,7 +157,7 @@ public class AdminController {
 	    }
 
 	    Product product = new Product();
-      Product suggestedProduct = this.productService.getProduct(suggestedProductID);
+      	Product suggestedProduct = this.productService.getProduct(suggestedProductID);
 	    // product.setId(categoryId); // Assuming the ID is auto-generated in the database.
 	    product.setName(name);
 	    product.setCategory(category);
@@ -171,7 +166,7 @@ public class AdminController {
 	    product.setImage(productImage);
 	    product.setWeight(weight);
 	    product.setQuantity(quantity);
-      product.setProductSuggestion(suggestedProduct);
+      	product.setProductSuggestion(suggestedProduct);
 
 	    try {
 	        this.productService.addProduct(product);
@@ -180,9 +175,7 @@ public class AdminController {
 	        // You may choose to log the error or redirect to an error page.
 	        return "redirect:/admin/error";
 	    }
-
 	    return "redirect:/admin/products";
-
 	}
 	@GetMapping("products/update/")
 	public ModelAndView updateproductinfo(@RequestParam("id") int id) {
@@ -199,7 +192,14 @@ public class AdminController {
 		return mView;
 	}
 	@RequestMapping(value = "products/update/", method=RequestMethod.POST)
-	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,@RequestParam("categoryid") int categoryId ,@RequestParam("price") int price,@RequestParam("weight") int weight, @RequestParam("quantity")int quantity,@RequestParam("description") String description,@RequestParam("productImage") String productImage, @RequestParam("suggestedProduct") int suggestedProductID )
+	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,
+								@RequestParam("categoryid") int categoryId ,
+								@RequestParam("price") double price,
+								@RequestParam("weight") int weight,
+								@RequestParam("quantity")int quantity,
+								@RequestParam("description") String description,
+								@RequestParam("productImage") String productImage,
+								@RequestParam("suggestedProduct") int suggestedProductID)
 	{
 		Category category = this.categoryService.getCategory(categoryId);
 		Product suggestedProduct = this.productService.getProduct(suggestedProductID);
@@ -232,10 +232,7 @@ public class AdminController {
 		}
 		return mView;
 	}
-	@PostMapping("products")
-	public String postproduct() {
-		return "redirect:/admin/products";
-	}
+
 	@GetMapping(value = "products/search")
 	public ModelAndView searchProduct(String keyword){
 

@@ -1,132 +1,161 @@
-<%@page import="java.sql.*"%>
-<%@page import="java.util.*"%>
-<%@page import="java.text.*"%>
+<%@page import="java.sql.*" %>
+<%@page import="java.util.*" %>
+<%@page import="java.text.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
-<title>Document</title>
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+
+    <title>Document</title>
 </head>
 <body class="bg-light">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img
-				th:src="@{/images/logo.png}" src="../static/images/logo.png"
-				width="auto" height="40" class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+<nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
+    <div class="container-fluid ">
+        <a class="navbar-brand " href="/home/${user.id}">My Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="vr"></div>
+        <div class="d-flex collapse navbar-collapse " id="navbarNavAltMarkup">
+            <div class="navbar-nav ">
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto"></ul>
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
-							Page</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
-					</li>
+                <a class="nav-link" href="/home/${user.id}">SHOP</a>
+                <a class="nav-link" href="/home/${user.id}">ABOUT US</a>
+                <a class="nav-link" href="/home/${user.id}">CONTACT</a>
+                <a class="nav-link text-bg-success" href="/user/profileDisplay/${user.id}">MY ACCOUNT</a>
 
-				</ul>
+            </div>
+        </div>
 
-			</div>
-		</div>
-	</nav>
-	<div class="container-fluid">
+        <div class="d-flex collapse navbar-collapse  flex-row-reverse" id="navbarNavAltMarkup">
 
+            <div class="navbar-nav ">
+                <a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
 
-		<table class="table">
+                <div class="vr"></div>
+                <a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i
+                        class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
 
-			<tr>
-				<th scope="col">Serial No.</th>
-				<th scope="col">Product Name</th>
-				<th scope="col">Category</th>
-				<th scope="col">Preview</th>
-				<th scope="col">Quantity</th>
-				<th scope="col">Price</th>
-				<th scope="col">Weight</th>
-				<th scope="col">Descrption</th>
-				<th scope="col">Buy</th>
+            </div>
 
-			</tr>
-			<tbody>
-			<c:forEach var="product" items="${products}">
-				<tr>
+        </div>
+</nav>
+
+<br>
 
 
+<div class="row m-3">
+    <div class="shadow card col text-bg-success ">
+        <div class="card-header row">
+            <i class="align-self-center col far fa-user fa-lg "></i>
+            <div class="col-8 align-middle">
+                <span>Hi ${user.username}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-column bd-highlight mb-3">
+                <a href="" class="  btn btn-success">Change Password</a>
+                <a href="" class="   btn btn-success">Payment Methods</a>
+                <hr>
+                <a href="" class="btn btn-success">My Coupons</a>
+                <a href="" class="btn btn-success">Best Deals of the Week</a>
+                <hr>
+                <a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
+                <a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
+                <a href="" class="btn btn-success">My Orders</a>
+                <hr>
+                <a href="" class="btn btn-success">Customer Support</a>
+                <hr>
+                <a class="  btn btn-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
 
+            </div>
+        </div>
+    </div>
+    <div class="col-10">
+        <div class="d-inline-flex justify-content-start">
+            <h1 class="m-2 fw-bold text-success">Products</h1>
+        </div>
+        <div class="d-flex justify-content-end" role="search">
+            <form class="d-flex p-2" action="" method="GET">
+                <button type="submit" class="btn "><i class="fas fa-search"></i></button>
+                <input type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50">
+            </form>
 
-					<td>
-                    						${product.id}
-                    					</td>
-                    					<td>
-                    						${product.name }
-                    					</td>
-                    					<td>
-                    						${product.category.name}
+        </div>
+        <br>
+        <table class="shadow table table-success rounded">
+            <tr>
+                <th scope="col">Serial No.</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Preview</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Description</th>
+                <th scope="col">Buy</th>
+            </tr>
+            <tbody>
+            <c:forEach var="product" items="${products}">
+                <tr>
+                    <td>
+                            ${product.id}
+                    </td>
+                    <td>
+                            ${product.name }
+                    </td>
+                    <td>
+                            ${product.category.name}
+                    </td>
+                    <td><img src="${product.image}"
+                             height="100px" width="100px"></td>
+                    <td>
+                            ${product.quantity }
+                    </td>
+                    <td>
+                            ${product.price }
+                    </td>
+                    <td>
+                            ${product.weight }
+                    </td>
+                    <td>
+                            ${product.description }
+                    </td>
+                    <td>
+                        <a href="/carts/add/${user.id}" class="btn btn-outline-success m-2 align-self-center"
+                           type="button">
+                            <i class="fas fa-plus"></i> Add Product
+                        </a>
+                    </td>
 
-                    					</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                    					<td><img src="${product.image}"
-                    						height="100px" width="100px"></td>
-                    					<td>
-                    						${product.quantity }
-                    					</td>
-                    					<td>
-                    						$${product.price }.00
-                    					</td>
-                    					<td>
-                    						${product.weight }
-                    					</td>
-                    					<td>
-                    						${product.description }
-                    					</td>
-
-
-					<td>
-
-
-				    <form action="/carts/add" method="post">
-	              		<input type="hidden" name="productId" value="${product.id}">
-	              		<button type="submit" name="action" value="addToCart" title="Add To Cart" class="btn btn-primary">Add To Cart <p th:text="${message}"></p></button>
-	              		
-	              	</form>
-					</td>
-
-
-				</tr>
-           </c:forEach>
-
-			</tbody>
-		</table>
-
-	</div>
-
-
-
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
-	
 </body>
 </html>

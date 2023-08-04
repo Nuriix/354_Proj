@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Product {
 	@Id
 	@Column(name = "product_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
 	private String name;
@@ -24,7 +24,7 @@ public class Product {
 	
 	private int quantity;
 	
-	private int price;
+	private double price;
 	
 	private int weight;
 	
@@ -62,7 +62,6 @@ public class Product {
 		this.image = image;
 	}
 
-
 	public Category getCategory() {
 		return category;
 	}
@@ -79,11 +78,11 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
