@@ -101,7 +101,7 @@
                         <h5 class="card-text">Category: ${product.category.name}</h5>
                         <h5 class="card-text">Price: ${product.price}</h5>
                         <p class="card-text">Description: ${product.description}</p>
-                        <a href="#" class="btn btn-success">Add to Cart</a>
+                        <a href="/carts/add/${user.id}/${product.id}" class="btn btn-success">Add to Cart</a>
                     </div>
                 </div>
             </div> </c:forEach>

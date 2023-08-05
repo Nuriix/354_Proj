@@ -211,6 +211,23 @@ public class UserController{
 		return "redirect:/carts";
 	}
 
+	@GetMapping(value = "carts/add/{customerId}/{productId}")
+	public String addToCartFromDashboard(@PathVariable("customerId") int customerId,@PathVariable("productId") int productId) {
+
+		User user = this.userService.getUser(customerId);
+
+		Cart cart = new Cart();
+		cart.setId(productId);
+		cart.setCustomer(user);
+
+		try {
+			this.cartService.addCart(cart);
+		} catch (Exception e) {
+			return "redirect:/home/{customerId}";
+		}
+		return "redirect:/home/{customerId}";
+	}
+
 	@GetMapping("carts/delete")
 	public String removeCartDb(@RequestParam("id") int id) {	
 		this.cartService.deleteCart(id);
