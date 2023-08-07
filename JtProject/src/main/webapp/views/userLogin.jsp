@@ -23,13 +23,17 @@
             crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
-<body class="bg-light">
+<body class="bg-image"
+      style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
+
+<br>
 
 
-<div class="container my-3">
+<div class="p-2">
     <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1> </div>
 
-    <div class="col-sm-6 bg-light border rounded-3 border-success p-3">
+    <div class="col-sm-6 bg-light border rounded-3 border-success p-3 bg-opacity-75">
         <h2 class="m-2 fw-bold text-success">User Login</h2>
         <form action="userloginvalidate" method="post">
             <div class="text-success form-group">

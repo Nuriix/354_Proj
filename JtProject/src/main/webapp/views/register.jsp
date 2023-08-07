@@ -23,12 +23,14 @@
             crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
-<body class="bg-light">
+<body class="bg-image"
+      style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
 
 <br>
-<div class="container">
-    <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1> </div>
-    <div class="col-sm-6 bg-light border rounded-3 border-success p-3">
+<div class="p-2">
+    <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1></div>
+    <div class="col-sm-6 bg-light border rounded-3 border-success p-3 bg-opacity-75">
         <h2 class="mb-2 fw-bold text-success">Sign Up Now</h2>
         <p>Please fill out this to register</p>
         <form action="newuserregister" method="post">
@@ -39,7 +41,8 @@
             </div>
             <div class="form-group text-success">
                 <label for="email">Email address</label>
-                <input type="email" class="border border-success form-control form-control-lg" required minlength="6" placeholder="Email*"
+                <input type="email" class="border border-success form-control form-control-lg" required minlength="6"
+                       placeholder="Email*"
                        required name="email" id="email"
                        aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with
@@ -47,13 +50,15 @@
             </div>
             <div class="form-group text-success">
                 <label for="password">Password</label>
-                <input type="password" class="border border-success form-control form-control-lg" required placeholder="Password*" required
+                <input type="password" class="border border-success form-control form-control-lg" required
+                       placeholder="Password*" required
                        name="password"
                        id="password">
             </div>
             <div class="form-group text-success">
                 <label for="Address">Address</label>
-                <textarea class="border border-success form-control form-control-lg" rows="3" placeholder="Enter Your Address"
+                <textarea class="border border-success form-control form-control-lg" rows="3"
+                          placeholder="Enter Your Address"
                           name="address"></textarea>
             </div>
             <span style="margin-top: 10px">Already have an account <a class="linkControl text-success" href="/">Login here</a></span>
