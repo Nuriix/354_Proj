@@ -20,33 +20,38 @@
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-            crossorigin="anonymous"></script> <title>Document</title>
+            crossorigin="anonymous"></script>
+    <title>Document</title>
 </head>
-<body>
-
+<body class="bg-light">
 
 
 <div class="container my-3">
-    
-        <div class="col-sm-6 bg-light border rounded-3 border-success p-3">
-            <h2 class="m-2 fw-bold text-success">User Login</h2>
-            <form action="userloginvalidate" method="post">
-                <div class="text-success form-group">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" placeholder="Username*" required class="form-control form-control-lg">
-                </div>
-					
-                <div class="text-success form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control form-control-lg" placeholder="Password*" required name="password" id="password">
-                </div>
-                <span >Don't have an account <a class="linkControl text-success" href="/register">Register here</a></span> <br>
-				<a class="linkControl text-success" href="/admin/loginvalidate">Admin Login</a> <br><br>
-                <input type="submit" value="Login" class="btn btn-success btn-block">
-                <br><h3 style="color:red;">${message }</h3>
-                <br>
-                </form>
-        </div>
+    <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1> </div>
+
+    <div class="col-sm-6 bg-light border rounded-3 border-success p-3">
+        <h2 class="m-2 fw-bold text-success">User Login</h2>
+        <form action="userloginvalidate" method="post">
+            <div class="text-success form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Username*" required
+                       class="border border-success form-control form-control-lg">
+            </div>
+
+            <div class="text-success form-group">
+                <label for="password">Password</label>
+                <input type="password" class="border border-success form-control form-control-lg" placeholder="Password*" required
+                       name="password" id="password">
+            </div>
+            <span>Don't have an account <a class="linkControl text-success" href="/register">Register here</a></span>
+            <br>
+            <a class="linkControl text-success" href="/admin/loginvalidate">Admin Login</a> <br><br>
+            <input type="submit" value="Login" class="btn btn-success btn-block">
+            <br>
+            <h3 style="color:red;">${message }</h3>
+            <br>
+        </form>
+    </div>
 
 </div>
 </body>
