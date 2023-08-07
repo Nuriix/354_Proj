@@ -13,8 +13,11 @@
 		  crossorigin="anonymous">
     <title>Document</title>
 </head>
-<body>
-	<nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
+<body  class="bg-image"
+	   style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
 		<div class="container-fluid ">
 			<a class="navbar-brand " href="/admin/Dashboard">My Store</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,8 +33,8 @@
 		</div>
 	</nav>
 	<br>
-	<div class="container bg-light border rounded-3 border-success p-3">
-		<h3>Add a new Product</h3>
+	<div class="bg-opacity-75 container bg-light text-success border rounded-3 border-success p-3">
+		<h3 class="mb-2 fw-bold text-success">Add a new Product</h3>
 		<form action="/admin/products/add" method="post">
 			<div class="row">
 				<div class="col-sm-5">

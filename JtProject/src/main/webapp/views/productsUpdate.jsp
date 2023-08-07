@@ -15,7 +15,10 @@
 		  crossorigin="anonymous">
 <title>Document</title>
 </head>
-<body>
+<body class="bg-image"
+style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+background-repeat: no-repeat; background-size: 100%;">
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
 	<div class="container-fluid ">
 		<a class="navbar-brand " href="/admin/Dashboard">My Store</a>
@@ -32,7 +35,7 @@
 	</div>
 </nav>
 <br>
-	<div class="container bg-light border rounded-3 border-success p-3">
+	<div class=" bg-opacity-75 container bg-light border rounded-3 border-success p-3">
 		<h3>Update Existing Product</h3>
 		<form action="/admin/products/update/" method="POST">
 			<div class="row">

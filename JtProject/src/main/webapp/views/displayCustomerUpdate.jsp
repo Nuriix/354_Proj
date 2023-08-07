@@ -16,7 +16,11 @@
 
 <title>Document</title>
 </head>
-<body>
+<body class="bg-image"
+	  style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
+
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
 	<div class="container-fluid ">
 		<a class="navbar-brand " href="/admin/Dashboard">My Store</a>
@@ -34,25 +38,25 @@
 </nav>
 <br>
 	<div class=" container bg-light border rounded-3 border-success p-3">
-		<h3>Update Existing Customer Info</h3>
+		<h3 class="mb-2 fw-bold text-success">Update Existing Customer Info</h3>
 		<form action="/admin/customers/update/" method="POST">
             <div class="row">
 		        <div class="col">
 		            <div class="form-group">
                         <label for="customerUsername">Username</label>
-                        <input class="form-control" type="text" readonly="readonly" name ="username" id="username" value="${user.username}">
+                        <input class="border border-success form-control" type="text" readonly="readonly" name ="username" id="username" value="${user.username}">
                     </div>
                     <div class="form-group">
                         <label for="customerEmail">Email</label>
-                        <input class="form-control" type="text" name= "email" id="email" value="${user.email}">
+                        <input class="border border-success form-control" type="text" name= "email" id="email" value="${user.email}">
                     </div>
                     <div class="form-group">
                         <label for="customerAddress">Address</label>
-                        <input class="form-control" type="text" name= "address" id="address" value="${user.address}">
+                        <input class="border border-success form-control" type="text" name= "address" id="address" value="${user.address}">
                     </div>
                     <div class="form-group">
                         <label for="customerRole">Role</label>
-                        <select class="form-control" class="form-control border border-success" name="role">
+                        <select class="border border-success form-control" class="form-control border border-success" name="role">
                            <option disabled selected value="0" >Select a Role</option>
                            <c:choose>
                                 <c:when test = "${user.role == 'ROLE_ADMIN'}">

@@ -13,8 +13,11 @@
         crossorigin="anonymous">
     <title>Document</title>
 </head>
-<body class="bg-light">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
+<body  class="bg-image"
+	   style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
         <div class="container-fluid ">
             <a class="navbar-brand " href="/admin/Dashboard">My Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +35,7 @@
 	<div class="container">
 	<div class="row">
 
-		<div class="shadow-lg card col text-bg-success ">
+		<div class="h-50 shadow-lg card col text-bg-success ">
 			<div class="card-header row">
 				<i class="align-self-center col far fa-user fa-lg "></i>
 				<div class="col-8 align-middle">
@@ -51,7 +54,7 @@
 		<div class="col-10">
 
 		    <div class="d-inline-flex justify-content-start">
-		        <h1>Category</h1>
+		        <h1 class="mb-2 fw-bold text-success">Category</h1>
 		    </div>
 
 			<div class="d-flex justify-content-end">
@@ -67,13 +70,13 @@
 						<div class="modal-content  bg-light border border-success">
 							<form action="categories" method="post">
 								<div class="modal-header ">
-									<h5 class="modal-title" id="exampleModalLongTitle">Add New Category</h5>
+									<h5 class="mb-2 fw-bold text-success modal-title" id="exampleModalLongTitle">Add New Category</h5>
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<div class="modal-body  text-center">
-									<input type="text" name="categoryname" class="form-control" id="name" required="required" placeholder="Category name">
+								<div class=" modal-body  text-center">
+									<input type="text" name="categoryname" class="border border-success form-control" id="name" required="required" placeholder="Category name">
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -111,17 +114,17 @@
 								<div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content border border-success bg-light">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Update Product Details</h5>
+                                            <h5 class="mb-2 fw-bold modal-title text-success" id="exampleModalLongTitle">Update Product Details</h5>
                                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body text-center">
+                                        <div class="modal-body text-center ">
                                             <div class="form-group p-1">
-                                                <input class="form-control" type="number" readonly="readonly" name ="categoryid" id="categoryid" value="0">
+                                                <input class="form-control border border-success" type="number" readonly="readonly" name ="categoryid" id="categoryid" value="0">
                                             </div>
                                             <div class="form-group p-1">
-                                                <input class="form-control" type="text" name= "categoryname" id="categoryname" value="categoryname">
+                                                <input class="form-control border border-success" type="text" name= "categoryname" id="categoryname" value="categoryname">
                                             </div>
                                         </div>
                                         <div class="modal-footer">
