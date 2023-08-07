@@ -19,7 +19,10 @@
 
 <title>Document</title>
 </head>
-<body class="bg-light">
+<body class="bg-image"
+	  style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
 	<div class="container-fluid ">
 		<a class="navbar-brand " href="/userloginvalidate#">My Store</a>
@@ -84,13 +87,13 @@
 				<h3 class="m-2 fw-bold text-success">Best Deal of the Week</h3>
 <%--				<c:forEach var="product" items="${products}">--%>
 					<div class="col-md-3">
-						<div class="card border border-success mb-4">
+						<div class="bg-opacity-75 bg-success text-light card border border-success mb-4">
 							<img class="card-img-top" src="https://media.discordapp.net/attachments/815979391883542528/1136481403672989737/Brown_Simple_Cookies_Sale_Flyer.png?width=518&height=671" alt="Product 1">
 							<div class="card-body">
 								<b> <h4 class="card-title">Best Cookie Deal</h4></b>
 								<h5 class="card-text">Category: Sweets</h5>
 								<h5 class="card-text">Discount: 60% Off</h5>
-								<a href="#" class="btn btn-success">Add Deal</a>
+								<a href="#" class="border border-light btn btn-success">Add Deal</a>
 							</div>
 						</div>
 					</div>
