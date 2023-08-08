@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </c:when>
-                <c:otherwise>
+            <c:otherwise>
                 <div class="d-flex justify-content-between">
                     <h3 class="m-2 fw-bold text-success">My Custom Cart</h3>
                 </div>
@@ -81,124 +81,148 @@
                 </div>
                 <br>
                 <div class="d-flex justify-content-start">
+                <div class="btn-group">
                     <c:forEach var="ucart" items="${cartList}">
                         <c:choose>
                             <c:when test="${ucart.isSelected eq true}">
-                                <div class="card text-white bg-primary mb-3" style="width: 18rem;">
-                                  <div class="card-body">
+                                <a href="/carts/selection/${user.id}/${ucart.id}" class="text-white text-decoration-none">
+                                <div class="card align-middle text-white bg-success mb-2" style="width: 18rem;" aria-current="page">
+                                  <div class="card-body ">
                                     <h5 class="card-title">Cart #${ucart.id}</h5>
                                     <h6 class="card-subtitle mb-2  text-white ">Number of articles: ${ucart.products.size()}</h6>
                                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-
                                   </div>
+                                </a>
                                 </div>
                             </c:when>
                             <c:otherwise>
-                                <div class="card" style="width: 18rem;">
+                                <div class="card " style="width: 18rem;">
+                                <a href="/carts/selection/${user.id}/${ucart.id}" class="text-decoration-none">
                                   <div class="card-body">
-                                    <h5 class="card-title">Cart #${ucart.id}</h5>
+                                    <h5 class="card-title text-success">Cart #${ucart.id}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Number of articles: ${ucart.products.size()}</h6>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <p class="card-text text-dark">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                                   </div>
+                                  </a>
                                 </div>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
                 </div>
+                </div>
                 <br>
-                <table class="shadow table table-success rounded">
-                    <tr>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Preview</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Weight</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                    <tbody>
-                    <c:forEach var="product" items="${products}">
-                        <tr>
-                            <td>${product.name}</td>
-                            <td>${product.category.name}</td>
-                            <td><img src="${product.image}" height="100px" width="100px"></td>
-                            <td>
-                                <input type="number" id="quantity_${product.id}" min="1"
-                                       value="${product.quantity}"
-                                       onchange="updatePrice(${product.id})"/>
-                            </td>
-                            <td>
-                                $<span id="price_${product.id}" data-price="${product.price}">
-                                    <fmt:formatNumber value="${product.price}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-                                 </span>
-                            </td>
-                            <td>${product.weight}</td>
-                            <td>${product.description}</td>
-                            <td>
-                                <form action="carts/delete" method="get">
-                                    <input type="hidden" name="id" value="${product.id}"/>
-                                    <input type="submit" value="Delete" class="btn btn-danger"/>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <br />
-                <div class="row my-5">
-                    <div class="col-lg-8 col-sm-12"></div>
-                        <div class="col-lg-4 col-sm-12">
-                            <div class="container bg-light border rounded-3 border-success p-3 order-box">
-                                <h3>Order summary</h3>
-                                <hr>
-                                <div class="d-flex">
-                                    <h4>Subtotal</h4>
-                                    <div class="ml-auto font-weight-bold">
-                                        <!-- Add a dollar sign before the subtotal using JSTL -->
-                                        <span id="subtotal">
-                                            <fmt:formatNumber value="${subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <h4>Discount</h4>
-                                    <div class="ml-auto font-weight-bold" id="discount">
-                                        <!-- Discount amount will be dynamically updated by the JavaScript -->
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <h4>Tax (Rate: 9.975%)</h4>
-                                    <div class="ml-auto font-weight-bold">
-                                        <!-- Add a dollar sign before the tax amount using JSTL -->
-                                        <span id="tax">
-                                            <fmt:formatNumber value="${taxAmount}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <h5>Grand Total</h5>
-                                    <div class="ml-auto font-weight-bold">
-                                        <!-- Calculate and display the grand total with a dollar sign -->
-                                        <span id="grandTotal">
-                                            <fmt:formatNumber value="${subtotal + taxAmount}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
-                                        </span>
-                                    </div>
-                                </div>
-                                <hr>
-                                <form action="/payment/${user.id}">
-                                    <input type="submit" value="Checkout" class="ml-auto btn hvr-hover; btn btn-success"/>
-                                </form>
-                                <a class="btn btn-success mt-1" href="/user/products/${user.id}">Add Product</a>
+                <c:choose>
+                    <c:when test="${empty products}">
+                        <div class="position-absolute bottom-10 start-50 translate-middle-x">
+                            <p class="fs-3">You currently do not have any articles in your cart.</p>
+                            </br>
+                            <div  class="text-center justify-content-center">
+                                <a class="btn btn-light" href="/user/products/${user.id}">
+                                     Add items to create your cart?
+                                <a/><p></p>
+                                <p>OR</p>
+                                <a class="btn btn-light" href="/user/carts/new/${user.id}">
+                                     Initialize an empty cart?
+                                <a/>
                             </div>
                         </div>
-                        <div>
+                    </c:when>
+                    <c:otherwise>
+                        <table class="shadow table table-success rounded">
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Preview</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Weight</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                            <tbody>
+                            <c:forEach var="product" items="${products}">
+                                <tr>
+                                    <td>${product.name}</td>
+                                    <td>${product.category.name}</td>
+                                    <td><img src="${product.image}" height="100px" width="100px"></td>
+                                    <td>
+                                        <input type="number" id="quantity_${product.id}" min="1"
+                                               value="${product.quantity}"
+                                               onchange="updatePrice(${product.id})"/>
+                                    </td>
+                                    <td>
+                                        $<span id="price_${product.id}" data-price="${product.price}">
+                                            <fmt:formatNumber value="${product.price}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                         </span>
+                                    </td>
+                                    <td>${product.weight}</td>
+                                    <td>${product.description}</td>
+                                    <td>
+                                        <form action="carts/delete" method="get">
+                                            <input type="hidden" name="id" value="${product.id}"/>
+                                            <input type="submit" value="Delete" class="btn btn-danger"/>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <br />
+                        <div class="row my-5">
+                            <div class="col-lg-8 col-sm-12"></div>
+                                <div class="col-lg-4 col-sm-12">
+                                    <div class="container bg-light border rounded-3 border-success p-3 order-box">
+                                        <h3>Order summary</h3>
+                                        <hr>
+                                        <div class="d-flex">
+                                            <h4>Subtotal</h4>
+                                            <div class="ml-auto font-weight-bold">
+                                                <!-- Add a dollar sign before the subtotal using JSTL -->
+                                                <span id="subtotal">
+                                                    <fmt:formatNumber value="${subtotal}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <h4>Discount</h4>
+                                            <div class="ml-auto font-weight-bold" id="discount">
+                                                <!-- Discount amount will be dynamically updated by the JavaScript -->
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <h4>Tax (Rate: 9.975%)</h4>
+                                            <div class="ml-auto font-weight-bold">
+                                                <!-- Add a dollar sign before the tax amount using JSTL -->
+                                                <span id="tax">
+                                                    <fmt:formatNumber value="${taxAmount}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <h5>Grand Total</h5>
+                                            <div class="ml-auto font-weight-bold">
+                                                <!-- Calculate and display the grand total with a dollar sign -->
+                                                <span id="grandTotal">
+                                                    <fmt:formatNumber value="${subtotal + taxAmount}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <form action="/payment/${user.id}">
+                                            <input type="submit" value="Checkout" class="ml-auto btn hvr-hover; btn btn-success"/>
+                                        </form>
+                                        <a class="btn btn-success mt-1" href="/user/products/${user.id}">Add Product</a>
+                                    </div>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                </c:otherwise>
+                        </c:otherwise>
+                    </c:choose>
+                    <br>
+            </c:otherwise>
             </c:choose>
-            <br>
     </div>
     <script>
         function updatePrice(productId) {

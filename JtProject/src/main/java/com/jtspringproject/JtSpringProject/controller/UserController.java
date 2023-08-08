@@ -172,6 +172,46 @@ public class UserController{
 		return "redirect:/carts/"+id;
 	}
 
+	@GetMapping("carts/selection/{customerId}/{cartId}")
+	public ModelAndView getSelectedCartInfo(@PathVariable("customerId") int customerId,@PathVariable("cartId") int cartId){
+		ModelAndView mView = new ModelAndView("carts");
+
+		User user = this.userService.getUser(customerId);
+		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+		Cart oldSelectedCart = carts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+		this.cartService.getCart(oldSelectedCart.getId()).setIsSelected(false);
+		this.cartService.updateCart(oldSelectedCart);
+
+		Cart newSelectedCart = carts.stream().filter(cart -> cart.getId() == cartId).toArray( Cart[]::new )[0];
+		this.cartService.getCart(cartId).setIsSelected(true);
+		this.cartService.updateCart(newSelectedCart);
+
+		mView.addObject("user", user);
+		mView.addObject("cartList", carts);
+
+		List<Product> products = newSelectedCart.getProducts();
+		if(newSelectedCart.getProducts().isEmpty()){
+			System.out.println("Emprty cart :(");
+			mView.addObject("msg", "No products in cart");
+		}
+			double subtotal = 0.00;
+
+			mView.addObject("products", products);
+
+			// Add the subtotal to the model
+			mView.addObject("subtotal", subtotal);
+
+			// Calculate the tax amount (assuming the tax rate is 9.975%)
+			double taxRate = 0.09975; // 9.975% as a decimal
+			double taxAmount = subtotal * taxRate;
+
+			// Add the tax amount to the model
+			mView.addObject("taxAmount", taxAmount);
+
+
+		return mView;
+	}
+
 	@GetMapping("carts/{id}")
 	@Transactional
 	public ModelAndView getCartDetail(@PathVariable("id") int id) {
@@ -194,10 +234,6 @@ public class UserController{
 			} else {
 				System.out.println("yay products !! :)");
 				System.out.println(products.size());
-
-
-
-
 
 //
 //				for (int i = 0; i < selectedCart.getProducts().size() - 1; i++) {
