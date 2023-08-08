@@ -17,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jtspringproject.JtSpringProject.services.cartService;
+import org.springframework.boot.Banner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -138,9 +140,6 @@ public class UserController{
 		User customer = this.userService.getUser(id);
 		mView.addObject("user", customer);
 
-
-
-
 		return mView;
 	}
 
@@ -154,61 +153,100 @@ public class UserController{
 	}
 	//CARTS 
 	//--------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("user/carts/new/{id}")
+	public String createEmptyCart(@PathVariable("id") int id)
+	{
+		User u = this.userService.getUser(id);
+		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+
+		for(Cart cart : carts){
+			cart.setIsSelected(false);
+			this.cartService.updateCart(cart);
+		}
+
+		Cart newCart = new Cart();
+		newCart.setIsSelected(true);
+		newCart.setCustomer(u);
+
+		this.cartService.addCart(newCart);
+		return "redirect:/carts/"+id;
+	}
+
 	@GetMapping("carts/{id}")
+	@Transactional
 	public ModelAndView getCartDetail(@PathVariable("id") int id) {
 		ModelAndView mView = new ModelAndView();
 
 		User u = this.userService.getUser(id);
 		mView.addObject("user", u);
-
 		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-		List<Product> products = new ArrayList<>();
-		double subtotal = 0.0; // Initialize the subtotal variable
 
-		for (int i = 0; i < carts.size(); i++) {
-			int productId = carts.get(i).getId();
-			Product product = this.productService.getProduct(productId);
-			products.add(product);
-			subtotal += product.getPrice(); // Calculate the subtotal by adding product prices
-		}
-
-		if (products.isEmpty()) {
-			mView.addObject("msg", "No products in cart");
+		if(carts.isEmpty()){
+			System.out.println("Emprty cart :(");
 		} else {
-			mView.addObject("products", products);
+			double subtotal = 0.0; // Initialize the subtotal variable
+			Cart selectedCart = carts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+			List<Product> products = selectedCart.getProducts();
+
+			if (products.isEmpty()) {
+				mView.addObject("msg", "No products in cart");
+				System.out.println("no products cart :(");
+			} else {
+				System.out.println("yay products !! :)");
+				System.out.println(products.size());
+
+
+
+
+
+//
+//				for (int i = 0; i < selectedCart.getProducts().size() - 1; i++) {
+//					int productId = carts.get(selectedCart.getId()).getId();
+//					Product product = this.productService.getProduct(productId);
+//					products.add(product);
+//
+//					subtotal += product.getPrice(); // Calculate the subtotal by adding product prices
+//				}
+//				System.out.println(products.size());
+
+				mView.addObject("products", products);
+			}
+			// Add the subtotal to the model
+			mView.addObject("subtotal", subtotal);
+
+			// Calculate the tax amount (assuming the tax rate is 9.975%)
+			double taxRate = 0.09975; // 9.975% as a decimal
+			double taxAmount = subtotal * taxRate;
+
+			// Add the tax amount to the model
+			mView.addObject("taxAmount", taxAmount);
+
+			// Set the view name (make sure it points to your JSP file)
+			mView.setViewName("carts");
 		}
-
-		// Add the subtotal to the model
-		mView.addObject("subtotal", subtotal);
-
-		// Calculate the tax amount (assuming the tax rate is 9.975%)
-		double taxRate = 0.09975; // 9.975% as a decimal
-		double taxAmount = subtotal * taxRate;
-
-		// Add the tax amount to the model
-		mView.addObject("taxAmount", taxAmount);
-
-		// Set the view name (make sure it points to your JSP file)
-		mView.setViewName("carts");
-
+		mView.addObject("cartList",carts);
 		return mView;
 	}
+
 	@RequestMapping(value = "carts/add", method = RequestMethod.POST)
-	public String addToCart(@RequestParam("productId") int id) {
+	public String addToCart(@RequestParam("customerId") int customerId, @RequestParam("productId") int productId) {
 
-		User user = new User();
-		user.setId(customerId);
+		User user = this.userService.getUser(customerId);
+		Product product = this.productService.getProduct(productId);
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
 
-		Cart cart = new Cart();
-		cart.setId(id);
-		cart.setCustomer(user);
+		if(userCarts.isEmpty()){
+			Cart newCart = new Cart();
+			newCart.setIsSelected(true);
+			newCart.setCustomer(user);
+			newCart.addProduct(product);
 
-		try {
-			this.cartService.addCart(cart);
-		} catch (Exception e) {
-			return "redirect:/carts";
+			this.cartService.addCart(newCart);
+		} else {
+			Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+			this.cartService.addProductToCart(selectedCart, product);
 		}
-		return "redirect:/carts";
+		return "redirect:/carts/"+customerId+"";
 	}
 
 	@GetMapping(value = "carts/add/{customerId}/{productId}")

@@ -12,16 +12,18 @@ public class Cart {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="customer_id")
     private User customer;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+        joinColumns = @JoinColumn(name = "cart_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> products;
+
+    private boolean isSelected;
 
     public Cart() {
         products = new ArrayList<>();
@@ -58,4 +60,9 @@ public class Cart {
     public void removeProduct(Product product) {
         products.remove(product);
     }
+
+    public void setIsSelected(boolean isSelected){ this.isSelected = isSelected; }
+
+    public boolean getIsSelected() { return this.isSelected;}
 }
+
