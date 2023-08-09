@@ -62,7 +62,6 @@ public class Product {
 		this.image = image;
 	}
 
-
 	public Category getCategory() {
 		return category;
 	}

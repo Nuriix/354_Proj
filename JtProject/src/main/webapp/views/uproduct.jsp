@@ -42,26 +42,20 @@
         <div class="vr"></div>
         <div class="d-flex collapse navbar-collapse " id="navbarNavAltMarkup">
             <div class="navbar-nav ">
-
                 <a class="nav-link" href="/home/${user.id}">SHOP</a>
                 <a class="nav-link" href="/home/${user.id}">ABOUT US</a>
                 <a class="nav-link" href="/home/${user.id}">CONTACT</a>
                 <a class="nav-link text-bg-success" href="/user/profileDisplay/${user.id}">MY ACCOUNT</a>
-
             </div>
         </div>
 
         <div class="d-flex collapse navbar-collapse  flex-row-reverse" id="navbarNavAltMarkup">
-
             <div class="navbar-nav ">
                 <a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
-
                 <div class="vr"></div>
                 <a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i
                         class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
-
             </div>
-
         </div>
     </div>
 </nav>
@@ -148,12 +142,10 @@
                             ${product.description }
                     </td>
                     <td>
-                        <a href="/carts/add/${user.id}" class="btn btn-outline-success m-2 align-self-center"
-                           type="button">
+                        <a href="/carts/add/${user.id}/${product.id}" class="btn btn-outline-success m-2 align-self-center" type="button">
                             <i class="fas fa-plus"></i> Add Product
                         </a>
                     </td>
-
                 </tr>
             </c:forEach>
             </tbody>

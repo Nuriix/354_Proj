@@ -37,8 +37,7 @@ public class cartDao {
 
     @Transactional
     public Query<Cart> getIsSelected(int id){
-        return this.sessionFactory.getCurrentSession().createQuery("SELECT isSelected FROM CART WHERE id = :id", Cart.class)
-                                                                        .setParameter("id",id);
+        return this.sessionFactory.getCurrentSession().createQuery("SELECT isSelected FROM CART WHERE id = :id", Cart.class).setParameter("id",id);
     }
 
     @Transactional
@@ -68,6 +67,18 @@ public class cartDao {
     @Transactional
     public void updateCart(Cart cart) {
         this.sessionFactory.getCurrentSession().update(cart);
+    }
+
+    @Modifying
+    @Transactional
+    public void deleteCartProduct(int cart_id, int product_id) {
+
+        Session session = this.sessionFactory.getCurrentSession();
+        session.createSQLQuery("DELETE FROM CART_PRODUCT " +
+                        "WHERE cart_id = :cart_id AND product_id = :product_id")
+                .setParameter("cart_id",cart_id)
+                .setParameter("product_id",product_id)
+                .executeUpdate();
     }
 
     @Transactional

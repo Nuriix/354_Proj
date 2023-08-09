@@ -178,51 +178,38 @@ public class UserController{
 
 		User user = this.userService.getUser(customerId);
 		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-		Cart oldSelectedCart = carts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
-		this.cartService.getCart(oldSelectedCart.getId()).setIsSelected(false);
-		this.cartService.updateCart(oldSelectedCart);
 
-		Cart newSelectedCart = carts.stream().filter(cart -> cart.getId() == cartId).toArray( Cart[]::new )[0];
-		this.cartService.getCart(cartId).setIsSelected(true);
-		this.cartService.updateCart(newSelectedCart);
+		Cart newSelectedCart;
+
+		for(Cart cart : carts){
+			if(cart.getId() != cartId){
+				cart.setIsSelected(false);
+				this.cartService.updateCart(cart);
+			}else{
+				newSelectedCart = cart;
+				cart.setIsSelected(true);
+				this.cartService.updateCart(cart);
+				List<Product> products = newSelectedCart.getProducts();
+				mView.addObject("products", products);
+			}
+		}
 
 		mView.addObject("user", user);
 		mView.addObject("cartList", carts);
-
-		List<Product> products = newSelectedCart.getProducts();
-		if(newSelectedCart.getProducts().isEmpty()){
-			System.out.println("Emprty cart :(");
-			mView.addObject("msg", "No products in cart");
-		}
-			double subtotal = 0.00;
-
-			mView.addObject("products", products);
-
-			// Add the subtotal to the model
-			mView.addObject("subtotal", subtotal);
-
-			// Calculate the tax amount (assuming the tax rate is 9.975%)
-			double taxRate = 0.09975; // 9.975% as a decimal
-			double taxAmount = subtotal * taxRate;
-
-			// Add the tax amount to the model
-			mView.addObject("taxAmount", taxAmount);
-
-
 		return mView;
 	}
 
 	@GetMapping("carts/{id}")
 	@Transactional
 	public ModelAndView getCartDetail(@PathVariable("id") int id) {
-		ModelAndView mView = new ModelAndView();
+		ModelAndView mView = new ModelAndView("carts");
 
 		User u = this.userService.getUser(id);
 		mView.addObject("user", u);
 		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
 
 		if(carts.isEmpty()){
-			System.out.println("Emprty cart :(");
+			System.out.println("Empty cart :(");
 		} else {
 			double subtotal = 0.0; // Initialize the subtotal variable
 			Cart selectedCart = carts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
@@ -230,21 +217,7 @@ public class UserController{
 
 			if (products.isEmpty()) {
 				mView.addObject("msg", "No products in cart");
-				System.out.println("no products cart :(");
 			} else {
-				System.out.println("yay products !! :)");
-				System.out.println(products.size());
-
-//
-//				for (int i = 0; i < selectedCart.getProducts().size() - 1; i++) {
-//					int productId = carts.get(selectedCart.getId()).getId();
-//					Product product = this.productService.getProduct(productId);
-//					products.add(product);
-//
-//					subtotal += product.getPrice(); // Calculate the subtotal by adding product prices
-//				}
-//				System.out.println(products.size());
-
 				mView.addObject("products", products);
 			}
 			// Add the subtotal to the model
@@ -257,15 +230,13 @@ public class UserController{
 			// Add the tax amount to the model
 			mView.addObject("taxAmount", taxAmount);
 
-			// Set the view name (make sure it points to your JSP file)
-			mView.setViewName("carts");
 		}
 		mView.addObject("cartList",carts);
 		return mView;
 	}
 
-	@RequestMapping(value = "carts/add", method = RequestMethod.POST)
-	public String addToCart(@RequestParam("customerId") int customerId, @RequestParam("productId") int productId) {
+	@RequestMapping(value = "carts/add/{customerId}/{productId}")
+	public String addToCart(@PathVariable("customerId") int customerId, @PathVariable("productId") int productId) {
 
 		User user = this.userService.getUser(customerId);
 		Product product = this.productService.getProduct(productId);
@@ -285,37 +256,29 @@ public class UserController{
 		return "redirect:/carts/"+customerId+"";
 	}
 
-	@GetMapping(value = "carts/add/{customerId}/{productId}")
-	public String addToCartFromDashboard(@PathVariable("customerId") int customerId,@PathVariable("productId") int productId) {
-
-		User user = this.userService.getUser(customerId);
-
-		Cart cart = new Cart();
-		cart.setId(productId);
-		cart.setCustomer(user);
-
-		try {
-			this.cartService.addCart(cart);
-		} catch (Exception e) {
-			return "redirect:/home/{customerId}";
-		}
-		return "redirect:/home/{customerId}";
+	@GetMapping("carts/delete/{customerId}/{CartId}")
+	public String removeCartDb(@PathVariable("customerId") int customerId, @PathVariable("cartId") int cartId) {
+		this.cartService.deleteCart(cartId);
+		return "redirect:/carts/" + customerId +"";
 	}
 
-	@GetMapping("carts/delete")
-	public String removeCartDb(@RequestParam("id") int id) {	
-		this.cartService.deleteCart(id);
-		return "redirect:/carts";
-	}
+	@GetMapping("carts/remove/{userId}/{productId}")
+	public String removeCartProduct(@PathVariable("userId") int customerId, @PathVariable("productId") int productId) {
 
-	@GetMapping("carts/empty")
-	public String removeEntireCart() {	
-		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-		for(int i = 0; i < carts.size(); i++) {
-			int productId = carts.get(i).getId();
-			this.cartService.deleteCart(productId);
+		System.out.println("[IN USER CONTROLLER]");
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
+		Product productToRemove = this.productService.getProduct(productId);
+		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+
+		for(Product prod : selectedCart.getProducts()){
+			System.out.println(prod.getName());
+			if(prod.getId() == productId){
+				System.out.println("[IN CONDITION HAPPENS :eye:]");
+				this.cartService.removeCartProduct(selectedCart, prod);
+			}
 		}
-		return "redirect:/carts";
+
+		return "redirect:/carts/" + customerId;
 	}
 	//--------------------------------------------------------------------------------------------------------------------------
 	@GetMapping("payment/{id}")

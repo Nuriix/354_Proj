@@ -91,6 +91,9 @@
                                     <h5 class="card-title">Cart #${ucart.id}</h5>
                                     <h6 class="card-subtitle mb-2  text-white ">Number of articles: ${ucart.products.size()}</h6>
                                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="/carts/delete/${cart.id}">
+                                        Delete
+                                    </a>
                                   </div>
                                 </a>
                                 </div>
@@ -102,6 +105,9 @@
                                     <h5 class="card-title text-success">Cart #${ucart.id}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Number of articles: ${ucart.products.size()}</h6>
                                     <p class="card-text text-dark">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="/carts/delete/${cart.id}">
+                                        Delete
+                                    </a>
                                   </div>
                                   </a>
                                 </div>
@@ -158,7 +164,7 @@
                                     <td>${product.weight}</td>
                                     <td>${product.description}</td>
                                     <td>
-                                        <form action="carts/delete" method="get">
+                                        <form action="/carts/remove/${user.id}/${product.id}" method="get">
                                             <input type="hidden" name="id" value="${product.id}"/>
                                             <input type="submit" value="Delete" class="btn btn-danger"/>
                                         </form>

@@ -33,12 +33,15 @@ public class cartService {
         int cartID = cart.getId();
         return this.cartDao.addProductToCart(cartID,product);
     }
+    public void removeCartProduct(Cart cart, Product product){
+        int cartId = cart.getId();
+        int productId = product.getId();
+
+        this.cartDao.deleteCartProduct(cartId, productId);
+    }
 
     public void updateCart(Cart cart){
         cartDao.updateCart(cart);
     }
-    public void deleteCart(int id)
-    {
-        cartDao.deleteCart(id);
-    }
+    public void deleteCart(int id) {cartDao.deleteCart(id);}
 }
