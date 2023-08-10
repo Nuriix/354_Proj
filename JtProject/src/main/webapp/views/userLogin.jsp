@@ -23,40 +23,73 @@
             crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
-<body class="bg-image"
+<body class="bg-image "
       style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
              background-repeat: no-repeat; background-size: 100%;">
+<nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
+    <div class="container-fluid ">
+        <a class="navbar-brand " href="/admin/Dashboard">My Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="vr"></div>
+        <div class="d-flex collapse navbar-collapse flex-row-reverse bd-highlight" id="navbarNavAltMarkup">
+            <div class="navbar-nav ">
+                <a class="nav-link" href="/admin/Dashboard">ADMIN DASHBOARD</a>
+                <a class=" nav-link text-bg-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <br>
 
+<div class="d-flex bd-highlight">
+    <div class="p-2 container d-flex justify-content-center">
+        <div class="border border-success rounded p-2 col-4 bg-light bg-opacity-75 ">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item ">
+                    <a class="nav-link border border-success text-success" aria-current="page"
+                       href="/admin/loginvalidate">Admin Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active bg-success " href="#">Customer Login</a>
+                </li>
 
-<div class="p-2">
-    <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1> </div>
+            </ul>
 
-    <div class="col-sm-6 bg-light border rounded-3 border-success p-3 bg-opacity-75">
-        <h2 class="m-2 fw-bold text-success">User Login</h2>
-        <form action="userloginvalidate" method="post">
-            <div class="text-success form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Username*" required
-                       class="border border-success form-control form-control-lg">
-            </div>
 
-            <div class="text-success form-group">
-                <label for="password">Password</label>
-                <input type="password" class="border border-success form-control form-control-lg" placeholder="Password*" required
-                       name="password" id="password">
-            </div>
-            <span>Don't have an account <a class="linkControl text-success" href="/register">Register here</a></span>
-            <br>
-            <a class="linkControl text-success" href="/admin/loginvalidate">Admin Login</a> <br><br>
-            <input type="submit" value="Login" class="btn btn-success btn-block">
-            <br>
-            <h3 style="color:red;">${message }</h3>
-            <br>
-        </form>
+            <form action="userloginvalidate" method="post">
+                <div class="text-success form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Username*" required
+                           class="border border-success form-control form-control-lg">
+                </div>
+
+                <div class="text-success form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="border border-success form-control form-control-lg"
+                           placeholder="Password*" required
+                           name="password" id="password">
+                </div>
+                <span>Don't have an account <a class="linkControl text-success"
+                                               href="/register">Register here</a></span>
+                <br>
+                <br><br>
+
+                <div class="input-group d-flex justify-content-end">
+
+                    <div class="input-group-btn ">
+                        <button type="submit" value="Login" class="btn btn-default" type="submit"><i
+                                class="text-success fas fa-arrow-circle-right fa-lg"></i></button>
+                    </div>
+                </div>
+                <h3 style="color:red;">${message }</h3>
+                <br>
+            </form>
+        </div>
     </div>
-
 </div>
 </body>
 </html>
