@@ -28,14 +28,13 @@
              background-repeat: no-repeat; background-size: 100%;">
 
 <br>
-<div class="p-2">
-    <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1></div>
+<div class="p-2 container d-flex justify-content-center">
     <div class="col-sm-6 bg-light border rounded-3 border-success p-3 bg-opacity-75">
         <h2 class="mb-2 fw-bold text-success">Sign Up Now</h2>
         <p>Please fill out this to register</p>
         <form action="newuserregister" method="post">
             <div class="form-group text-success">
-                <label for="firstName">User Name</label>
+                <label for="firstName">Username*</label>
                 <input type="text" name="username" id="firstName" required placeholder="Your Username*" required
                        class="border border-success form-control form-control-lg">
             </div>
@@ -49,7 +48,7 @@
                     anyone else.</small>
             </div>
             <div class="form-group text-success">
-                <label for="password">Password</label>
+                <label for="password">Password*</label>
                 <input type="password" class="border border-success form-control form-control-lg" required
                        placeholder="Password*" required
                        name="password"
