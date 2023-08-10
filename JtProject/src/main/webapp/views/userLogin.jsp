@@ -79,13 +79,13 @@
 
             <form action="userloginvalidate" method="post">
                 <div class="text-success form-group">
-                    <label for="username">Username</label>
+                    <label for="username">Username*</label>
                     <input type="text" name="username" id="username" placeholder="Username*" required
                            class="border border-success form-control form-control-lg">
                 </div>
 
                 <div class="text-success form-group">
-                    <label for="password">Password</label>
+                    <label for="password">Password*</label>
                     <input type="password" class="border border-success form-control form-control-lg"
                            placeholder="Password*" required
                            name="password" id="password">

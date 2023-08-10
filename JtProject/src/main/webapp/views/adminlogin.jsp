@@ -26,32 +26,62 @@
 <body class="bg-image"
       style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
              background-repeat: no-repeat; background-size: 100%;">
+<nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
+    <div class="container-fluid ">
+        <a class="navbar-brand " href="/admin/Dashboard">My Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="vr"></div>
+        <div class="d-flex collapse navbar-collapse flex-row-reverse bd-highlight" id="navbarNavAltMarkup">
+            <div class="navbar-nav ">
+                <a class="nav-link" href="/admin/Dashboard">ADMIN DASHBOARD</a>
+                <a class=" nav-link text-bg-success " href="/admin/loginvalidate">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <br>
-<div class=" p-2">
-    <div class="col-sm-6"><h1 class="fw-bold text-success">MyStore</h1></div>
+<div class=" p-2 container d-flex justify-content-center">
+    <div class=" bg-light border rounded-3 border-success p-2 col-4 bg-opacity-75 ">
 
-    <div class=" bg-light border rounded-3 border-success p-3 col-sm-5  bg-opacity-75 ">
-        <h2 class=" mb-2 fw-bold text-success">Admin Login</h2><br>
+        <ul class="nav nav-pills justify-content-center">
+            <li class="nav-item ">
+                <a class="nav-link active bg-success" aria-current="page"
+                   href="/admin/loginvalidate">Admin Login</a>
+            </li>
+            <li class="nav-item rounded border border-success text-success">
+                <a class="nav-link  text-success " href="/">Customer Login</a>
+            </li>
+
+        </ul>
         <form action="/admin/loginvalidate" method="post">
             <div class="form-group text-success">
-                <label for="username">Username :</label>
+                <label for="username">Username*</label>
                 <input type="text" name="username" id="username" placeholder="Admin username" required
                        class="border border-success form-control form-control-lg">
             </div>
 
             <div class="form-group text-success">
-                <label for="password">Password :</label>
+                <label for="password">Password*</label>
                 <input type="password" class="form-control form-control-lg border border-success	"
                        placeholder="Admin Password" required name="password" id="password">
             </div>
             <br>
-            <a class="linkControl text-success" href="/">User Login</a> <br><br>
-            <input type="submit" value="Login" class="btn btn-success btn-block">
-            <br>
+            <div class="input-group d-flex justify-content-end">
+
+                <div class="input-group-btn ">
+                    <button type="submit" value="Login" class="btn btn-default" type="submit"><i
+                            class="text-success fas fa-arrow-circle-right fa-lg"></i></button>
+                </div>
+            </div>
+
             <h3 style="color:red;">${message }</h3>
             <br>
         </form>
+
     </div>
 </div>
 </body>
