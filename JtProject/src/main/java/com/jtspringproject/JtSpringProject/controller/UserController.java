@@ -256,28 +256,47 @@ public class UserController{
 		return "redirect:/carts/"+customerId+"";
 	}
 
-	@GetMapping("carts/delete/{customerId}/{CartId}")
+	@GetMapping("carts/delete/{customerId}/{cartId}")
 	public String removeCartDb(@PathVariable("customerId") int customerId, @PathVariable("cartId") int cartId) {
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
+		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+
+		if(selectedCart.getId() == cartId) {
+			for (Cart cart : userCarts) {
+				if (cart.getId() != cartId) {
+					cart.setIsSelected(true);
+					break;
+				}
+			}
+		}
 		this.cartService.deleteCart(cartId);
-		return "redirect:/carts/" + customerId +"";
+		return "redirect:/carts/" + customerId;
 	}
 
 	@GetMapping("carts/remove/{userId}/{productId}")
 	public String removeCartProduct(@PathVariable("userId") int customerId, @PathVariable("productId") int productId) {
 
-		System.out.println("[IN USER CONTROLLER]");
 		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
 		Product productToRemove = this.productService.getProduct(productId);
 		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
 
 		for(Product prod : selectedCart.getProducts()){
-			System.out.println(prod.getName());
 			if(prod.getId() == productId){
-				System.out.println("[IN CONDITION HAPPENS :eye:]");
 				this.cartService.removeCartProduct(selectedCart, prod);
 			}
 		}
+		return "redirect:/carts/" + customerId;
+	}
 
+	@GetMapping("carts/removeAll/{userId}")
+	public String emptyCart(@PathVariable("userId") int customerId) {
+
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
+		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+
+		for(Product prod : selectedCart.getProducts()){
+			this.cartService.removeCartProduct(selectedCart, prod);
+		}
 		return "redirect:/carts/" + customerId;
 	}
 	//--------------------------------------------------------------------------------------------------------------------------

@@ -76,8 +76,8 @@
                     <h3 class="m-2 fw-bold text-success">My Custom Cart</h3>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-primary " href="/user/carts/new/${user.id}">Create an Empty Cart</button><br>
-                    <button disabled class="btn btn-dark " href="/carts/empty">Empty Cart</button>
+                    <a class="btn btn-primary " href="/user/carts/new/${user.id}">Create an Empty Cart</a><br>
+                    <a class="btn btn-dark " href="/carts/removeAll/${user.id}">Empty Cart</a>
                 </div>
                 <br>
                 <div class="d-flex justify-content-start">
@@ -91,7 +91,7 @@
                                     <h5 class="card-title">Cart #${ucart.id}</h5>
                                     <h6 class="card-subtitle mb-2  text-white ">Number of articles: ${ucart.products.size()}</h6>
                                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="/carts/delete/${cart.id}">
+                                    <a href="/carts/delete/${user.id}/${ucart.id}">
                                         Delete
                                     </a>
                                   </div>
@@ -105,7 +105,7 @@
                                     <h5 class="card-title text-success">Cart #${ucart.id}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">Number of articles: ${ucart.products.size()}</h6>
                                     <p class="card-text text-dark">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="/carts/delete/${cart.id}">
+                                    <a href="/carts/delete/${user.id}/${ucart.id}">
                                         Delete
                                     </a>
                                   </div>
