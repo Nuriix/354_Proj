@@ -253,7 +253,7 @@ public class UserController{
 			Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
 			this.cartService.addProductToCart(selectedCart, product);
 		}
-		return "redirect:/carts/"+customerId+"";
+		return "redirect:/carts/"+customerId;
 	}
 
 	@GetMapping("carts/delete/{customerId}/{cartId}")
@@ -265,6 +265,7 @@ public class UserController{
 			for (Cart cart : userCarts) {
 				if (cart.getId() != cartId) {
 					cart.setIsSelected(true);
+					this.cartService.updateCart(cart);
 					break;
 				}
 			}
