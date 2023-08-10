@@ -28,17 +28,34 @@
              background-repeat: no-repeat; background-size: 100%;">
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
     <div class="container-fluid ">
-        <a class="navbar-brand " href="/admin/Dashboard">My Store</a>
+        <a class="navbar-brand " href="/home/${user.id}">My Store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="vr"></div>
-        <div class="d-flex collapse navbar-collapse flex-row-reverse bd-highlight" id="navbarNavAltMarkup">
+        <div class="d-flex collapse navbar-collapse " id="navbarNavAltMarkup">
             <div class="navbar-nav ">
-                <a class="nav-link" href="/admin/Dashboard">ADMIN DASHBOARD</a>
-                <a class=" nav-link text-bg-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
+
+                <a class="nav-link" href="/home/${user.id}">SHOP</a>
+                <a class="nav-link" href="/home/${user.id}">ABOUT US</a>
+                <a class="nav-link" href="/home/${user.id}">CONTACT</a>
+                <a class="nav-link text-bg-success" href="/user/profileDisplay/${user.id}">MY ACCOUNT</a>
+
             </div>
+        </div>
+
+        <div class="d-flex collapse navbar-collapse  flex-row-reverse" id="navbarNavAltMarkup">
+
+            <div class="navbar-nav ">
+                <a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
+
+                <div class="vr"></div>
+                <a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i
+                        class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
+
+            </div>
+
         </div>
     </div>
 </nav>
