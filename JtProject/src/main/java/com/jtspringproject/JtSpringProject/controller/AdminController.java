@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import com.jtspringproject.JtSpringProject.services.productService;
 import com.jtspringproject.JtSpringProject.services.userService;
 
 @Controller
+@Getter
+@Setter
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -80,7 +84,7 @@ public class AdminController {
 		}
 	}
 	//	 --------------------------Categories --------------------
-	@GetMapping("categories")
+	@GetMapping("category")
 	public ModelAndView getcategory() {
 		if(adminlogcheck==0){
 			ModelAndView mView = new ModelAndView("adminlogin");
@@ -93,23 +97,25 @@ public class AdminController {
 			return mView;
 		}
 	}
-	@RequestMapping(value = "categories",method = RequestMethod.POST)
+
+	//@RequestMapping(value = "categories",method = RequestMethod.POST)
+	@PostMapping("category")
 	public String addCategory(@RequestParam("categoryname") String category_name)
 	{
 		Category category =  this.categoryService.addCategory(category_name);
-		return "redirect:categories";
+		return "redirect:category";
 	}
 	@GetMapping("categories/delete/")
 	public String removeCategoryDb(@RequestParam("id") int id)
 	{
 		this.categoryService.deleteCategory(id);
-		return "redirect:/admin/categories";
+		return "redirect:/admin/category";
 	}
 	@GetMapping("categories/update")
 	public String updateCategory(@RequestParam("categoryid") int id, @RequestParam("categoryname") String categoryname)
 	{
 		Category category = this.categoryService.updateCategory(id, categoryname);
-		return "redirect:/admin/categories";
+		return "redirect:/admin/category";
 	}
 	//	 --------------------------Products --------------------
 	@GetMapping("products")
