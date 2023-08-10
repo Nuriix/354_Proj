@@ -17,6 +17,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jtspringproject.JtSpringProject.services.cartService;
+import org.springframework.boot.Banner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -138,9 +140,6 @@ public class UserController{
 		User customer = this.userService.getUser(id);
 		mView.addObject("user", customer);
 
-
-
-
 		return mView;
 	}
 
@@ -154,77 +153,152 @@ public class UserController{
 	}
 	//CARTS 
 	//--------------------------------------------------------------------------------------------------------------------------
+	@GetMapping("user/carts/new/{id}")
+	public String createEmptyCart(@PathVariable("id") int id)
+	{
+		User u = this.userService.getUser(id);
+		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+
+		for(Cart cart : carts){
+			cart.setIsSelected(false);
+			this.cartService.updateCart(cart);
+		}
+
+		Cart newCart = new Cart();
+		newCart.setIsSelected(true);
+		newCart.setCustomer(u);
+
+		this.cartService.addCart(newCart);
+		return "redirect:/carts/"+id;
+	}
+
+	@GetMapping("carts/selection/{customerId}/{cartId}")
+	public ModelAndView getSelectedCartInfo(@PathVariable("customerId") int customerId,@PathVariable("cartId") int cartId){
+		ModelAndView mView = new ModelAndView("carts");
+
+		User user = this.userService.getUser(customerId);
+		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
+
+		Cart newSelectedCart;
+
+		for(Cart cart : carts){
+			if(cart.getId() != cartId){
+				cart.setIsSelected(false);
+				this.cartService.updateCart(cart);
+			}else{
+				newSelectedCart = cart;
+				cart.setIsSelected(true);
+				this.cartService.updateCart(cart);
+				List<Product> products = newSelectedCart.getProducts();
+				mView.addObject("products", products);
+			}
+		}
+
+		mView.addObject("user", user);
+		mView.addObject("cartList", carts);
+		return mView;
+	}
+
 	@GetMapping("carts/{id}")
+	@Transactional
 	public ModelAndView getCartDetail(@PathVariable("id") int id) {
-		ModelAndView mView = new ModelAndView();
+		ModelAndView mView = new ModelAndView("carts");
 
 		User u = this.userService.getUser(id);
 		mView.addObject("user", u);
-
 		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-		List<Product> products = new ArrayList<>();
-		double subtotal = 0.0; // Initialize the subtotal variable
 
-		for (int i = 0; i < carts.size(); i++) {
-			int productId = carts.get(i).getId();
-			Product product = this.productService.getProduct(productId);
-			products.add(product);
-			subtotal += product.getPrice(); // Calculate the subtotal by adding product prices
-		}
-
-		if (products.isEmpty()) {
-			mView.addObject("msg", "No products in cart");
+		if(carts.isEmpty()){
+			System.out.println("Empty cart :(");
 		} else {
-			mView.addObject("products", products);
+			double subtotal = 0.0; // Initialize the subtotal variable
+			Cart selectedCart = carts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+			List<Product> products = selectedCart.getProducts();
+
+			if (products.isEmpty()) {
+				mView.addObject("msg", "No products in cart");
+			} else {
+				mView.addObject("products", products);
+			}
+			// Add the subtotal to the model
+			mView.addObject("subtotal", subtotal);
+
+			// Calculate the tax amount (assuming the tax rate is 9.975%)
+			double taxRate = 0.09975; // 9.975% as a decimal
+			double taxAmount = subtotal * taxRate;
+
+			// Add the tax amount to the model
+			mView.addObject("taxAmount", taxAmount);
+
 		}
-
-		// Add the subtotal to the model
-		mView.addObject("subtotal", subtotal);
-
-		// Calculate the tax amount (assuming the tax rate is 9.975%)
-		double taxRate = 0.09975; // 9.975% as a decimal
-		double taxAmount = subtotal * taxRate;
-
-		// Add the tax amount to the model
-		mView.addObject("taxAmount", taxAmount);
-
-		// Set the view name (make sure it points to your JSP file)
-		mView.setViewName("carts");
-
+		mView.addObject("cartList",carts);
 		return mView;
 	}
-	@RequestMapping(value = "carts/add", method = RequestMethod.POST)
-	public String addToCart(@RequestParam("productId") int id) {
 
-		User user = new User();
-		user.setId(customerId);
+	@RequestMapping(value = "carts/add/{customerId}/{productId}")
+	public String addToCart(@PathVariable("customerId") int customerId, @PathVariable("productId") int productId) {
 
-		Cart cart = new Cart();
-		cart.setId(id);
-		cart.setCustomer(user);
+		User user = this.userService.getUser(customerId);
+		Product product = this.productService.getProduct(productId);
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
 
-		try {
-			this.cartService.addCart(cart);
-		} catch (Exception e) {
-			return "redirect:/carts";
+		if(userCarts.isEmpty()){
+			Cart newCart = new Cart();
+			newCart.setIsSelected(true);
+			newCart.setCustomer(user);
+			newCart.addProduct(product);
+
+			this.cartService.addCart(newCart);
+		} else {
+			Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+			this.cartService.addProductToCart(selectedCart, product);
 		}
-		return "redirect:/carts";
+		return "redirect:/carts/"+customerId;
 	}
 
-	@GetMapping("carts/delete")
-	public String removeCartDb(@RequestParam("id") int id) {	
-		this.cartService.deleteCart(id);
-		return "redirect:/carts";
+	@GetMapping("carts/delete/{customerId}/{cartId}")
+	public String removeCartDb(@PathVariable("customerId") int customerId, @PathVariable("cartId") int cartId) {
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
+		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+
+		if(selectedCart.getId() == cartId) {
+			for (Cart cart : userCarts) {
+				if (cart.getId() != cartId) {
+					cart.setIsSelected(true);
+					this.cartService.updateCart(cart);
+					break;
+				}
+			}
+		}
+		this.cartService.deleteCart(cartId);
+		return "redirect:/carts/" + customerId;
 	}
 
-	@GetMapping("carts/empty")
-	public String removeEntireCart() {	
-		List<Cart> carts = this.cartService.getCartsByUserId(customerId);
-		for(int i = 0; i < carts.size(); i++) {
-			int productId = carts.get(i).getId();
-			this.cartService.deleteCart(productId);
+	@GetMapping("carts/remove/{userId}/{productId}")
+	public String removeCartProduct(@PathVariable("userId") int customerId, @PathVariable("productId") int productId) {
+
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
+		Product productToRemove = this.productService.getProduct(productId);
+		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+
+		for(Product prod : selectedCart.getProducts()){
+			if(prod.getId() == productId){
+				this.cartService.removeCartProduct(selectedCart, prod);
+			}
 		}
-		return "redirect:/carts";
+		return "redirect:/carts/" + customerId;
+	}
+
+	@GetMapping("carts/removeAll/{userId}")
+	public String emptyCart(@PathVariable("userId") int customerId) {
+
+		List<Cart> userCarts = this.cartService.getCartsByUserId(customerId);
+		Cart selectedCart = userCarts.stream().filter(cart -> cart.getIsSelected() == true).toArray( Cart[]::new )[0];
+
+		for(Product prod : selectedCart.getProducts()){
+			this.cartService.removeCartProduct(selectedCart, prod);
+		}
+		return "redirect:/carts/" + customerId;
 	}
 	//--------------------------------------------------------------------------------------------------------------------------
 	@GetMapping("payment/{id}")

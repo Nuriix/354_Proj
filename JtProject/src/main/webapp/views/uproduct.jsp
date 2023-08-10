@@ -29,7 +29,9 @@
 
     <title>Document</title>
 </head>
-<body class="bg-light">
+<body class="bg-image"
+      style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+             background-repeat: no-repeat; background-size: 100%;">
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
     <div class="container-fluid ">
         <a class="navbar-brand " href="/home/${user.id}">My Store</a>
@@ -40,53 +42,25 @@
         <div class="vr"></div>
         <div class="d-flex collapse navbar-collapse " id="navbarNavAltMarkup">
             <div class="navbar-nav ">
-
                 <a class="nav-link" href="/home/${user.id}">SHOP</a>
                 <a class="nav-link" href="/home/${user.id}">ABOUT US</a>
                 <a class="nav-link" href="/home/${user.id}">CONTACT</a>
                 <a class="nav-link text-bg-success" href="/user/profileDisplay/${user.id}">MY ACCOUNT</a>
-
             </div>
         </div>
 
         <div class="d-flex collapse navbar-collapse  flex-row-reverse" id="navbarNavAltMarkup">
-
             <div class="navbar-nav ">
                 <a class="nav-link mr-1" th:href="@{/}" href="#"><i class="fas fa-search"></i></a>
-
                 <div class="vr"></div>
                 <a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i
                         class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
-
             </div>
-
         </div>
+    </div>
 </nav>
 
 <br>
-<div class="container-fluid">
-    <a class="navbar-brand" href="#"> <img
-            th:src="@{/images/logo.png}" src="../static/images/logo.png"
-            width="auto" height="40" class="d-inline-block align-top" alt=""/>
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto"></ul>
-        <ul class="navbar-nav">
-            <li class="nav-item active"><a class="nav-link" href="/home/${user.id}">Home Page</a></li>
-            <li class="nav-item active"><a class="nav-link" href="/carts/${user.id}">CART</a></li>
-            <li class="nav-item active"><a class="nav-link" href="/user/profileDisplay/${user.id}">Profile</a></li>
-            <li class="nav-item active"><a class="nav-link" sec:authorize="isAuthenticated()" href="/">Logout</a></li>
-        </ul>
-    </div>
-</div>
-</nav>
 
 <div class="row m-3">
     <div class="shadow card col text-bg-success ">
@@ -102,7 +76,8 @@
                 <a href="" class="   btn btn-success">Payment Methods</a>
                 <hr>
                 <a href="" class="btn btn-success">My Coupons</a>
-                <a href="" class="btn btn-success">Best Deals of the Week</a>
+                <a href="/user/deals/${user.id}" class="btn btn-success">Best Deals of the Week</a>
+
                 <hr>
                 <a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
                 <a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
@@ -115,14 +90,15 @@
             </div>
         </div>
     </div>
+
     <div class="col-10">
         <div class="d-inline-flex justify-content-start">
             <h1 class="m-2 fw-bold text-success">Products</h1>
         </div>
         <div class="d-flex justify-content-end" role="search">
             <form class="d-flex p-2" action="" method="GET">
-                <button type="submit" class="btn "><i class="fas fa-search"></i></button>
-                <input type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50">
+                <button type="submit" class="btn text-success"><i class="fas fa-search"></i></button>
+                <input class="border border-success" type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50">
             </form>
 
         </div>
@@ -166,11 +142,10 @@
                             ${product.description }
                     </td>
                     <td>
-                        <a href="/carts/add/${user.id}" class="btn btn-outline-success m-2 align-self-center" type="button">
+                        <a href="/carts/add/${user.id}/${product.id}" class="btn btn-outline-success m-2 align-self-center" type="button">
                             <i class="fas fa-plus"></i> Add Product
                         </a>
                     </td>
-
                 </tr>
             </c:forEach>
             </tbody>

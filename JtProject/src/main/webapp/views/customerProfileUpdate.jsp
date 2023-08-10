@@ -17,7 +17,9 @@
           crossorigin="anonymous">
     <title>Document</title>
 </head>
-<body>
+<body class="bg-image"
+      style="background-image: url('https://www.geneltransport.com.tr/wp-content/uploads/2021/06/perishable-small.png');
+background-repeat: no-repeat; background-size: 100%;">
 <nav class="navbar navbar-expand-lg bg-body-tertiary text-bg-success" id="navbarSupportedContent">
     <div class="container-fluid ">
         <a class="navbar-brand " href="/home/${user.id}">My Store</a>
@@ -45,10 +47,9 @@
                 <div class="vr"></div>
                 <a class="nav-link ml-1" th:href="@{/}" href="/carts/${user.id}"><i
                         class="fas fa-shopping-cart fa-flip-horizontal"></i></a>
-
             </div>
-
         </div>
+    </div>
 </nav>
 
 <br>
@@ -66,7 +67,8 @@
                 <a href="" class="   btn btn-success">Payment Methods</a>
                 <hr>
                 <a href="" class="btn btn-success">My Coupons</a>
-                <a href="" class="btn btn-success">Best Deals of the Week</a>
+                <a href="/user/deals/${user.id}" class="btn btn-success">Best Deals of the Week</a>
+
                 <hr>
                 <a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
                 <a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
@@ -79,24 +81,25 @@
             </div>
         </div>
     </div>
+
     <div class="col-10">
-        <div class="container bg-light border rounded-3 border-success p-3">
+        <div class="bg-opacity-75 container bg-light border rounded-3 border-success p-3">
             <h3 class="mb-2 fw-bold text-success">Update Profile Information</h3>
             <form action="/user/profileDisplay/update/" method="POST">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <label for="customerUsername">Username</label>
-                            <input class="form-control" type="text" readonly="readonly" name="username" id="username"
+                            <input class="form-control border border-success" type="text" readonly="readonly" name="username" id="username"
                                    value="${user.username}">
                         </div>
                         <div class="form-group">
                             <label for="customerEmail">Email</label>
-                            <input class="form-control" type="text" name="email" id="email" value="${user.email}">
+                            <input class="form-control border border-success" type="text" name="email" id="email" value="${user.email}">
                         </div>
                         <div class="form-group">
                             <label for="customerAddress">Address</label>
-                            <input class="form-control" type="text" name="address" id="address" value="${user.address}">
+                            <input class="form-control border border-success" type="text" name="address" id="address" value="${user.address}">
                         </div>
                         <div class="form-group">
                             <input type="hidden" name="id" id="id" value="${user.id}">
