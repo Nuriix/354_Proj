@@ -1,5 +1,8 @@
 package com.jtspringproject.JtSpringProject.controller;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,6 @@ public class AdminController {
 	private userService userService;
 	@Autowired
 	private categoryService categoryService;
-
 	@Autowired
 	private productService productService;
 
@@ -238,6 +240,8 @@ public class AdminController {
 	public String postproduct() {
 		return "redirect:/admin/products";
 	}
+
+	// Products Utils Methods
 	@GetMapping(value = "products/search")
 	public ModelAndView searchProduct(String keyword){
 
@@ -259,6 +263,31 @@ public class AdminController {
 		}
 		return mView;
 	}
+
+	@GetMapping(value = "products/pairs")
+	public ModelAndView getProductPairs(){
+		ModelAndView mView = new ModelAndView("productsPair");
+
+		List<Object []> productsPair = this.productService.getProductPairs();
+		List<Product []>  pairsList = new ArrayList<>();
+
+		for(Object[] pair : productsPair){
+
+			Product[] prodPair = new Product[2];
+
+			Product product1 = this.productService.getProduct((int) pair[0]);
+			Product product2 = this.productService.getProduct((int) pair[1]);
+
+			prodPair[0] = product1;
+			prodPair[1] = product2;
+
+			pairsList.add(prodPair);
+		}
+		mView.addObject("productPairs",pairsList);
+		System.out.println(pairsList);
+		return mView;
+	}
+
 	//	 --------------------------Customers --------------------
 	@GetMapping("customers")
 	public ModelAndView getCustomerDetail() {
