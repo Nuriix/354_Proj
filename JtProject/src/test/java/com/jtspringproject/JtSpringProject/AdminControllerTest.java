@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -123,23 +123,29 @@ public class AdminControllerTest {
         this.adminController.setAdminlogcheck(1);
         this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
-        String category_name = "Bakery";
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/admin/category").param("categoryname",category_name))
-//                .andExpect(status().isOk());
+        String category_name = "Bakeryyyy";
 
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/category").param("categoryname",category_name))
+                .andExpect(redirectedUrl("category"));
     }
-//    @Test
-//    public void TestRemoveCategory() throws Exception {
-//        this.adminController.setAdminlogcheck(1);
-//        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
-//    }
-//    @Test
-//    public void TestUpdateCategory() throws Exception {
-//        this.adminController.setAdminlogcheck(1);
-//        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
-//    }
+    @Test
+    public void TestRemoveCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/categories/delete/").param("id", String.valueOf(2)))
+                .andExpect(redirectedUrl("/admin/category"));
+    }
+    @Test
+    public void TestUpdateCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/categories/update")
+                        .param("categoryid", String.valueOf(2))
+                        .param("categoryname", "Vegetable"))
+                        .andExpect(redirectedUrl("/admin/category"));
+    }
     /**********************************************| Products |***********************************************/
 
     // getproduct
