@@ -1,4 +1,7 @@
 package com.jtspringproject.JtSpringProject.models;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +15,8 @@ import javax.persistence.Table;
 
 @Entity(name="CUSTOMER")
 @Table
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
 	@Id
@@ -27,8 +32,7 @@ public class User {
 	private String role;
 	
 	private String address;
-	
-	
+
 	public int getId() {
 		return id;
 	}
