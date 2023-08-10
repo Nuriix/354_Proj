@@ -18,7 +18,6 @@
           href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
           crossorigin="anonymous">
-
     <title>Document</title>
 </head>
 <body class="bg-image"
@@ -55,89 +54,66 @@
                     <a href="/admin/products" class="row card-link btn btn-success">Products</a>
                     <a href="/admin/categories" class="row  btn btn-success">Category</a>
                     <a href="/admin/customers" class="row btn btn-success">Customer</a>
-
                 </div>
             </div>
         </div> <div class="col-10">
             <div class="d-inline-flex justify-content-start">
-                <h1 class="mb-2 fw-bold text-success">Products</h1>
+                <h1 class="mb-2 fw-bold text-success">Mostly Sold Item Pairs</h1>
             </div>
             <div class="d-flex justify-content-end" role="search">
-                <form class="d-flex flex-fill p-2" action="/admin/products/search" method="GET">
-                    <button type="submit" class="btn "><i class="fas fa-search"></i></button>
-                    <input type="text" name="keyword" th:value="${keyword}" placeholder="Find product" size="50">
-                </form>
-                <a href="/admin/products/pairs" class="btn btn-outline-secondary m-2 align-self-center" type="button">View Mostly Sold Item Pairs</a>
-                <a href="/admin/products/add" class="btn btn-outline-success m-2 align-self-center" type="button">
-                    <i class="fas fa-plus"></i> Add Product
-                </a>
+                <a href="/admin/products" class="btn btn-outline-secondary m-2 align-self-center" type="button">View Products List</a>
             </div>
             <br>
-            <table class="shadow table table-success rounded">
-                <tr>
-                    <th scope="col">Serial No.</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Preview</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Weight</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Suggested Product</th>
-                    <th scope="col">Update</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                <tbody>
-                <c:forEach var="product" items="${products}">
-                    <tr>
-                        <td>
-                                ${product.id}
-                        </td>
-                        <td>
-                                ${product.name }
-                        </td>
-                        <td>
-                                ${product.category.name}
-                        </td>
-                        <td><img src="${product.image}"
-                                 height="100px" width="100px"></td>
-                        <td>
-                                ${product.quantity }
-                        </td>
-                        <td>
-                                ${product.price }
-                        </td>
-                        <td>
-                                ${product.weight }
-                        </td>
-                        <td>
-                                ${product.description }
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${not empty product.productSuggestion}">
-                                    ${product.productSuggestion.name}
-                                </c:when>
-                                <c:otherwise>
-                                    N/A
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <form action="/admin/products/update/" method="get">
-                                <input type="hidden" name="id" value="${product.id}">
-                                <button type="submit" class="btn btn-warning"><i class="far fa-edit"></i></button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="/admin/products/delete/" method="get">
-                                <input type="hidden" name="id" value="${product.id}">
-                                <button type="submit" class="btn btn-danger rounded"><i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
+
+            <table class="table table-borderless table-responsive-lg">
+                <tbody >
+                    <c:forEach var="pair" items="${productPairs}">
+                        <tr>
+                            <td>
+                                <div class="row row-cols-md-3 ">
+                                  <div class="col-md-5">
+                                    <div class="card">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                          <img src="${pair[0].image}" height="100px" width="100px">
+                                        </div>
+                                        <div class="col-md-8">
+                                          <div class="card-body">
+                                            <h5 class="card-title">${pair[0].name}</h5>
+                                            <p class="card-text">
+                                                <small class="text-muted">${pair[0].description}</small>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-1 d-flex justify-content-center">
+                                    <div class="row position-relative top-50">
+                                        <span><i class="fas fa-exchange-alt fa-lg"></i></span>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-5">
+                                      <div class="card">
+                                      <div class="row">
+                                          <div class="col-md-4">
+                                            <img src="${pair[1].image}" height="100px" width="100px">
+                                          </div>
+                                          <div class="col-md-8">
+                                            <div class="card-body">
+                                              <h5 class="card-title">${pair[1].name}</h5>
+                                              <p class="card-text">
+                                                <small class="text-muted">${pair[1].description}</small>
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -147,13 +123,11 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
-
 </body>
 </html>

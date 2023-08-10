@@ -36,7 +36,9 @@ public class productService {
 	public boolean deleteProduct(int id) {
 		return this.productDao.deletProduct(id);
 	}
+
 	public List<Product> getByKeyword(String keyword){
 		return repository.findByKeyword(keyword);
 	}
+	public List<Object []> getProductPairs() {return repository.getProductPairs();}
 }
