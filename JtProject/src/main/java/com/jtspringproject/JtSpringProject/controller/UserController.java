@@ -309,6 +309,14 @@ public class UserController{
 	public ModelAndView paymentDetails(@PathVariable("id") int id) {
 
 		ModelAndView mView = new ModelAndView("payment");
+		
+		Payment payment = this.paymentService.getPaymentMethod(customerId);
+		
+		if (payment == null) {
+			mView.addObject("msg", "No payment methods!");
+		} else {
+			mView.addObject("payment", payment);
+		}
 
 		return mView;
 	}
@@ -318,7 +326,7 @@ public class UserController{
 			
 			@GetMapping("/paymentMethod/{id}")
 			public ModelAndView paymentMethod() {
-				ModelAndView mView = new ModelAndView();
+				ModelAndView mView = new ModelAndView("paymentMethod");
 				Payment payment = this.paymentService.getPaymentMethod(customerId);
 				
 				if (payment == null) {
@@ -330,7 +338,7 @@ public class UserController{
 				return mView;
 			}
 			
-			@GetMapping("/paymentMethod/update/{id}")
+			@GetMapping("/paymentMethod/update")
 			public ModelAndView updatePaymentMethod(){
 				ModelAndView mView = new ModelAndView("paymentMethodUpdate");
 				Payment payment = this.paymentService.getPaymentMethod(customerId);
@@ -338,7 +346,7 @@ public class UserController{
 				return mView;
 			}
 			
-			@RequestMapping(value="/paymentMethod/update/{id}", method=RequestMethod.POST)
+			@RequestMapping(value="/paymentMethod/update", method=RequestMethod.POST)
 			public String updatePaymentMethodInfo(@RequestParam("nameOnCard") String nameOnCard,
 														@RequestParam("cardNumber") String cardNumber,
 														@RequestParam("cvs") String cvs,
@@ -362,7 +370,7 @@ public class UserController{
 				}
 				
 			}
-			@GetMapping("paymentMethod/delete/{id}")
+			@GetMapping("paymentMethod/delete")
 			public String removePaymentDb() {	
 				Payment payment = this.paymentService.getPaymentMethod(customerId);
 				if (payment == null) {

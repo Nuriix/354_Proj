@@ -58,72 +58,35 @@
 
 <br>
 <div class="row m-3">
-    <div class="shadow card col text-bg-success ">
-        <div class="card-header row">
-            <i class="align-self-center col far fa-user fa-lg "></i>
-            <div class="col-8 align-middle">
-                <span>Hi ${user.username}</span>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="d-flex flex-column bd-highlight mb-3">
-                <a href="" class="  btn btn-success">Change Password</a>
-                <a href="/paymentMethod/${user.id}" class="   btn btn-success">Payment Methods</a>
-                <hr>
-                <a href="" class="btn btn-success">My Coupons</a>
-                <a href="/user/deals/${user.id}" class="btn btn-success">Best Deals of the Week</a>
-
-                <hr>
-                <a href="/user/products/${user.id}" class="btn btn-success">MyStore Food Items</a>
-                <a href="/carts/${user.id}" class="btn btn-success">Custom Cart</a>
-                <a href="" class="btn btn-success">My Orders</a>
-                <hr>
-                <a href="" class="btn btn-success">Customer Support</a>
-                <hr>
-                <a class="  btn btn-success " href="/">Logout<i class="fas fa-sign-out-alt text-light p-1"></i></a>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-10">
-
-        <div class="bg-opacity-75 container bg-light border rounded-3 border-success p-3">
-            <h3 class="fw-bold text-success">Account Overview</h3>
-            <table class="table">
-                <tr>
-                    <th scope="col">Account Number</th>
-                    <td>${user.id}</td>
-                </tr>
-                <tbody>
-                <tr>
-                    <th scope="col">Username</th>
-                    <td>${user.username}</td>
-                </tr>
-                <tr>
-                    <th scope="col">Email</th>
-                    <td>${user.email}</td>
-                </tr>
-                <tr>
-                    <th scope="col">Address</th>
-                    <td>${user.address}</td>
-                </tr>
-                <tr>
-                    <th scope="col">Role</th>
-                    <td>${user.role}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <form action="/user/profileDisplay/update/" method="GET">
-                            <input type="hidden" name="id" value="${user.id}">
-                            <input type="submit" value="Update" class="btn btn-success">
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
+    <div class="bg-opacity-75 container bg-light border rounded-3 border-success p-3">
+		<h3>Update Payment Details</h3>
+		<form action="/paymentMethod/update" method="POST">
+            <div class="row">
+		        <div class="col">
+		            <div class="form-group">
+                        <label for="cardName">Name On Card</label>
+                        <input class="form-control" type="text" name ="nameOnCard" id="nameOnCard" value="${payment.nameOnCard}">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input class="form-control" type="text" name= "cardNumber" id="cardNumber" value="${payment.cardNumber}">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardCvs">CVS</label>
+                        <input class="form-control" type="text" name= "cvs" id="cvs" value="${payment.cvs}">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardExpiryDate">Expiry Date</label>
+                        <input class="form-control" type="text" name= "expiryDate" id="expiryDate" value="${payment.expiryDate}">
+                    </div><br>
+                    <div class="form-group">
+                        <input type="hidden" name="id" id="id" value="${payment.id}">
+                        <input type="submit" value="Confirm Update" class="btn btn-primary">
+                    </div>
+		        </div>
+		    </div>
+        </form>
+	</div>
 </div>
 
 
