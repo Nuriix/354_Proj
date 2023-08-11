@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -123,26 +123,57 @@ public class AdminControllerTest {
         this.adminController.setAdminlogcheck(1);
         this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
-        String category_name = "Bakery";
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/admin/category").param("categoryname",category_name))
-//                .andExpect(status().isOk());
+        String category_name = "Bakeryyyy";
 
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/category").param("categoryname",category_name))
+                .andExpect(redirectedUrl("category"));
     }
-//    @Test
-//    public void TestRemoveCategory() throws Exception {
-//        this.adminController.setAdminlogcheck(1);
-//        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
-//    }
-//    @Test
-//    public void TestUpdateCategory() throws Exception {
-//        this.adminController.setAdminlogcheck(1);
-//        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
-//    }
+    @Test
+    public void TestRemoveCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/categories/delete/").param("id", String.valueOf(2)))
+                .andExpect(redirectedUrl("/admin/category"));
+    }
+    @Test
+    public void TestUpdateCategory() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/categories/update")
+                        .param("categoryid", String.valueOf(2))
+                        .param("categoryname", "Vegetable"))
+                        .andExpect(redirectedUrl("/admin/category"));
+    }
     /**********************************************| Products |***********************************************/
 
     // getproduct
+    @Test
+    public void TestGetProduct() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        // Case 1 - No products available from the db
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/product"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("products"))
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("msg"));
+
+        // Case 2 - There is products in the db
+        Category cat1 = new Category(1,"Fruits");
+        Product product1 = new Product(1,"Peach", "https://upload.wikimedia.org/wikipedia/en/thumb/1/16/Princess_Peach_Stock_Art.png/220px-Princess_Peach_Stock_Art.png", cat1, 1, 1000.00, 60000,"Some description", null, null );
+        Product product2 = new Product(2,"Cherry", "https://static.libertyprim.com/files/familles/cerise-large.jpg?1569271737", cat1, 500, 3.50, 2500,"Some description", null, null );
+        List<Product> productList = new ArrayList<>(Arrays.asList(product1,product2));
+        when(productService.getProducts()).thenReturn(productList);
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/product"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("products"))
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("products"));
+    }
+
     // addproduct - Get
     // addproduct - Post
     // updateproductinfo - Get

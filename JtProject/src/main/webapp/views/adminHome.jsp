@@ -51,7 +51,7 @@
             </div>
             <div class="card-body">
                 <div class="d-flex flex-column bd-highlight mb-3">
-                    <a href="/admin/products" class="row card-link btn btn-success">Products</a>
+                    <a href="/admin/product" class="row card-link btn btn-success">Products</a>
                     <a href="/admin/category" class="row  btn btn-success">Category</a>
                     <a href="/admin/customers" class="row btn btn-success">Customer</a>
                 </div>

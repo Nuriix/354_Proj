@@ -1,7 +1,9 @@
 package com.jtspringproject.JtSpringProject.models;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity(name="PRODUCT")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 	@Id
 	@Column(name = "product_id")

@@ -51,7 +51,7 @@
             </div>
             <div class="card-body">
                 <div  class="d-flex flex-column bd-highlight mb-3">
-                    <a href="/admin/products" class="row card-link btn btn-success">Products</a>
+                    <a href="/admin/product" class="row card-link btn btn-success">Products</a>
                     <a href="/admin/category" class="row  btn btn-success">Category</a>
                     <a href="/admin/customers" class="row btn btn-success">Customer</a>
                 </div>
@@ -61,7 +61,7 @@
                 <h1 class="mb-2 fw-bold text-success">Mostly Sold Item Pairs</h1>
             </div>
             <div class="d-flex justify-content-end" role="search">
-                <a href="/admin/products" class="btn btn-outline-secondary m-2 align-self-center" type="button">View Products List</a>
+                <a href="/admin/product" class="btn btn-outline-secondary m-2 align-self-center" type="button">View Products List</a>
             </div>
             <br>
 
