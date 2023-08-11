@@ -118,7 +118,7 @@ public class AdminController {
 		return "redirect:/admin/category";
 	}
 	//	 --------------------------Products --------------------
-	@GetMapping("products")
+	@GetMapping("product")
 	public ModelAndView getproduct() {
 		if(adminlogcheck==0){
 			ModelAndView mView = new ModelAndView("adminlogin");
@@ -185,7 +185,7 @@ public class AdminController {
 	        // You may choose to log the error or redirect to an error page.
 	        return "redirect:/admin/error";
 	    }
-	    return "redirect:/admin/products";
+	    return "redirect:/admin/product";
 	}
 	@GetMapping("products/update/")
 	public ModelAndView updateproductinfo(@RequestParam("id") int id) {
@@ -201,7 +201,8 @@ public class AdminController {
 
 		return mView;
 	}
-	@RequestMapping(value = "products/update/", method=RequestMethod.POST)
+
+	@PostMapping("products/update/")
 	public String updateProduct(@RequestParam("id") int id ,@RequestParam("name") String name,
 								@RequestParam("categoryid") int categoryId ,
 								@RequestParam("price") double price,
@@ -225,7 +226,7 @@ public class AdminController {
 		product.setProductSuggestion(suggestedProduct);
 
 		this.productService.updateProduct(id, product);
-		return "redirect:/admin/products";
+		return "redirect:/admin/product";
 	}
 	@GetMapping("products/delete/")
 	public ModelAndView removeProduct(@RequestParam("id") int id)
@@ -242,9 +243,9 @@ public class AdminController {
 		}
 		return mView;
 	}
-	@PostMapping("products")
+	@PostMapping("product")
 	public String postproduct() {
-		return "redirect:/admin/products";
+		return "redirect:/admin/product";
 	}
 
 	// Products Utils Methods
