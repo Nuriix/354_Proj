@@ -68,7 +68,7 @@
 				<div class="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered " role="document">
 						<div class="modal-content  bg-light border border-success">
-							<form action="categories" method="post">
+							<form action="/admin/category" method="post">
 								<div class="modal-header ">
 									<h5 class="mb-2 fw-bold text-success modal-title" id="exampleModalLongTitle">Add New Category</h5>
 									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
