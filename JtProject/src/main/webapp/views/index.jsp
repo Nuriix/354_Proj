@@ -80,7 +80,7 @@
         <div class="card-body">
             <div class="d-flex flex-column bd-highlight mb-3">
                 <a href="" class="  btn btn-success">Change Password</a>
-                <a href="" class="   btn btn-success">Payment Methods</a>
+                <a href="/paymentMethod/${user.id}" class="   btn btn-success">Payment Methods</a>
                 <hr>
                 <a href="" class="btn btn-success">My Coupons</a>
                 <a href="/user/deals/${user.id}" class="btn btn-success">Best Deals of the Week</a>
