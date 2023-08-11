@@ -91,17 +91,17 @@
 					<td style="padding-left: 20px;">${payment.expiryDate}</td>
 				</tr>
 				<tr>
-					<th>	
+					<th>
 					<td><br>
-						<button style="font-size: 18; margin-top:10px; background-color: #28a745; color: white; border-radius: 5px; border: none"
-								onclick="handlePaymentClick()">Confirm Payment
-                        </button>
-                    </td>
-                    <td><br>
-                        <button style="font-size: 18; margin-top:10px; background-color: #f0ad4e; color: white; border-radius: 5px; border: none"
-                            onclick="location.href='/paymentMethod/update/${user.id}'">Update 
-                        </button>
-                    </td>
+						<form action="/paymentMethod/update" method="get">
+							<input type="hidden" name="id" value="${payment.id}"> <input
+								type="submit" value="Update" class="btn btn-warning">
+						</form></td>
+					<td><br>
+						<form action="/paymentMethod/delete" method="get">
+							<input type="hidden" name="id" value="${payment.id}"> <input
+								type="submit" value="Delete" class="btn btn-danger">
+						</form></td>
 
 					</th>
 				</tr>
