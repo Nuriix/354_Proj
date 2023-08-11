@@ -18,7 +18,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

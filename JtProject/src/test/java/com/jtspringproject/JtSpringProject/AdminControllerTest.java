@@ -149,6 +149,31 @@ public class AdminControllerTest {
     /**********************************************| Products |***********************************************/
 
     // getproduct
+    @Test
+    public void TestGetProduct() throws Exception {
+        this.adminController.setAdminlogcheck(1);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
+
+        // Case 1 - No products available from the db
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/product"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("products"))
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("msg"));
+
+        // Case 2 - There is products in the db
+        Category cat1 = new Category(1,"Fruits");
+        Product product1 = new Product(1,"Peach", "https://upload.wikimedia.org/wikipedia/en/thumb/1/16/Princess_Peach_Stock_Art.png/220px-Princess_Peach_Stock_Art.png", cat1, 1, 1000.00, 60000,"Some description", null, null );
+        Product product2 = new Product(2,"Cherry", "https://static.libertyprim.com/files/familles/cerise-large.jpg?1569271737", cat1, 500, 3.50, 2500,"Some description", null, null );
+        List<Product> productList = new ArrayList<>(Arrays.asList(product1,product2));
+        when(productService.getProducts()).thenReturn(productList);
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/product"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("products"))
+                .andExpect(model().size(1))
+                .andExpect(model().attributeExists("products"));
+    }
+
     // addproduct - Get
     // addproduct - Post
     // updateproductinfo - Get
