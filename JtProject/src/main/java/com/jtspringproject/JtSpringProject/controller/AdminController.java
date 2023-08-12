@@ -160,7 +160,7 @@ public class AdminController {
 	    // Implement error handling if validation fails.
 
 	    Category category = this.categoryService.getCategory(categoryId);
-	    if (category == null) {
+	    if (category == null) { System.out.println("dkjvldkjvldk");
 	        // Handle the case when the category with the given categoryId is not found.
 	        // You may choose to display an error message to the user or redirect to an error page.
 	        return "redirect:/admin/error";
